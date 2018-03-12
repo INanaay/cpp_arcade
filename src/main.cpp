@@ -5,3 +5,7 @@
 **      Made on 2018/03 by lebovin
 */
 
+int main(int argc, char **argv)
+{
+
+}
