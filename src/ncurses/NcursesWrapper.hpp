@@ -8,6 +8,7 @@
 #ifndef CPP_ARCADE_NCURSESWRAPPER_HPP
 #define CPP_ARCADE_NCURSESWRAPPER_HPP
 
+#include <ncurses.h>
 #include "../../inc/core/IGfxManager.hpp"
 
 namespace arcade
@@ -15,8 +16,6 @@ namespace arcade
 	class NcursesWrapper : public IGfxManager
 	{
 	public:
-		~NcursesWrapper() override = default;
-
 		void initWindow(arcade::Point<std::size_t> size, std::string name) override;
 		void setTraductor(const std::map<unsigned char, Traductor> &map) override;
 		void drawEntity(std::vector<AEntity> &sprite) override;
@@ -26,6 +25,9 @@ namespace arcade
 		std::string showMenu(std::vector<std::string> gfxName, std::vector<std::string> gameName) override;
 		std::string getPlayerName() override;
 
+	private:
+		WINDOW *window;
+		std::map<unsigned char, Traductor> m_traductors;
 	};
 }
 
