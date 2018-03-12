@@ -1,3 +1,5 @@
+*.o
 .idea
+arcade
 CMakeLists.txt
 cmake-build-debug/
