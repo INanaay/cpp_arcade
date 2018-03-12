@@ -37,7 +37,7 @@ bin:	$(OBJBIN)
 	$(CC) -o $(NAMEBIN) $(OBJBIN) $(CFLAGS)
 
 libs:	$(OBJLIB1)
-	$(CC) -o $(NAMELIB1) $(OBJLIB1) $(CFLAG) $(LIBFLAGS)
+	$(CC) -o $(NAMELIB1) $(OBJLIB1) $(CFLAG) $(LIBFLAGS) -lncurses
 
 all:		bin libs
 
