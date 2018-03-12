@@ -25,13 +25,14 @@ OBJLIB1	=	$(SRCLIB1:.cpp=.o)
 
 CC	=	g++
 
-CFLAGS	=	-W -Wall -Wextra -Werror -std=c++17
+CFLAGS	=	-W -Wall -Wextra -std=c++17
 
 LIBFLAGS	+= -fpic -shared
 
 RM	=	rm -rf
 
 
+all:		bin libs
 
 bin:	$(OBJBIN)
 	$(CC) -o $(NAMEBIN) $(OBJBIN) $(CFLAGS)
@@ -39,7 +40,6 @@ bin:	$(OBJBIN)
 libs:	$(OBJLIB1)
 	$(CC) -o $(NAMELIB1) $(OBJLIB1) $(CFLAG) $(LIBFLAGS) -lncurses
 
-all:		bin libs
 
 clean:
 		$(RM) $(OBJBIN)
