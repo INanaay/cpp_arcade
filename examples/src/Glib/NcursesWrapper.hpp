@@ -19,7 +19,7 @@ public:
     	virtual void initWindow() {};
     	virtual void destroyWindow() {};
 private:
-    	void getName();
+    	std::string getPlayerName();
 
 };
 
