@@ -1,32 +1,19 @@
-/*
-** EPITECH PROJECT, 2018
-** Epitech scolarship project (4 years remaining)
-** File description:
-**      Made on 2018/03 by lebovin
-*/
+//
+// EPITECH PROJECT, 2018
+// main
+// File description:
+// main
+//
 
-#include <iostream>
 #include <dlfcn.h>
-#include "./Glib/ncurses/NcursesWrapper.hpp"
+#include <iostream>
+#include "./Glib/NcursesWrapper.hpp"
+#include "./Core.hpp"
 
-int main(int ac, char **av)
+int main(int argc, char **argv)
 {
-	void *handle = dlopen(av[1], RTLD_LAZY);
-	if (!handle) {
-		std::cout << "error" << std::endl;
-		return 84;
-	}
-	typedef IGlib* create_t();
+	Core Core(argv[1]);
 
-	create_t* creat=(create_t*)dlsym(handle,"create");
-
-	if (!creat)
-	{
-		std::cout << "no creat" << std::endl;
-		return 84;
-	}
-	IGlib *uuu = creat();
-	uuu->drawMenu();
-	delete uuu;
+	Core.start();
 	return 0;
 }
