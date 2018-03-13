@@ -16,7 +16,9 @@ Core::Core(const char *nameLib)
 
 void	Core::start()
 {
+	m_lib->initWindow();
 	m_lib->drawMenu();
+	m_lib->destroyWindow();
 }
 
 void	Core::loadLib(const char *nameLib)

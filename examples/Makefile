@@ -9,6 +9,8 @@ NAMEBIN	=	./arcade
 
 NAMELIB1	= ./lib/lib_arcade_ncurses.so
 
+NAMELIB2	=	./lib/lib_arcade_SFML.so
+
 
 
 SRCBIN	= ./src/main.cpp	\
@@ -16,10 +18,9 @@ SRCBIN	= ./src/main.cpp	\
 
 SRCLIB1	= ./src/Glib/NcursesWrapper.cpp
 
+SRCLIB2	=	./src/Glib/SFMLWrapper.cpp
 
 OBJBIN	=	$(SRCBIN:.cpp=.o)
-
-OBJLIB1	=	$(SRCLIB1:.cpp=.o)
 
 
 
@@ -37,11 +38,10 @@ bin:	$(OBJBIN)
 
 libs:
 	$(CC) -fPIC -shared -lncurses -o $(NAMELIB1) $(SRCLIB1) $(CFLAGS)
-
+	$(CC) -fPIC -shared -lsfml-graphics -lsfml-window -lsfml-system -o $(NAMELIB2) $(SRCLIB2) $(CFLAGS)
 
 clean:
 		$(RM) $(OBJBIN)
-		$(RM) $(OBJLIB1)
 
 fclean:		clean
 		$(RM) $(NAMEBIN)
