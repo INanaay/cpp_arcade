@@ -16,6 +16,11 @@ public:
 	NcursesWrapper() = default;
 	~NcursesWrapper() = default;
 	virtual void	drawMenu();
+    	virtual void initWindow() {};
+    	virtual void destroyWindow() {};
+private:
+    	void getName();
+
 };
 
 #endif //CPP_ARCADE_NCURSESWRAPPER_HPP

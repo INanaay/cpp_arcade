@@ -16,6 +16,8 @@ class IGlib {
 public:
 	virtual ~IGlib() = default;
 	virtual void drawMenu() = 0;
+    	virtual void initWindow() = 0;
+    	virtual void destroyWindow() = 0;
 };
 
 #endif //CPP_ARCADE_IGLIB_HPP

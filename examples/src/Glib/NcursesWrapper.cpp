@@ -17,8 +17,13 @@ extern "C" NcursesWrapper *create_lib()
 void	NcursesWrapper::drawMenu()
 {
 	initscr();
-	printw("show menu !");
-	refresh();
-	getch();
-	endwin();
+	while (1) {
+		WINDOW *scores = subwin(stdscr, 40, 40, 1, 1);
+		box(scores, ACS_VLINE, ACS_HLINE);
+		box(stdscr, ACS_VLINE, ACS_HLINE);
+//	printw("show menu !");
+		refresh();
+		getch();
+		endwin();
+	}	
 }
