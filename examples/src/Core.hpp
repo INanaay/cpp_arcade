@@ -8,7 +8,7 @@
 #ifndef CORE_HPP
 # define CORE_HPP
 
-# include "./IGlib.hpp"
+# include "./Glib/IGlib.hpp"
 
 class	Core
 {

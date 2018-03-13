@@ -11,10 +11,9 @@ NAMELIB1	= ./lib/lib_arcade_ncurses.so
 
 
 
-SRCBIN	= src/main.cpp
+SRCBIN	= ./src/main.cpp
 
-SRCLIB1	= src/ncurses/NcursesWrapper.cpp
-
+SRCLIB1	= ./src/Glib/ncurses/NcursesWrapper.cpp
 
 
 OBJBIN	=	$(SRCBIN:.cpp=.o)
@@ -27,18 +26,16 @@ CC	=	g++
 
 CFLAGS	=	-W -Wall -Wextra -std=c++17
 
-LIBFLAGS	+= -fpic -shared
-
 RM	=	rm -rf
 
 
 all:		bin libs
 
 bin:	$(OBJBIN)
-	$(CC) -o $(NAMEBIN) $(OBJBIN) $(CFLAGS)
+	$(CC) -o $(NAMEBIN) $(OBJBIN) $(CFLAGS) -ldl
 
-libs:	$(OBJLIB1)
-	$(CC) -o $(NAMELIB1) $(OBJLIB1) $(CFLAG) $(LIBFLAGS) -lncurses
+libs:
+	$(CC) -fPIC -shared -o $(NAMELIB1) $(SRCLIB1) $(CFLAGS)
 
 
 clean:

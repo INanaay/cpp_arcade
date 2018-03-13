@@ -7,14 +7,14 @@
 
 NAMEBIN	=	./arcade
 
-NAMELIB1	= ./myclass.so
+NAMELIB1	= ./lib/lib_arcade_ncurses.so
 
 
 
-SRCBIN	= ./main.cpp	\
-					./Core.cpp
+SRCBIN	= ./src/main.cpp	\
+					./src/Core.cpp
 
-SRCLIB1	= ./NcursesWrapper.cpp
+SRCLIB1	= ./src/Glib/NcursesWrapper.cpp
 
 
 OBJBIN	=	$(SRCBIN:.cpp=.o)
