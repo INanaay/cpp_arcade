@@ -37,6 +37,7 @@ void	Core::showMenu()
 		event = m_lib->getLastEvent();
 		c = m_lib->getCharacter();
 		m_lib->drawMenu();
+		printf("%d %d\n", c, event);
 		m_lib->display();
 	}
 }
@@ -73,7 +74,7 @@ void Core::createLibsTab()
 	dpdf = opendir("lib");
 	if (dpdf == NULL)
 		throw std::exception_ptr();
-	while (epdf = readdir(dpdf))
+	while ((epdf = readdir(dpdf)))
 	{
 		toAdd = epdf->d_name;
 		if (endsWith(epdf->d_name, ".so")) {

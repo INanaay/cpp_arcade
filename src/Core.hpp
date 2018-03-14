@@ -29,7 +29,6 @@ private:
 	IGlib	*m_lib;
 	std::vector<std::string> m_libsTab;
 	std::vector<std::string> m_gamesTab;
-	std::map<std::string, std::vector<std::string, uint>> m_scores;
 };
 
 #endif //CORE_HPP
