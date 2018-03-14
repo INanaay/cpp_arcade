@@ -20,7 +20,7 @@ void	SFMLWrapper::destroyWindow()
 
 void	SFMLWrapper::initWindow()
 {
-	m_win.create(sf::VideoMode(1920, 1080), "MENU");
+	m_win.create(sf::VideoMode(720, 640), "MENU");
 	if (!m_font.loadFromFile("./Consolas.ttf"))
       throw (std::exception());
 }

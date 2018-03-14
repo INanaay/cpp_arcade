@@ -15,9 +15,9 @@ class	Core
 public:
 	Core(const char *);
 	~Core() = default;
-	void	loadLib(const char *);
+	void	LoadGraphicLibrary(const char *);
 	void	start();
-	void	drawMenu();
+	void	showMenu();
 	const std::vector<std::string> &getM_libsTab() const;
 	void setM_libsTab(const std::vector<std::string> &m_libsTab);
 	const std::vector<std::string> &getM_gamesTab() const;
@@ -29,6 +29,7 @@ private:
 	IGlib	*m_lib;
 	std::vector<std::string> m_libsTab;
 	std::vector<std::string> m_gamesTab;
+	std::map<std::string, std::vector<std::string, uint>> m_scores;
 };
 
 #endif //CORE_HPP

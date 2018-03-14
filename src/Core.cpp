@@ -12,24 +12,36 @@
 
 Core::Core(const char *nameLib)
 {
-	loadLib(nameLib);
+	LoadGraphicLibrary(nameLib);
 }
 
 void	Core::start()
 {
 	createLibsTab();
 	m_lib->initWindow();
-	drawMenu();
+	showMenu();
 	m_lib->destroyWindow();
 }
 
-void	Core::drawMenu()
+void	Core::showMenu()
 {
+	UserEvent	event;
+	char	c;
+	std::string	name = "";
+
 	while (1)
-	{}
+	{
+		c = 0;
+		event = NONE;
+		m_lib->clear();
+		event = m_lib->getLastEvent();
+		c = m_lib->getCharacter();
+		m_lib->drawMenu();
+		m_lib->display();
+	}
 }
 
-void	Core::loadLib(const char *nameLib)
+void	Core::LoadGraphicLibrary(const char *nameLib)
 {
 	void	*handle = dlopen(nameLib, RTLD_LAZY);
 	IGlib	*(*create)();

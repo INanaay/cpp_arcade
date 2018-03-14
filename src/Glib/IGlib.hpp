@@ -13,6 +13,7 @@
 # include <map>
 
 enum UserEvent {
+	NONE,
 	UP,
 	DOWN,
 	LEFT,
@@ -30,8 +31,10 @@ public:
 	virtual ~IGlib() = default;
 	virtual void	initWindow() = 0;
 	virtual void	destroyWindow() = 0;
+	virtual void	drawMenu() = 0;
 	virtual void	clear() = 0;
 	virtual void	display() = 0;
+	virtual char	getCharacter() = 0;
 	virtual UserEvent	getLastEvent() = 0;
 };
 
