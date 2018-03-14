@@ -12,12 +12,27 @@
 # include <vector>
 # include <map>
 
+enum UserEvent {
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT,
+	LIB_NEXT,
+	LIB_PREV,
+	ACTION1,
+	ACTION2,
+	ESCAPE,
+	ENTER
+};
+
 class IGlib {
 public:
 	virtual ~IGlib() = default;
-	virtual void drawMenu() = 0;
-    	virtual void initWindow() = 0;
-    	virtual void destroyWindow() = 0;
+	virtual void	initWindow() = 0;
+	virtual void	destroyWindow() = 0;
+	virtual void	clear() = 0;
+	virtual void	display() = 0;
+	virtual UserEvent	getLastEvent() = 0;
 };
 
 #endif //CPP_ARCADE_IGLIB_HPP

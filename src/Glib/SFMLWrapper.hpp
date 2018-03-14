@@ -17,9 +17,10 @@ class	SFMLWrapper : public IGlib
 public:
 	SFMLWrapper() = default;
 	~SFMLWrapper() = default;
-	void	drawMenu();
 	void	initWindow();
 	void	destroyWindow();
+	void	clear();
+	void	display();
 private:
 	sf::RenderWindow	m_win;
 	sf::Texture	m_texture;

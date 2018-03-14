@@ -44,6 +44,7 @@ clean:
 fclean:		clean
 		$(RM) $(NAMEBIN)
 		$(RM) $(NAMELIB1)
+		$(RM) $(NAMELIB2)
 
 re:		fclean all
 

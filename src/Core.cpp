@@ -19,8 +19,14 @@ void	Core::start()
 {
 	createLibsTab();
 	m_lib->initWindow();
-	m_lib->drawMenu();
+	drawMenu();
 	m_lib->destroyWindow();
+}
+
+void	Core::drawMenu()
+{
+	while (1)
+	{}
 }
 
 void	Core::loadLib(const char *nameLib)

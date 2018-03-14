@@ -28,14 +28,30 @@ void	SFMLWrapper::initWindow()
 static std::vector<sf::RectangleShape>	setBoxes()
 {
 	std::vector<sf::RectangleShape>	boxes;
-	sf::RectangleShape box1(sf::Vector2f(200, 40));
+	sf::RectangleShape	box1(sf::Vector2f(200, 40));
+	sf::RectangleShape	box2(sf::Vector2f(300, 200));
 
 	box1.setFillColor(sf::Color(200, 200, 200));
 	box1.setOutlineThickness(3);
 	box1.setOutlineColor(sf::Color(0, 0, 0));
 	box1.setPosition(100, 100);
+	box2.setFillColor(sf::Color(200, 200, 200));
+	box2.setOutlineThickness(3);
+	box2.setOutlineColor(sf::Color(0, 0, 0));
+	box2.setPosition(500, 100);
+	boxes.push_back(box2);
 	boxes.push_back(box1);
 	return boxes;
+}
+
+static void	showScore(sf::Font m_font, sf::RenderWindow *win)
+{
+	std::vector<sf::Text>	texts;
+	sf::Text	text1 = sf::Text("Scoreboard :", m_font, 30);
+
+	text1.setFillColor(sf::Color(50, 50, 50));
+	text1.setPosition(500, 100);
+	win->draw(text1);
 }
 
 static void	showMenu(std::vector<sf::RectangleShape> boxes,
@@ -46,6 +62,8 @@ static void	showMenu(std::vector<sf::RectangleShape> boxes,
 	}
 }
 
+
+
 void	SFMLWrapper::drawMenu()
 {
 	std::vector<sf::RectangleShape> boxes = setBoxes();
@@ -53,9 +71,9 @@ void	SFMLWrapper::drawMenu()
 	sf::Text	text = sf::Text("name : " + name, m_font, 30);
 	sf::Event	event;
 
-	if (!m_texture.loadFromFile("./batman.jpg"))
+/*	if (!m_texture.loadFromFile("./batman.jpg"))
 		exit(84);
-	m_sprite = sf::Sprite(m_texture);
+	m_sprite = sf::Sprite(m_texture);*/
 	text.setFillColor(sf::Color(50, 50, 50));
 	text.setPosition(100, 100);
 	while (m_win.isOpen())
@@ -63,6 +81,8 @@ void	SFMLWrapper::drawMenu()
 		m_win.clear();
 		while (m_win.pollEvent(event)) {
 			if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+				return ;
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
 				return ;
 			if (event.type == sf::Event::TextEntered)
 			{
@@ -80,6 +100,7 @@ void	SFMLWrapper::drawMenu()
 		}
 		m_win.draw(m_sprite);
 		showMenu(boxes, &m_win);
+		showScore(m_font, &m_win);
 		m_win.draw(text);
 		m_win.display();
 	}
