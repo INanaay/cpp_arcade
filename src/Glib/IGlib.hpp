@@ -29,13 +29,15 @@ enum UserEvent {
 class IGlib {
 public:
 	virtual ~IGlib() = default;
-	virtual void	initWindow() = 0;
-	virtual void	destroyWindow() = 0;
-	virtual void	drawMenu(std::string) = 0;
-	virtual void	clear() = 0;
-	virtual void	display() = 0;
-	virtual char	getCharacter() = 0;
-	virtual UserEvent	getLastEvent() = 0;
+
+	virtual void Clear() = 0;
+	virtual void Display() = 0;
+	virtual void DrawMenu() = 0;
+	virtual void InitWindow() = 0;
+	virtual void DestroyWindow() = 0;
+
+	virtual char getCharacter() = 0;
+	virtual UserEvent getLastEvent() = 0;
 };
 
 #endif //CPP_ARCADE_IGLIB_HPP
