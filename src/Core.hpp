@@ -8,27 +8,22 @@
 #ifndef CORE_HPP
 # define CORE_HPP
 
+#include <memory>
 # include "./Glib/IGlib.hpp"
 
-class	Core
+class Core
 {
 public:
-	Core(const char *);
+	Core(const std::string &libname);
 	~Core() = default;
-	void	LoadGraphicLibrary(const char *);
-	void	start();
-	void	showMenu();
-	const std::vector<std::string> &getM_libsTab() const;
-	void setM_libsTab(const std::vector<std::string> &m_libsTab);
-	const std::vector<std::string> &getM_gamesTab() const;
-	void setM_gamesTab(const std::vector<std::string> &m_gamesTab);
-	void createLibsTab();
-	void createGamesTab();
 private:
-	bool endsWith(const std::string &str, const std::string &suffix) const;
-	IGlib	*m_lib;
-	std::vector<std::string> m_libsTab;
-	std::vector<std::string> m_gamesTab;
+	std::unique_ptr<IGlib> m_lib;
+	std::vector<std::string> m_games;
+	std::vector<std::string> m_librairies;
+
+	void start();
+	void showMenu();
+	void loadGraphicLibrary(const char *);
 };
 
 #endif //CORE_HPP
