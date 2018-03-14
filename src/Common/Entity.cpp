@@ -7,8 +7,6 @@
 
 #include "../../inc/Common/Entity.hpp"
 
-Entity::Entity(const std::string &sprite, uchar ascii);
-
 float Entity::getSize() const
 {
 	return m_size;

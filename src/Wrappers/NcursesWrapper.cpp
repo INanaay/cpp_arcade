@@ -11,7 +11,7 @@
 
 extern "C" NcursesWrapper *create_lib()
 {
-	return new NcursesWrapper;
+	return new NcursesWrapper();
 }
 
 
@@ -36,22 +36,17 @@ std::string NcursesWrapper::getPlayerName()
 	return name;
 }
 
-void NcursesWrapper::initWindow()
+void NcursesWrapper::InitWindow()
 {
 	initscr();
 }
 
-void NcursesWrapper::clear()
+void NcursesWrapper::Clear()
 {
 	clear();
 }
 
-void NcursesWrapper::showScores()
-{
-
-}
-
-void NcursesWrapper::display() {}
+void NcursesWrapper::Display() {}
 
 
 UserEvent NcursesWrapper::getLastEvent()
@@ -73,7 +68,7 @@ UserEvent NcursesWrapper::getLastEvent()
 	return UserEvent::NONE;
 }
 
-void	NcursesWrapper::drawMenu()
+void	NcursesWrapper::DrawMenu()
 {
 	std::string name = "Player Name :"  + getPlayerName();
 

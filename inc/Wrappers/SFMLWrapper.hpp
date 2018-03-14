@@ -10,7 +10,8 @@
 
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
-#include "../Core/IGlib.hpp"
+#include "../Common/IGlib.hpp"
+#include "../Common/UserEvent.hpp"
 
 class	SFMLWrapper : public IGlib
 {

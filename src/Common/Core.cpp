@@ -9,6 +9,7 @@
 #include <dlfcn.h>
 #include <iostream>
 #include <algorithm>
+#include <experimental/filesystem>
 #include "../../inc/Common/Core.hpp"
 #include "../../inc/Common/UserEvent.hpp"
 
@@ -17,7 +18,7 @@ Core::Core(const std::string &libname)
 	loadGraphicLibrary(libname.c_str());
 }
 
-void	Core::start()
+void	Core::Start()
 {
 	//init games and libs avaible
 	//init scores
@@ -61,6 +62,26 @@ void	Core::loadGraphicLibrary(const char *nameLib)
 		std::cerr << "Graphic librairy is incompatible." << std::endl;
 		std::exit(84);
 	}
-	m_lib = std::make_unique<IGlib>(create());
+	m_lib = std::unique_ptr<IGlib>(create());
 	std::vector<std::pair<std::string, float>> list;
+}
+
+void Core::loadGames()
+{
+	fs::directory_iterator iterator("games");
+
+	for (auto &entry: iterator)
+	{
+		std::cout << entry << std::endl;
+	}
+}
+
+void Core::loadLibrairies()
+{
+
+}
+
+void Core::loadScoreBoard()
+{
+
 }

@@ -17,6 +17,9 @@ typedef unsigned char uchar;
 class Entity
 {
 public:
+	Entity() = default;
+	~Entity() = default;
+
 	float getSize() const;
 	void setSize(float size);
 	float getSpeed() const;
