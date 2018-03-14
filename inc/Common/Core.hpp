@@ -9,7 +9,24 @@
 # define CORE_HPP
 
 #include <memory>
-# include "./Glib/IGlib.hpp"
+# include "IGlib.hpp"
+
+using Map = std::vector<std::string>
+using Score = std::pair<std::string, uint>>
+
+struct CoreInformations
+{
+	std::vector<std::string> games;
+	std::vector<std::string> libraries;
+	std::map<std::string, std::vector<Score>> scores;
+};
+
+struct MenuInformations
+{
+	std::string name;
+	std::string game;
+	std::string library;
+};
 
 class Core
 {
@@ -19,7 +36,7 @@ public:
 private:
 	std::unique_ptr<IGlib> m_lib;
 	std::vector<std::string> m_games;
-	std::vector<std::string> m_librairies;
+	std::vector<std::string> m_libraries;
 
 	void start();
 	void showMenu();

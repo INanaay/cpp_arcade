@@ -8,8 +8,9 @@
 #include <memory>
 #include <dlfcn.h>
 #include <iostream>
-#include <dirent.h>
-#include "Core.hpp"
+#include <algorithm>
+#include "../../inc/Common/Core.hpp"
+#include "../../inc/Common/UserEvent.hpp"
 
 Core::Core(const std::string &libname)
 {
@@ -18,10 +19,11 @@ Core::Core(const std::string &libname)
 
 void	Core::start()
 {
-	createLibsTab();
-	m_lib->initWindow();
+	//init games and libs avaible
+	//init scores
+	m_lib->InitWindow();
 	showMenu();
-	m_lib->destroyWindow();
+	m_lib->DestroyWindow();
 }
 
 void	Core::showMenu()
@@ -33,13 +35,13 @@ void	Core::showMenu()
 	while (1)
 	{
 		c = 0;
-		event = NONE;
-		m_lib->clear();
+		event = UserEvent::NONE;
+		m_lib->Clear();
 		event = m_lib->getLastEvent();
 		c = m_lib->getCharacter();
-		m_lib->drawMenu();
+		m_lib->DrawMenu();
 		printf("%d %d\n", c, event);
-		m_lib->display();
+		m_lib->Display();
 	}
 }
 
@@ -60,4 +62,5 @@ void	Core::loadGraphicLibrary(const char *nameLib)
 		std::exit(84);
 	}
 	m_lib = std::make_unique<IGlib>(create());
+	std::vector<std::pair<std::string, float>> list;
 }

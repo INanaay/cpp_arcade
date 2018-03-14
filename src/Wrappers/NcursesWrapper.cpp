@@ -7,7 +7,7 @@
 
 #include <ncurses.h>
 #include <iostream>
-#include "NcursesWrapper.hpp"
+#include "../../inc/Wrappers/NcursesWrapper.hpp"
 
 extern "C" NcursesWrapper *create_lib()
 {

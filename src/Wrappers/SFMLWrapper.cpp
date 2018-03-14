@@ -6,7 +6,7 @@
 */
 
 #include <iostream>
-#include "SFMLWrapper.hpp"
+#include "../../inc/Wrappers/SFMLWrapper.hpp"
 
 extern "C" SFMLWrapper *create_lib()
 {

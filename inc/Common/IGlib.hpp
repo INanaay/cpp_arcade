@@ -12,19 +12,6 @@
 # include <vector>
 # include <map>
 
-enum UserEvent {
-	NONE,
-	UP,
-	DOWN,
-	LEFT,
-	RIGHT,
-	LIB_NEXT,
-	LIB_PREV,
-	ACTION1,
-	ACTION2,
-	ESCAPE,
-	ENTER
-};
 
 class IGlib {
 public:
