@@ -5,40 +5,38 @@
 ## makefile
 ##
 
-NAMEBIN	=	./arcade
+NAMEBIN	=	arcade
 
 NAMELIB1	= ./lib/lib_arcade_ncurses.so
 
-NAMELIB2	=	./lib/lib_arcade_SFML.so
+NAMELIB2	= ./lib/lib_arcade_SFML.so
 
 
 
 SRCBIN	= ./src/main.cpp	\
-					./src/Core.cpp
+	  ./src/Core.cpp
 
 SRCLIB1	= ./src/Glib/NcursesWrapper.cpp
 
-SRCLIB2	=	./src/Glib/SFMLWrapper.cpp
+SRCLIB2	= ./src/Glib/SFMLWrapper.cpp
 
-OBJBIN	=	$(SRCBIN:.cpp=.o)
+OBJBIN	= $(SRCBIN:.cpp=.o)
 
+CC	= g++
 
+CXXFLAGS = -W -Wall -Wextra -Werror -std=c++14
 
-CC	=	g++
-
-CFLAGS	=	-W -Wall -Wextra -Werror -std=c++17
-
-RM	=	rm -rf
+RM	= rm -rf
 
 
 all:		bin libs
 
 bin:	$(OBJBIN)
-	$(CC) -o $(NAMEBIN) $(OBJBIN) $(CFLAGS) -ldl
+	$(CC) -o $(NAMEBIN) $(OBJBIN) $(CXXFLAGS) -ldl
 
 libs:
-	$(CC) -fPIC -shared -lncurses -o $(NAMELIB1) $(SRCLIB1) $(CFLAGS)
-	$(CC) -fPIC -shared -lsfml-graphics -lsfml-window -lsfml-system -o $(NAMELIB2) $(SRCLIB2) $(CFLAGS)
+	$(CC) -fPIC -shared -lncurses -o $(NAMELIB1) $(SRCLIB1) $(CXXFLAGS)
+	$(CC) -fPIC -shared -lsfml-graphics -lsfml-window -lsfml-system -o $(NAMELIB2) $(SRCLIB2) $(CXXFLAGS)
 
 clean:
 		$(RM) $(OBJBIN)
