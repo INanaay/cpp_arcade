@@ -17,10 +17,13 @@ class	SFMLWrapper : public IGlib
 public:
 	SFMLWrapper() = default;
 	~SFMLWrapper() = default;
-	void	initWindow();
-	void	destroyWindow();
-	void	clear();
-	void	display();
+	void	InitWindow();
+	void	DestroyWindow();
+	void	DrawMenu();
+	void	Clear();
+	void	Display();
+	char	getCharacter();
+	UserEvent	getLastEvent();
 private:
 	sf::RenderWindow	m_win;
 	sf::Texture	m_texture;

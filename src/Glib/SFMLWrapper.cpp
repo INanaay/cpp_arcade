@@ -13,67 +13,28 @@ extern "C" SFMLWrapper *create_lib()
 	return new SFMLWrapper;
 }
 
-void	SFMLWrapper::destroyWindow()
+void	SFMLWrapper::DestroyWindow()
 {
 	m_win.close();
 }
 
-void	SFMLWrapper::initWindow()
+void	SFMLWrapper::InitWindow()
 {
 	m_win.create(sf::VideoMode(720, 640), "MENU");
 	if (!m_font.loadFromFile("./Consolas.ttf"))
       throw (std::exception());
 }
 
-static std::vector<sf::RectangleShape>	setBoxes()
+void	SFMLWrapper::DrawMenu()
 {
-	std::vector<sf::RectangleShape>	boxes;
-	sf::RectangleShape	box1(sf::Vector2f(200, 40));
-	sf::RectangleShape	box2(sf::Vector2f(300, 200));
-
-	box1.setFillColor(sf::Color(200, 200, 200));
-	box1.setOutlineThickness(3);
-	box1.setOutlineColor(sf::Color(0, 0, 0));
-	box1.setPosition(100, 100);
-	box2.setFillColor(sf::Color(200, 200, 200));
-	box2.setOutlineThickness(3);
-	box2.setOutlineColor(sf::Color(0, 0, 0));
-	box2.setPosition(500, 100);
-	boxes.push_back(box2);
-	boxes.push_back(box1);
-	return boxes;
-}
-
-static void	showScore(sf::Font m_font, sf::RenderWindow *win)
-{
-	std::vector<sf::Text>	texts;
-	sf::Text	text1 = sf::Text("Scoreboard :", m_font, 30);
-
-	text1.setFillColor(sf::Color(50, 50, 50));
-	text1.setPosition(500, 100);
-	win->draw(text1);
-}
-
-static void	showMenu(std::vector<sf::RectangleShape> boxes,
-		sf::RenderWindow *win)
-{
-	for (sf::RectangleShape box : boxes) {
-		win->draw(box);
-	}
-}
-
-
-
-void	SFMLWrapper::drawMenu()
-{
-	std::vector<sf::RectangleShape> boxes = setBoxes();
+/*	std::vector<sf::RectangleShape> boxes = setBoxes();
 	std::string	name = "";
 	sf::Text	text = sf::Text("name : " + name, m_font, 30);
 	sf::Event	event;
 
-/*	if (!m_texture.loadFromFile("./batman.jpg"))
+	if (!m_texture.loadFromFile("./batman.jpg"))
 		exit(84);
-	m_sprite = sf::Sprite(m_texture);*/
+	m_sprite = sf::Sprite(m_texture);
 	text.setFillColor(sf::Color(50, 50, 50));
 	text.setPosition(100, 100);
 	while (m_win.isOpen())
@@ -103,5 +64,5 @@ void	SFMLWrapper::drawMenu()
 		showScore(m_font, &m_win);
 		m_win.draw(text);
 		m_win.display();
-	}
+	}*/
 }
