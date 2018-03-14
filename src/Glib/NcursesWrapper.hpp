@@ -9,17 +9,24 @@
 #define CPP_ARCADE_NCURSESWRAPPER_HPP
 
 #include "IGlib.hpp"
+#include <curses.h>
 
 class	NcursesWrapper : public IGlib
 {
 public:
 	NcursesWrapper() = default;
 	~NcursesWrapper() = default;
-	virtual void	drawMenu();
-    	virtual void initWindow() {};
+	virtual void drawMenu();
+    	virtual void initWindow();
     	virtual void destroyWindow() {};
+	virtual void clear();
+	virtual void display();
+	virtual UserEvent getLastEvent();
+	virtual char getCharacter() {return 'a';};
 private:
     	std::string getPlayerName();
+    	void showScores();
+    	WINDOW *scores;
 
 };
 

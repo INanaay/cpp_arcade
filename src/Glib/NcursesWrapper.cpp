@@ -21,7 +21,6 @@ std::string NcursesWrapper::getPlayerName()
 	std::string enterName = "Enter Name";
 	int ch;
 
-	initscr();
 	keypad(stdscr, TRUE);
 	noecho();
 	mvwprintw(stdscr, 10, 10, enterName.c_str());
@@ -37,19 +36,55 @@ std::string NcursesWrapper::getPlayerName()
 	return name;
 }
 
+void NcursesWrapper::initWindow()
+{
+	initscr();
+}
+
+void NcursesWrapper::clear()
+{
+	clear();
+}
+
+void NcursesWrapper::showScores()
+{
+
+}
+
+void NcursesWrapper::display() {}
+
+
+UserEvent NcursesWrapper::getLastEvent()
+{
+	int ch = getch();
+
+	if (ch == 27)
+		return UserEvent::ESCAPE;
+	if (ch == KEY_PPAGE)
+		return UserEvent::LIB_NEXT;
+	if (ch == KEY_NPAGE)
+		return UserEvent::LIB_PREV;
+	if (ch == KEY_UP)
+		return UserEvent::UP;
+	if (ch == KEY_DOWN)
+		return UserEvent::DOWN;
+	if (ch == KEY_ENTER)
+		return UserEvent::ENTER;
+	return UserEvent::NONE;
+}
+
 void	NcursesWrapper::drawMenu()
 {
-	int ch;
-	std::string name = getPlayerName();
+	std::string name = "Player Name :"  + getPlayerName();
+
 	curs_set(0);
 	nodelay(stdscr, TRUE);
-	while (1) {
-		ch = getch();
-		box(stdscr, ACS_VLINE, ACS_HLINE);
-		mvwprintw(stdscr, 20, 10, name.c_str());
-		if (ch == 27)
-			break;
-		refresh();
+	scores = subwin(stdscr, LINES - 2,  COLS / 2, 1, COLS / 2 - 1);
+	box(stdscr, ACS_VLINE, ACS_HLINE);
+	box(scores, ACS_VLINE, ACS_HLINE);
+	mvwprintw(stdscr, 5, 5, name.c_str());
+	mvwprintw(stdscr, 10, 5, "Choose Game :");
+	mvwprintw(stdscr, 15, 5, "Choose Library :");
+	mvwprintw(scores, 1, 1, "High Scores");
+
 	}
-	endwin();
-}
