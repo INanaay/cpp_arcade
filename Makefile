@@ -24,7 +24,7 @@ OBJBIN	= $(SRCBIN:.cpp=.o)
 
 CC	= g++
 
-CXXFLAGS = -W -Wall -Wextra -Werror -std=c++14
+CXXFLAGS = -W -Wall -Wextra -Werror -std=c++17
 
 RM	= rm -rf
 
