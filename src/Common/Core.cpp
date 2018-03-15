@@ -6,6 +6,7 @@
 */
 
 #include <memory>
+#include <cstring>
 #include <dlfcn.h>
 #include <iostream>
 #include <algorithm>
@@ -133,7 +134,72 @@ void Core::loadLibrairies()
 
 void Core::loadScoreBoard()
 {
-	const std::string file = "scores.sco";
+	const std::string dir = "scores";
+	const std::string suffix = ".sco";
+	const std::string prefix = "/arcade_score_";
+	fs::directory_iterator iterator(dir);
 
-	std::fstream fileStream(file);
+	for (auto &entry: iterator)
+	{
+		std::string path = entry.path();
+		std::size_t n_idx = path.find(prefix);
+		if (n_idx == std::string::npos)
+			throw std::exception();
+
+		std::string game = path.substr(n_idx + prefix.size());
+		deserializeScores(game, path);
+	}
+}
+
+void Core::deserializeScores(const std::string &game, const std::string &path)
+{
+	const std::size_t nameLength = 3;
+	std::ifstream fileStream(path);
+
+	if (!fileStream)
+		throw std::exception();
+
+	std::vector<Score> list;
+	if (m_scores.find(game) != m_scores.end())
+		list = m_scores[game];
+
+	while (!fileStream.eof())
+	{
+		std::size_t score;
+		char player[nameLength + 1];
+
+		fileStream.read(player, nameLength);
+		player[nameLength] = 0;
+		if (fileStream.eof())
+			throw std::exception(); //corrupted
+		fileStream.read((char *)&score, sizeof(std::size_t));
+		m_scores[game].push_back({player, score});
+	}
+}
+
+void Core::serializeScores(const std::string &game, std::vector<Score> &scores)
+{
+	const std::size_t nameLength = 3;
+	const std::string dir = "scores/";
+	const std::string filename = "arcade_score_" + game;
+	std::ofstream fileStream(dir + filename);
+
+	if (!fileStream)
+		throw std::exception();
+
+	std::vector<Score> list;
+	if (m_scores.find(game) != m_scores.end())
+		list = m_scores[game];
+
+	while (!fileStream.eof())
+	{
+		std::size_t score;
+		char player[nameLength + 1];
+
+		fileStream.write(player, nameLength);
+		player[nameLength] = 0;
+		if (fileStream.eof())
+			throw std::exception(); //corrupted
+		fileStream.write((char *)&score, sizeof(std::size_t));
+	}
 }

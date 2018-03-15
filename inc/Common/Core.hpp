@@ -25,6 +25,7 @@ private:
 	std::unique_ptr<IGlib> m_lib;
 	std::vector<std::string> m_games;
 	std::vector<std::string> m_libraries;
+	std::map<std::string, std::vector<Score>> m_scores;
 
 	void showMenu();
 	void loadGraphicLibrary(const char *);
@@ -32,6 +33,10 @@ private:
 	void loadGames();
 	void loadLibrairies();
 	void loadScoreBoard();
+	void deserializeScores(const std::string &game,
+			       const std::string &path);
+	void serializeScores(const std::string &game,
+			     std::vector<Score> &scores);
 };
 
 #endif //CORE_HPP
