@@ -191,6 +191,7 @@ void Core::serializeScores(const std::string &game, std::vector<Score> &scores)
 	if (m_scores.find(game) != m_scores.end())
 		list = m_scores[game];
 
+	scores = scores;
 	while (!fileStream.eof())
 	{
 		std::size_t score;

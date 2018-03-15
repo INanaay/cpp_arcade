@@ -32,7 +32,7 @@ RM	= rm -rf
 all:		core graphicals
 
 core:	$(OBJBIN)
-	$(CC) -o $(NAMEBIN) $(OBJBIN) $(CXXFLAGS) -ldl
+	$(CC) -o $(NAMEBIN) $(OBJBIN) $(CXXFLAGS) -ldl -lstdc++fs
 
 graphicals:
 	$(CC) -fPIC -shared -lncurses -o $(NAMELIB1) $(SRCLIB1) $(CXXFLAGS)
