@@ -15,6 +15,9 @@
 
 Core::Core(const std::string &libname)
 {
+	loadGames();
+	loadLibrairies();
+	loadScoreBoard();
 	loadGraphicLibrary(libname.c_str());
 }
 
