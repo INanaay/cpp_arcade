@@ -14,6 +14,7 @@
 #include <fstream>
 #include "../../inc/Common/Core.hpp"
 #include "../../inc/Common/UserEvent.hpp"
+#include "../../inc/Common/CoreException.hpp"
 
 Core::Core(const std::string &libname)
 {
@@ -104,12 +105,12 @@ void Core::loadGames()
 	}
 
 	if (m_games.empty())
-		throw std::exception();
+		throw CoreException("No games found.");
 }
 
 void Core::loadLibrairies()
 {
-	const std::string dir = "libs";
+	const std::string dir = "lib";
 	const std::string suffix = ".so";
 	const std::string prefix = "/arcade_lib_";
 	fs::directory_iterator iterator(dir);
@@ -129,7 +130,7 @@ void Core::loadLibrairies()
 	}
 
 	if (m_libraries.empty())
-		throw std::exception();
+		throw CoreException("No library found.");
 }
 
 void Core::loadScoreBoard()
