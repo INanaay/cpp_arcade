@@ -22,19 +22,23 @@ Core::Core(const std::string &libname)
 	loadLibrairies();
 	loadScoreBoard();
 	loadGraphicLibrary(libname.c_str());
+	m_pathLib = libname;
 }
 
 void	Core::Start()
 {
 	m_lib->InitWindow();
 	showMenu();
-	m_lib->DestroyWindow();
 }
 
-static void	eventHandler(std::pair<UserEvent, char> event, MenuInformations &menu)
+void	Core::eventHandler(std::pair<UserEvent, char> event, MenuInformations &menu,
+		CoreInformations &core)
 {
 	if (event.first == UserEvent::ESCAPE)
+	{
+		m_lib->DestroyWindow();
 		std::exit(0);
+	}
 	else if (event.first == UserEvent::ENTER)
 	{
 		std::cout << "Enter : " <<  menu.name << std::endl;
@@ -46,19 +50,48 @@ static void	eventHandler(std::pair<UserEvent, char> event, MenuInformations &men
 		if (menu.name.length() < 3 && event.second != '\b')
 			menu.name += event.second;
 	}
+	else if (event.first == UserEvent::DOWN)
+	{
+		auto it = std::find(core.games.begin(), core.games.end(), menu.game);
+		if (it == core.games.end())
+		{
+			std::cerr << "error in change games" << std::endl;
+			std::exit(84);
+		}	
+		int index = it - core.games.begin();
+		if (index < (int)core.games.size() - 1)
+			menu.game = core.games[index + 1];
+		else
+			menu.game = core.games[0];
+	}
+	else if (event.first == UserEvent::UP)
+	{
+		auto it = std::find(core.games.begin(), core.games.end(), menu.game);
+		if (it == core.games.end())
+		{
+			std::cerr << "error in change games" << std::endl;
+			std::exit(84);
+		}	
+		int index = it - core.games.begin();
+		if (index > 0)
+			menu.game = core.games[index - 1];
+		else
+			menu.game = core.games[core.games.size() - 1];
+	}
 }
 
 void	Core::showMenu()
 {
 	std::pair<UserEvent, char>	event;
-	MenuInformations menu = {"", "", ""};
+	MenuInformations menu = {"", m_games[0], m_pathLib};
+	CoreInformations core = {m_games, m_libraries, m_scores};
 
 	while (1)
 	{
 		m_lib->Clear();
 		event = m_lib->getLastEvent();
-		eventHandler(event, menu);
-		m_lib->DrawMenu(menu);
+		eventHandler(event, menu, core);
+		m_lib->DrawMenu(menu, core);
 		m_lib->Display();
 	}
 }

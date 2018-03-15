@@ -16,7 +16,7 @@ class NcursesWrapper : public IGlib
 public:
 	NcursesWrapper() = default;
 	~NcursesWrapper() = default;
-	virtual void DrawMenu(MenuInformations);
+	virtual void DrawMenu(MenuInformations, CoreInformations);
     	virtual void InitWindow();
     	virtual void DestroyWindow() {};
 	virtual void Clear();

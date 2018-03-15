@@ -69,11 +69,12 @@ std::pair<UserEvent, char> NcursesWrapper::getLastEvent()
 	return std::make_pair<UserEvent, char>(UserEvent::NONE, 0);
 }
 
-void	NcursesWrapper::DrawMenu(MenuInformations menu)
+void	NcursesWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
 {
 	menu = menu;
 	std::string name = "Player Name :"  + getPlayerName();
 
+	core = core;
 	curs_set(0);
 	nodelay(stdscr, TRUE);
 	scores = subwin(stdscr, LINES - 2,  COLS / 2, 1, COLS / 2 - 1);

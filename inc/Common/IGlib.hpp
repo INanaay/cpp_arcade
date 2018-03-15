@@ -18,7 +18,7 @@ public:
 
 	virtual void InitWindow() = 0;
 	virtual void DestroyWindow() = 0;
-	virtual void DrawMenu(MenuInformations) = 0;
+	virtual void DrawMenu(MenuInformations, CoreInformations) = 0;
 	virtual void Clear() = 0;
 	virtual void Display() = 0;
 

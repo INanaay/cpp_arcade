@@ -77,18 +77,46 @@ std::pair<UserEvent, char> SFMLWrapper::getLastEvent()
 	return lastEvent;
 }
 
-void	SFMLWrapper::DrawMenu(MenuInformations menu)
+void	SFMLWrapper::drawGames(std::vector<std::string> games, std::string game)
+{
+	int posX = SCR_WIDTH;
+	int posY = SCR_HEIGHT / 4;
+
+	sf::Text	title("Games :", m_font);
+	title.setFillColor(sf::Color(150, 150, 150));
+	title.setPosition(posX, posY);
+	posY += 40;
+	m_win.draw(title);
+	for (std::string i : games)
+	{
+		sf::Text	name(i, m_font);
+		if (i == game)
+			name.setFillColor(sf::Color(250, 0, 0));
+		else
+			name.setFillColor(sf::Color(150, 150, 150));
+		name.setPosition(posX, posY);
+		posY += 40;
+		m_win.draw(name);
+	}
+}
+
+void	SFMLWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
 {
 	sf::Text name("name : " + menu.name, m_font, 30);
 	sf::Text title("ARCADE", m_font, 60);
-	sf::Text scores("Scoreboard : ", m_font, 30);
+	sf::Text scores("Scoreboard : \n", m_font, 30);
+	sf::Text lib("SFML", m_font, 30);
 
+	lib.setFillColor(sf::Color(150, 150, 150));
+	lib.setPosition(SCR_WIDTH, 0);
 	name.setFillColor(sf::Color(150, 150, 150));
 	name.setPosition(0, 0);
 	title.setFillColor(sf::Color(150, 150, 150));
 	title.setPosition(SCR_WIDTH / 2, 0);
 	scores.setFillColor(sf::Color(150, 150, 150));
 	scores.setPosition(0, SCR_HEIGHT / 4);
+	drawGames(core.games, menu.game);
+	m_win.draw(lib);
 	m_win.draw(scores);
 	m_win.draw(name);
 	m_win.draw(title);

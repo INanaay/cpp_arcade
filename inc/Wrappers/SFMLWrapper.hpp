@@ -19,7 +19,7 @@ class SFMLWrapper : public IGlib
 public:
 	SFMLWrapper() = default;
 	~SFMLWrapper() = default;
-	void DrawMenu(MenuInformations);
+	void DrawMenu(MenuInformations, CoreInformations);
   void InitWindow();
 	void DestroyWindow();
 	void Clear();
@@ -27,6 +27,7 @@ public:
 	std::pair<UserEvent, char> getLastEvent();
 	char getCharacter();
 private:
+	void	drawGames(std::vector<std::string>, std::string);
 	sf::RenderWindow m_win;
 	sf::Font	m_font;
 };
