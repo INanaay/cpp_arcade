@@ -11,8 +11,6 @@ NAMELIB1	= ./lib/lib_arcade_ncurses.so
 
 NAMELIB2	= ./lib/lib_arcade_SFML.so
 
-DIRLIB	=	./lib
-
 
 
 SRCBIN	= ./src/main.cpp	\
@@ -31,25 +29,22 @@ CXXFLAGS = -W -Wall -Wextra -Werror -std=c++17
 RM	= rm -rf
 
 
-all:		bin libs
+all:		core graphicals
 
-bin:	$(OBJBIN)
+core:	$(OBJBIN)
 	$(CC) -o $(NAMEBIN) $(OBJBIN) $(CXXFLAGS) -ldl
 
-libs:
-	mkdir $(DIRLIB)
+graphicals:
 	$(CC) -fPIC -shared -lncurses -o $(NAMELIB1) $(SRCLIB1) $(CXXFLAGS)
 	$(CC) -fPIC -shared -lsfml-graphics -lsfml-window -lsfml-system -o $(NAMELIB2) $(SRCLIB2) $(CXXFLAGS)
-
-## -lsfml-graphics -lsfml-window -lsfml-system 
 
 clean:
 		$(RM) $(OBJBIN)
 
 fclean:		clean
-		$(RM) $(NAMEBIN)
-		$(RM) $(DIRLIB)
-		
+		$(RM) $(NAMEBIN)	
+		$(RM) $(NAMELIB1)
+		$(RM) $(NAMELIB2)
 
 re:		fclean all
 
