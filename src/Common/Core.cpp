@@ -10,6 +10,7 @@
 #include <iostream>
 #include <algorithm>
 #include <experimental/filesystem>
+#include <fstream>
 #include "../../inc/Common/Core.hpp"
 #include "../../inc/Common/UserEvent.hpp"
 
@@ -23,8 +24,6 @@ Core::Core(const std::string &libname)
 
 void	Core::Start()
 {
-	//init games and libs avaible
-	//init scores
 	m_lib->InitWindow();
 	showMenu();
 	m_lib->DestroyWindow();
@@ -75,7 +74,7 @@ void	Core::loadGraphicLibrary(const char *nameLib)
 	create = (IGlib* (*)())dlsym(handle, "create_lib");
 	if (!create)
 	{
-		std::cerr << "Graphic librairy is incompatible." << std::endl;
+		std::cerr << "Graphic library is incompatible." << std::endl;
 		std::exit(84);
 	}
 	m_lib = std::unique_ptr<IGlib>(create());
@@ -84,20 +83,57 @@ void	Core::loadGraphicLibrary(const char *nameLib)
 
 void Core::loadGames()
 {
-	/*fs::directory_iterator iterator("games");
+	const std::string dir = "games";
+	const std::string suffix = ".so";
+	const std::string prefix = "/arcade_game_";
+	fs::directory_iterator iterator(dir);
 
 	for (auto &entry: iterator)
 	{
-		std::cout << entry << std::endl;
-	}*/
+		std::string path = entry.path();
+		std::size_t n_idx = path.find(prefix);
+		if (n_idx == std::string::npos)
+			throw std::exception();
+
+		std::string game = path.substr(n_idx + prefix.size());
+		if (game.find(".so") != game.size() - suffix.size())
+			continue;
+
+		m_games.push_back(game);
+	}
+
+	if (m_games.empty())
+		throw std::exception();
 }
 
 void Core::loadLibrairies()
 {
+	const std::string dir = "libs";
+	const std::string suffix = ".so";
+	const std::string prefix = "/arcade_lib_";
+	fs::directory_iterator iterator(dir);
 
+	for (auto &entry: iterator)
+	{
+		std::string path = entry.path();
+		std::size_t n_idx = path.find(prefix);
+		if (n_idx == std::string::npos)
+			throw std::exception();
+
+		std::string libname = path.substr(n_idx + prefix.size());
+		if (libname.find(".so") != libname.size() - suffix.size())
+			continue;
+
+		m_libraries.push_back(libname);
+	}
+
+	if (m_libraries.empty())
+		throw std::exception();
 }
 
 void Core::loadScoreBoard()
 {
+	const std::string file = "scores.sco";
 
+	std::fstream fileStream(file);
 }
