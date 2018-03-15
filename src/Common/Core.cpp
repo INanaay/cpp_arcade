@@ -112,7 +112,7 @@ void Core::loadLibrairies()
 {
 	const std::string dir = "lib";
 	const std::string suffix = ".so";
-	const std::string prefix = "/arcade_lib_";
+	const std::string prefix = "/lib_arcade_";
 	fs::directory_iterator iterator(dir);
 
 	for (auto &entry: iterator)
@@ -120,7 +120,7 @@ void Core::loadLibrairies()
 		std::string path = entry.path();
 		std::size_t n_idx = path.find(prefix);
 		if (n_idx == std::string::npos)
-			throw std::exception();
+			continue;
 
 		std::string libname = path.substr(n_idx + prefix.size());
 		if (libname.find(".so") != libname.size() - suffix.size())
