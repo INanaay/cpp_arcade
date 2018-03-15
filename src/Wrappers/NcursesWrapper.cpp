@@ -49,9 +49,9 @@ void NcursesWrapper::Clear()
 void NcursesWrapper::Display() {}
 
 
-UserEvent NcursesWrapper::getLastEvent()
+std::pair<UserEvent, char> NcursesWrapper::getLastEvent()
 {
-	int ch = getch();
+/*	int ch = getch();
 
 	if (ch == 27)
 		return UserEvent::ESCAPE;
@@ -65,11 +65,13 @@ UserEvent NcursesWrapper::getLastEvent()
 		return UserEvent::DOWN;
 	if (ch == KEY_ENTER)
 		return UserEvent::ENTER;
-	return UserEvent::NONE;
+	return UserEvent::NONE;*/
+	return std::make_pair<UserEvent, char>(UserEvent::NONE, 0);
 }
 
-void	NcursesWrapper::DrawMenu()
+void	NcursesWrapper::DrawMenu(MenuInformations menu)
 {
+	menu = menu;
 	std::string name = "Player Name :"  + getPlayerName();
 
 	curs_set(0);

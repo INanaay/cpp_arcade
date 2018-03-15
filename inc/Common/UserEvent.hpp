@@ -20,6 +20,7 @@ enum class UserEvent
 	LIB_NEXT,
 	LIB_PREV,
 	ACTION1,
-	ACTION2
+	ACTION2,
+	TEXT
 };
 #endif //CPP_ARCADE_USEREVENT_HPP
