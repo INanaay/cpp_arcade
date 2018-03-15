@@ -95,7 +95,7 @@ void Core::loadGames()
 		std::string path = entry.path();
 		std::size_t n_idx = path.find(prefix);
 		if (n_idx == std::string::npos)
-			throw std::exception();
+			continue;
 
 		std::string game = path.substr(n_idx + prefix.size());
 		if (game.find(".so") != game.size() - suffix.size())
@@ -145,7 +145,7 @@ void Core::loadScoreBoard()
 		std::string path = entry.path();
 		std::size_t n_idx = path.find(prefix);
 		if (n_idx == std::string::npos)
-			throw std::exception();
+			continue;
 
 		std::string game = path.substr(n_idx + prefix.size());
 		deserializeScores(game, path);
