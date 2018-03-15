@@ -27,21 +27,34 @@ void	Core::Start()
 	m_lib->DestroyWindow();
 }
 
+static void	eventHandler(std::pair<UserEvent, char> event, MenuInformations &menu)
+{
+	if (event.first == UserEvent::ESCAPE)
+		std::exit(0);
+	else if (event.first == UserEvent::ENTER)
+	{
+		std::cout << "Enter : " <<  menu.name << std::endl;
+	}
+	else if (event.first == UserEvent::TEXT)
+	{
+		if (event.second == '\b' && menu.name.length() > 0)
+			menu.name.erase(menu.name.length() - 1, 1);
+		if (menu.name.length() < 3 && event.second != '\b')
+			menu.name += event.second;
+	}
+}
+
 void	Core::showMenu()
 {
-	UserEvent	event;
-	char	c;
-	std::string	name = "";
+	std::pair<UserEvent, char>	event;
+	MenuInformations menu = {"", "", ""};
 
 	while (1)
 	{
-		c = 0;
-		event = UserEvent::NONE;
 		m_lib->Clear();
 		event = m_lib->getLastEvent();
-		c = m_lib->getCharacter();
-		m_lib->DrawMenu();
-		printf("%d %d\n", c, event);
+		eventHandler(event, menu);
+		m_lib->DrawMenu(menu);
 		m_lib->Display();
 	}
 }
@@ -68,12 +81,12 @@ void	Core::loadGraphicLibrary(const char *nameLib)
 
 void Core::loadGames()
 {
-	fs::directory_iterator iterator("games");
+	/*fs::directory_iterator iterator("games");
 
 	for (auto &entry: iterator)
 	{
 		std::cout << entry << std::endl;
-	}
+	}*/
 }
 
 void Core::loadLibrairies()

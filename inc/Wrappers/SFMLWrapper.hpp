@@ -8,27 +8,26 @@
 #ifndef CPP_ARCADE_SFMLWRAPPER_HPP
 # define CPP_ARCADE_SFMLWRAPPER_HPP
 
-#include <SFML/Audio.hpp>
-#include <SFML/Graphics.hpp>
-#include "../Common/IGlib.hpp"
-#include "../Common/UserEvent.hpp"
+# include <SFML/Graphics.hpp>
+# include "../Common/IGlib.hpp"
 
-class	SFMLWrapper : public IGlib
+# define SCR_WIDTH 720
+# define SCR_HEIGHT	640
+
+class SFMLWrapper : public IGlib
 {
 public:
 	SFMLWrapper() = default;
 	~SFMLWrapper() = default;
-	void	InitWindow();
-	void	DestroyWindow();
-	void	DrawMenu();
-	void	Clear();
-	void	Display();
-	char	getCharacter();
-	UserEvent	getLastEvent();
+	void DrawMenu(MenuInformations);
+  void InitWindow();
+	void DestroyWindow();
+	void Clear();
+	void Display();
+	std::pair<UserEvent, char> getLastEvent();
+	char getCharacter();
 private:
-	sf::RenderWindow	m_win;
-	sf::Texture	m_texture;
-	sf::Sprite	m_sprite;
+	sf::RenderWindow m_win;
 	sf::Font	m_font;
 };
 

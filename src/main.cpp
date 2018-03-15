@@ -12,7 +12,11 @@
 
 int main(int argc, char **argv)
 {
-	argc = argc;
+	if (argc != 2)
+	{
+		std::cerr << "Wrong number of args !" << std::endl;
+		return 84;
+	}
 	Core Core(argv[1]);
 
 	Core.Start();

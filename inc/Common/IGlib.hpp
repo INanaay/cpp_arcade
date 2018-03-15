@@ -8,24 +8,21 @@
 #ifndef CPP_ARCADE_IGLIB_HPP
 # define CPP_ARCADE_IGLIB_HPP
 
-# include <string>
-# include <vector>
-# include <map>
-#include "UserEvent.hpp"
+# include "Informations.hpp"
+# include "UserEvent.hpp"
 
 
 class IGlib {
 public:
 	virtual ~IGlib() = default;
 
-	virtual void Clear() = 0;
-	virtual void Display() = 0;
-	virtual void DrawMenu() = 0;
 	virtual void InitWindow() = 0;
 	virtual void DestroyWindow() = 0;
+	virtual void DrawMenu(MenuInformations) = 0;
+	virtual void Clear() = 0;
+	virtual void Display() = 0;
 
-	virtual char getCharacter() = 0;
-	virtual UserEvent getLastEvent() = 0;
+	virtual std::pair<UserEvent, char> getLastEvent() = 0;
 };
 
 #endif //CPP_ARCADE_IGLIB_HPP
