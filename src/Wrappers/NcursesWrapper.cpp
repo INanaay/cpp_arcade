@@ -75,7 +75,8 @@ std::pair<UserEvent, char> NcursesWrapper::getLastEvent()
 		lastEvent.first =  UserEvent::DOWN;
 	else if (ch == '\n')
 		lastEvent.first =  UserEvent::ENTER;
-	else if (ch == '\b' || ch == KEY_BACKSPACE) {
+	else if (ch == 127 ||  ch == KEY_DC|| ch == KEY_BACKSPACE) {
+		clear();
 		lastEvent.first = UserEvent::TEXT;
 		lastEvent.second = '\b';
 	}
