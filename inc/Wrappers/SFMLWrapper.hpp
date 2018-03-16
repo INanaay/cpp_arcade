@@ -17,7 +17,7 @@
 class SFMLWrapper : public IGlib
 {
 public:
-	SFMLWrapper() = default;
+	SFMLWrapper();
 	~SFMLWrapper() = default;
 	void DrawMenu(MenuInformations, CoreInformations);
   void InitWindow();
@@ -28,8 +28,8 @@ public:
 	char getCharacter();
 private:
 	void	drawGames(std::vector<std::string>, std::string);
-	sf::RenderWindow m_win;
-	sf::Font	m_font;
+	std::unique_ptr<sf::RenderWindow> m_win;
+	sf::Font	*m_font;
 };
 
 #endif //CPP_ARCADE_SFMLWRAPPER_HPP

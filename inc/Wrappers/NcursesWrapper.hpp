@@ -16,13 +16,12 @@ class NcursesWrapper : public IGlib
 public:
 	NcursesWrapper() = default;
 	~NcursesWrapper() = default;
-	virtual void DrawMenu(MenuInformations, CoreInformations);
-    	virtual void InitWindow();
-    	virtual void DestroyWindow();
-	virtual void Clear();
-	virtual void Display();
-	virtual std::pair<UserEvent, char> getLastEvent();
-	virtual char getCharacter() {return 'a';};
+	void DrawMenu(MenuInformations, CoreInformations);
+	void InitWindow();
+  void DestroyWindow();
+	void Clear();
+	void Display();
+	std::pair<UserEvent, char> getLastEvent();
 private:
     	std::string getPlayerName();
     	WINDOW *scores;

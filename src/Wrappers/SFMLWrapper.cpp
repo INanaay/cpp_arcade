@@ -14,26 +14,35 @@ extern "C" SFMLWrapper *create_lib()
 	return new SFMLWrapper();
 }
 
+SFMLWrapper::SFMLWrapper()
+{
+	printf("jojo\n");
+	m_win = std::make_unique<sf::RenderWindow>(sf::VideoMode(SCR_WIDTH, SCR_HEIGHT), "ARCADE");
+	printf("jojo\n");
+	sf::Font	font;
+	if (!font.loadFromFile("ressources/fonts/Consolas.ttf"))
+		throw (std::exception());
+	m_font = new sf::Font(font);
+	printf("jojo\n");
+}
+
 void SFMLWrapper::InitWindow()
 {
-	m_win.create(sf::VideoMode(SCR_WIDTH, SCR_HEIGHT), "MENU");
-	if (!m_font.loadFromFile("ressources/fonts/Consolas.ttf"))
-		throw (std::exception());
 }
 
 void	SFMLWrapper::DestroyWindow()
 {
-	m_win.close();
+	m_win->close();
 }
 
 void SFMLWrapper::Clear()
 {
-	m_win.clear();
+	m_win->clear();
 }
 
 void SFMLWrapper::Display()
 {
-	m_win.display();
+	m_win->display();
 }
 
 std::pair<UserEvent, char> SFMLWrapper::getLastEvent()
@@ -41,7 +50,7 @@ std::pair<UserEvent, char> SFMLWrapper::getLastEvent()
 	sf::Event	event;
 	std::pair<UserEvent, char> lastEvent = std::make_pair<UserEvent, char>(UserEvent::NONE, 0);
 
-	while (m_win.pollEvent(event))
+	while (m_win->pollEvent(event))
 	{
 		if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 			lastEvent.first = UserEvent::ESCAPE;
@@ -82,30 +91,30 @@ void	SFMLWrapper::drawGames(std::vector<std::string> games, std::string game)
 	int posX = SCR_WIDTH;
 	int posY = SCR_HEIGHT / 4;
 
-	sf::Text	title("Games :", m_font);
+	sf::Text	title("Games :", *m_font);
 	title.setFillColor(sf::Color(150, 150, 150));
 	title.setPosition(posX, posY);
 	posY += 40;
-	m_win.draw(title);
+	m_win->draw(title);
 	for (std::string i : games)
 	{
-		sf::Text	name(i, m_font);
+		sf::Text	name(i, *m_font);
 		if (i == game)
 			name.setFillColor(sf::Color(250, 0, 0));
 		else
 			name.setFillColor(sf::Color(150, 150, 150));
 		name.setPosition(posX, posY);
 		posY += 40;
-		m_win.draw(name);
+		m_win->draw(name);
 	}
 }
 
 void	SFMLWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
 {
-	sf::Text name("name : " + menu.name, m_font, 30);
-	sf::Text title("ARCADE", m_font, 60);
-	sf::Text scores("Scoreboard : \n", m_font, 30);
-	sf::Text lib("SFML", m_font, 30);
+	sf::Text name("name : " + menu.name, *m_font, 30);
+	sf::Text title("ARCADE", *m_font, 60);
+	sf::Text scores("Scoreboard : \n", *m_font, 30);
+	sf::Text lib("SFML", *m_font, 30);
 
 	lib.setFillColor(sf::Color(150, 150, 150));
 	lib.setPosition(SCR_WIDTH, 0);
@@ -116,8 +125,8 @@ void	SFMLWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
 	scores.setFillColor(sf::Color(150, 150, 150));
 	scores.setPosition(0, SCR_HEIGHT / 4);
 	drawGames(core.games, menu.game);
-	m_win.draw(lib);
-	m_win.draw(scores);
-	m_win.draw(name);
-	m_win.draw(title);
+	m_win->draw(lib);
+	m_win->draw(scores);
+	m_win->draw(name);
+	m_win->draw(title);
 }

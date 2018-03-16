@@ -41,6 +41,7 @@ void NcursesWrapper::InitWindow()
 	curs_set(0);
 	noecho();
 	nodelay(stdscr, TRUE);
+	keypad(stdscr, TRUE);
 	scores = subwin(stdscr, LINES - 2, COLS / 2, 1, COLS / 2 - 1);
 }
 

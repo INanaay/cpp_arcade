@@ -31,7 +31,9 @@ private:
 	void showMenu();
 	void	eventHandler(std::pair<UserEvent, char>, MenuInformations &, CoreInformations &);
 	void loadGraphicLibrary(const char *);
+	void	loadNextLib();
 
+	void *m_handle;
 	void loadGames();
 	void loadLibrairies();
 	void loadScoreBoard();
