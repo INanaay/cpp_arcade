@@ -18,7 +18,7 @@ public:
 	~NcursesWrapper() = default;
 	virtual void DrawMenu(MenuInformations, CoreInformations);
     	virtual void InitWindow();
-    	virtual void DestroyWindow() {};
+    	virtual void DestroyWindow();
 	virtual void Clear();
 	virtual void Display();
 	virtual std::pair<UserEvent, char> getLastEvent();

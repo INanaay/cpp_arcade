@@ -30,8 +30,7 @@ std::string NcursesWrapper::getPlayerName()
 		ch = getch();
 		name += ch;
 		mvwprintw(stdscr, 20, 10, name.c_str());
-		refresh();
-	}
+		refresh(); }
 	clear();
 	return name;
 }
@@ -39,50 +38,71 @@ std::string NcursesWrapper::getPlayerName()
 void NcursesWrapper::InitWindow()
 {
 	initscr();
+	curs_set(0);
+	noecho();
+	nodelay(stdscr, TRUE);
+	scores = subwin(stdscr, LINES - 2, COLS / 2, 1, COLS / 2 - 1);
+}
+
+void NcursesWrapper::DestroyWindow()
+{
+	endwin();
 }
 
 void NcursesWrapper::Clear()
 {
-	clear();
 }
 
-void NcursesWrapper::Display() {}
-
+void NcursesWrapper::Display()
+{
+	refresh();
+}
 
 std::pair<UserEvent, char> NcursesWrapper::getLastEvent()
 {
-/*	int ch = getch();
+	std::pair<UserEvent, char> lastEvent = std::make_pair<UserEvent, char>(UserEvent::NONE, 0);
+	int ch = getch();
 
 	if (ch == 27)
-		return UserEvent::ESCAPE;
-	if (ch == KEY_PPAGE)
-		return UserEvent::LIB_NEXT;
-	if (ch == KEY_NPAGE)
-		return UserEvent::LIB_PREV;
-	if (ch == KEY_UP)
-		return UserEvent::UP;
-	if (ch == KEY_DOWN)
-		return UserEvent::DOWN;
-	if (ch == KEY_ENTER)
-		return UserEvent::ENTER;
-	return UserEvent::NONE;*/
-	return std::make_pair<UserEvent, char>(UserEvent::NONE, 0);
+		lastEvent.first =  UserEvent::ESCAPE;
+	else if (ch == KEY_PPAGE)
+		lastEvent.first =  UserEvent::LIB_NEXT;
+	else if (ch == KEY_NPAGE)
+		lastEvent.first = UserEvent::LIB_PREV;
+	else if (ch == KEY_UP)
+		lastEvent.first =  UserEvent::UP;
+	else if (ch == KEY_DOWN)
+		lastEvent.first =  UserEvent::DOWN;
+	else if (ch == KEY_ENTER)
+		lastEvent.first =  UserEvent::ENTER;
+	else if (ch == KEY_BACKSPACE) {
+		lastEvent.first = UserEvent::TEXT;
+		lastEvent.second = '\b';
+	}
+	else if (isalnum(ch)) {
+		lastEvent.first = UserEvent::TEXT;
+		lastEvent.second = ch;
+	}
+	else
+		lastEvent.first = UserEvent::NONE;
+	return lastEvent;
 }
+
+
 
 void	NcursesWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
 {
 	menu = menu;
-	std::string name = "Player Name :"  + getPlayerName();
-
 	core = core;
-	curs_set(0);
-	nodelay(stdscr, TRUE);
-	scores = subwin(stdscr, LINES - 2,  COLS / 2, 1, COLS / 2 - 1);
+	//std::string name = "Player Name :"  + getPlayerName();
+
+
 	box(stdscr, ACS_VLINE, ACS_HLINE);
 	box(scores, ACS_VLINE, ACS_HLINE);
-	mvwprintw(stdscr, 5, 5, name.c_str());
+	mvwprintw(stdscr, 5, 5, menu.name.c_str());
 	mvwprintw(stdscr, 10, 5, "Choose Game :");
 	mvwprintw(stdscr, 15, 5, "Choose Library :");
 	mvwprintw(scores, 1, 1, "High Scores");
 
-	}
+
+}
