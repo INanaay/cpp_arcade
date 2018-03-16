@@ -73,9 +73,9 @@ std::pair<UserEvent, char> NcursesWrapper::getLastEvent()
 		lastEvent.first =  UserEvent::UP;
 	else if (ch == KEY_DOWN)
 		lastEvent.first =  UserEvent::DOWN;
-	else if (ch == KEY_ENTER)
+	else if (ch == '\n')
 		lastEvent.first =  UserEvent::ENTER;
-	else if (ch == KEY_BACKSPACE) {
+	else if (ch == '\b' || ch == KEY_BACKSPACE) {
 		lastEvent.first = UserEvent::TEXT;
 		lastEvent.second = '\b';
 	}
@@ -95,7 +95,6 @@ void	NcursesWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
 	menu = menu;
 	core = core;
 	//std::string name = "Player Name :"  + getPlayerName();
-
 
 	box(stdscr, ACS_VLINE, ACS_HLINE);
 	box(scores, ACS_VLINE, ACS_HLINE);
