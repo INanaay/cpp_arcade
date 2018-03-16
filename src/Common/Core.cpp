@@ -31,6 +31,36 @@ void	Core::Start()
 	showMenu();
 }
 
+static std::string	incLibs(CoreInformations core, std::string toFind)
+{
+		auto it = std::find(core.games.begin(), core.games.end(), toFind);
+		if (it == core.games.end())
+		{
+			std::cerr << "error in change games" << std::endl;
+			std::exit(84);
+		}	
+		int index = it - core.games.begin();
+		if (index < (int)core.games.size() - 1)
+			return core.games[index + 1];
+		else
+			return core.games[0];
+}
+
+static std::string	decLibs(CoreInformations core, std::string toFind)
+{
+		auto it = std::find(core.games.begin(), core.games.end(), toFind);
+		if (it == core.games.end())
+		{
+			std::cerr << "error in change games" << std::endl;
+			std::exit(84);
+		}	
+		int index = it - core.games.begin();
+		if (index > 0)
+			return core.games[index - 1];
+		else
+			return core.games[core.games.size() - 1];
+}
+
 void	Core::eventHandler(std::pair<UserEvent, char> event, MenuInformations &menu,
 		CoreInformations &core)
 {
@@ -51,33 +81,9 @@ void	Core::eventHandler(std::pair<UserEvent, char> event, MenuInformations &menu
 			menu.name += event.second;
 	}
 	else if (event.first == UserEvent::DOWN)
-	{
-		auto it = std::find(core.games.begin(), core.games.end(), menu.game);
-		if (it == core.games.end())
-		{
-			std::cerr << "error in change games" << std::endl;
-			std::exit(84);
-		}	
-		int index = it - core.games.begin();
-		if (index < (int)core.games.size() - 1)
-			menu.game = core.games[index + 1];
-		else
-			menu.game = core.games[0];
-	}
+			menu.game = incLibs(core, menu.game);
 	else if (event.first == UserEvent::UP)
-	{
-		auto it = std::find(core.games.begin(), core.games.end(), menu.game);
-		if (it == core.games.end())
-		{
-			std::cerr << "error in change games" << std::endl;
-			std::exit(84);
-		}	
-		int index = it - core.games.begin();
-		if (index > 0)
-			menu.game = core.games[index - 1];
-		else
-			menu.game = core.games[core.games.size() - 1];
-	}
+			menu.game = decLibs(core, menu.game);
 }
 
 void	Core::showMenu()
