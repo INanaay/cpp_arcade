@@ -1,50 +1,25 @@
-##
-## EPITECH PROJECT, 2018
-## makefile
-## File description:
-## makefile
-##
+all:
+	make -C ./src/core/
+##	make -C ./src/games/nibbler/
+##	make -C ./src/games/pacman/
+	make -C ./src/graphics/sfml/
+	make -C ./src/graphics/opengl/
+	make -C ./src/graphics/ncurses/
 
-NAMEBIN		= arcade
-SFMLNAME	= ./lib/lib_arcade_SFML.so
-NCURSESNAME	= ./lib/lib_arcade_ncurses.so
-
-
-
-SRCBIN		= 	./src/main.cpp		\
-			./src/Common/Core.cpp
-SRCNCURSES	=	./src/Wrappers/NcursesWrapper.cpp
-SRCSFML		=	./src/Wrappers/SFMLWrapper.cpp
-
-CXX		= g++
-CXXFLAGS 	= -W -Wall -Wextra -Werror -std=c++17
-
-OBJBIN	= $(SRCBIN:.cpp=.o)
-OBJSFML = $(SRCSFML:.cpp=.o)
-OBJNCURSES = $(SRCNCURSES:.cpp=.o)
-
-RM	= rm -rf
-
-all:	graphicals core
-
-core:	$(OBJBIN)
-	$(CXX) -o $(NAMEBIN) $(OBJBIN) $(CXXFLAGS) -ldl -lstdc++fs
-
-graphicals: $(OBJNCURSES) $(OBJSFML)
-	$(CXX) $(OBJNCURSES) -shared -lncurses -o $(NCURSESNAME)
-	$(CXX) $(OBJSFML) -shared -lsfml-graphics -lsfml-window -lsfml-system -o $(SFMLNAME)
-
+re:	fclean all
 
 clean:
-		$(RM) $(OBJBIN)
-		$(RM) $(OBJSFML)
-		$(RM) $(OBJNCURSES)
+	make clean -C ./src/core/
+##	make clean -C ./src/games/nibbler/
+##	make clean -C ./src/games/pacman/
+	make clean -C ./src/graphics/sfml/
+	make clean -C ./src/graphics/opengl/
+	make clean -C ./src/graphics/ncurses/
 
-fclean:		clean
-		$(RM) $(NAMEBIN)
-		$(RM) $(SFMLNAME)
-		$(RM) $(NCURSESNAME)
-
-re:		fclean all
-
-.PHONY:		all clean fclean re core graphicals
+fclean:
+	make fclean -C ./src/core/
+##	make fclean -C ./src/games/nibbler/
+##	make fclean -C ./src/games/pacman/
+	make fclean -C ./src/graphics/sfml/
+	make fclean -C ./src/graphics/opengl/
+	make fclean -C ./src/graphics/ncurses/
