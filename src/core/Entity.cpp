@@ -1,3 +1,5 @@
+#include "../../inc/core/Entity.hpp"
+
 /*
 ** EPITECH PROJECT, 2018
 ** Epitech scolarship project (4 years remaining)
@@ -5,7 +7,6 @@
 **      Made on 2018/03 by lebovin
 */
 
-#include "../../inc/Common/Entity.hpp"
 
 float Entity::getSize() const
 {

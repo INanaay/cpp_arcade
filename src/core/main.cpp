@@ -7,8 +7,7 @@
 
 #include <dlfcn.h>
 #include <iostream>
-#include "../inc/Common/Core.hpp"
-#include "../inc/Wrappers/NcursesWrapper.hpp"
+#include "../../inc/core/Core.hpp"
 
 int main(int argc, char **argv)
 {

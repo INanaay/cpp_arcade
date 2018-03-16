@@ -7,7 +7,11 @@
 
 #include <ncurses.h>
 #include <iostream>
-#include "../../inc/Wrappers/SFMLWrapper.hpp"
+#include <vector>
+#include <memory>
+#include "../../../inc/graphics/SFMLWrapper.hpp"
+#include "../../../inc/core/Informations.hpp"
+#include "../../../inc/core/UserEvent.hpp"
 
 extern "C" SFMLWrapper *create_lib()
 {

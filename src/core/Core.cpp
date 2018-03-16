@@ -13,9 +13,8 @@
 #include <algorithm>
 #include <experimental/filesystem>
 #include <fstream>
-#include "../../inc/Common/Core.hpp"
-#include "../../inc/Common/UserEvent.hpp"
-#include "../../inc/Common/CoreException.hpp"
+#include "../../inc/core/Core.hpp"
+#include "../../inc/core/CoreException.hpp"
 
 Core::Core(const std::string &libname)
 {
