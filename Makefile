@@ -1,9 +1,9 @@
 all:
-	make -C ./src/core/
+	make -j4 -C ./src/core/
 ##	make -C ./src/games/nibbler/
 ##	make -C ./src/games/pacman/
-	make -C ./src/graphics/sfml/
-	make -C ./src/graphics/ncurses/
+	make -j4 -C ./src/graphics/sfml/
+	make -j4 -C ./src/graphics/ncurses/
 
 re:	fclean all
 
