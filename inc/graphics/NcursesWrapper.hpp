@@ -9,7 +9,7 @@
 #define CPP_ARCADE_NCURSESWRAPPER_HPP
 
 #include <curses.h>
-#include "../Common/IGlib.hpp"
+#include "../core/IGlib.hpp"
 
 class NcursesWrapper : public IGlib
 {

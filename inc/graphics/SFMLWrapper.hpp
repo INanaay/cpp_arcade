@@ -9,7 +9,7 @@
 # define CPP_ARCADE_SFMLWRAPPER_HPP
 
 # include <SFML/Graphics.hpp>
-# include "../Common/IGlib.hpp"
+#include "../core/IGlib.hpp"
 
 # define SCR_WIDTH 720
 # define SCR_HEIGHT	640

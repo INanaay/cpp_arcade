@@ -140,6 +140,7 @@ void	Core::loadGraphicLibrary(const char *nameLib)
 	if (!m_handle)
 	{
 		std::cerr << "Cannot open graphic library." << std::endl;
+		std::cerr << dlerror() << std::endl;
 		std::exit(84);
 	}
 	create = (IGlib* (*)())dlsym(m_handle, "create_lib");
