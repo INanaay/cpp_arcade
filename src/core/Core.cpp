@@ -64,6 +64,7 @@ static std::string	decLibs(CoreInformations core, std::string toFind)
 void	Core::loadNextLib()
 {
 	m_lib->DestroyWindow();
+	system("reset");
 	std::cout << m_pathLib << std::endl;
 	auto it = std::find(m_libraries.begin(), m_libraries.end(), m_pathLib.substr(17));
 		if (it == m_libraries.end())
@@ -72,8 +73,6 @@ void	Core::loadNextLib()
 			std::exit(84);
 		}	
 		int index = it - m_libraries.begin();
-		dlclose(m_handle);
-		std::cout << "oui1" << std::endl;
 		if (index > 0) {
 			loadGraphicLibrary(("./lib/lib_arcade_" + m_libraries[index - 1]).c_str());
 		m_pathLib = "./lib/lib_arcade_" + m_libraries[index - 1];
@@ -82,9 +81,7 @@ void	Core::loadNextLib()
 			loadGraphicLibrary(("./lib/lib_arcade_" + m_libraries[m_libraries.size() - 1]).c_str());
 		m_pathLib = "./lib/lib_arcade_" + m_libraries[m_libraries.size() - 1];
 		}
-		std::cout << m_pathLib << std::endl;
 		m_lib->InitWindow();
-		std::cout << "wuon" << std::endl;
 }
 
 void	Core::eventHandler(std::pair<UserEvent, char> event, MenuInformations &menu,
@@ -134,31 +131,30 @@ void	Core::showMenu()
 
 void	Core::loadGraphicLibrary(const char *nameLib)
 {
-	m_handle = dlopen(nameLib, RTLD_NOW);
+	void *handle = dlopen(nameLib, RTLD_NOW);
 	IGlib	*(*create)();
 
-	if (!m_handle)
+	if (!handle)
 	{
 		std::cerr << "Cannot open graphic library." << std::endl;
 		std::cerr << dlerror() << std::endl;
 		std::exit(84);
 	}
-	create = (IGlib* (*)())dlsym(m_handle, "create_lib");
+	create = (IGlib* (*)())dlsym(handle, "create_lib");
 	if (!create)
 	{
 		std::cerr << "Graphic library is incompatible." << std::endl;
 		std::exit(84);
 	}
-	std::cout << "loadG1" << std::endl;
-	if (m_lib) {
-		std::cout << "wallou" << std::endl;
-		m_lib.release();
+	if (m_lib)
 		m_lib.reset(create());
-	}
 	else
 		m_lib = std::unique_ptr<IGlib>(create());
-	std::cout << "loadG2" << std::endl;
-	std::vector<std::pair<std::string, float>> list;
+	if (m_handle)
+	{
+		dlclose(m_handle);
+		m_handle = handle;
+	}
 }
 
 void Core::loadGames()
