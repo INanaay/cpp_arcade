@@ -10,17 +10,20 @@
 
 # include "Informations.hpp"
 # include "UserEvent.hpp"
+#include "Entity.hpp"
 
 
 class IGlib {
 public:
 	virtual ~IGlib() = default;
 
-	virtual void InitWindow() = 0;
-	virtual void DestroyWindow() = 0;
-	virtual void DrawMenu(MenuInformations, CoreInformations) = 0;
 	virtual void Clear() = 0;
 	virtual void Display() = 0;
+	virtual void InitWindow() = 0;
+	virtual void DestroyWindow() = 0;
+	virtual void DrawMap(Map &map) = 0;
+	virtual void DrawEntity(Entity &entity) = 0;
+	virtual void DrawMenu(MenuInformations, CoreInformations) = 0;
 
 	virtual std::pair<UserEvent, char> getLastEvent() = 0;
 };

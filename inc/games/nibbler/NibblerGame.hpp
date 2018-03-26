@@ -9,18 +9,20 @@
 #define CPP_ARCADE_NIBBLER_HPP
 
 
-#include "../../../inc/core/IGame.hpp"
+#include "../../core/IGame.hpp"
 
-class Nibbler : public IGame
+class NibblerGame : public IGame
 {
 public:
-	virtual void Run() = 0;
-	virtual void Stop() = 0;
-	virtual void Init(std::unique_ptr<IGlib> library, Map &map) = 0;
+	void Run();
+	void Stop();
+	void Init(std::unique_ptr<IGlib> library, Map &map);
 private:
 	Map m_map;
+	std::vector<Entity> m_snake;
+	std::unique_ptr<IGlib> m_library;
 
-	void printMap();
+	void drawSnake(std::vector<Entity> &snake);
 };
 
 
