@@ -16,7 +16,11 @@ int main(int argc, char **argv)
 		std::cerr << "Wrong number of args !" << std::endl;
 		return 84;
 	}
-	Core Core(argv[1]);
+	std::string lib = argv[1];
+
+	if (lib.size() > 1 && lib[0] == '.' && lib[1] == '/')
+		lib = lib.substr(2);
+	Core Core(lib);
 
 	Core.Start();
 	return 0;
