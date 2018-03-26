@@ -5,7 +5,11 @@
 **      Made on 2018/03 by lebovin
 */
 
+#include <unistd.h>
+#include <fstream>
+#include <iostream>
 #include "../../../inc/games/nibbler/NibblerGame.hpp"
+#include "../../../inc/core/GameException.hpp"
 
 extern "C" NibblerGame *create_game()
 {
@@ -20,7 +24,11 @@ NibblerGame::NibblerGame()
 void NibblerGame::Run()
 {
 	while (1)
+	{
+		m_library->Clear();
 		m_library->DrawMap(m_map);
+		m_library->Display();
+	}
 }
 
 void NibblerGame::Stop()
@@ -36,5 +44,11 @@ void NibblerGame::Init(std::unique_ptr<IGlib> library)
 
 void NibblerGame::loadMap(const std::string &path)
 {
+	std::string line;
+	std::ifstream fstream(path);
 
+	if (!fstream)
+		throw GameException("Cannot load given map.");
+	while (std::getline(fstream, line))
+		m_map.push_back(line);
 }

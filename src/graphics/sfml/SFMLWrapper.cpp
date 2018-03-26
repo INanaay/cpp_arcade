@@ -5,13 +5,14 @@
 **      Made on 2018/03 by lebovin
 */
 
-#include <ncurses.h>
+#include <unistd.h>
 #include <iostream>
 #include <vector>
 #include <memory>
 #include "../../../inc/graphics/SFMLWrapper.hpp"
 #include "../../../inc/core/Informations.hpp"
 #include "../../../inc/core/UserEvent.hpp"
+#include "../../../inc/core/EntityType.hpp"
 
 extern "C" SFMLWrapper *create_lib()
 {
@@ -141,9 +142,13 @@ void SFMLWrapper::DrawMap(Map &map)
 		std::string &line = map[y];
 		for (std::size_t x = 0; x < line.size(); x++)
 		{
-			sf::RectangleShape rect(sf::Vector2f(30, 30));
-			rect.setFillColor(sf::Color(255, 255, 255));
-			rect.setPosition(x * 30, y * 30);
+			EntityType type = (EntityType)(map[y][x] - '0');
+			sf::RectangleShape rect(sf::Vector2f(10, 10));
+			rect.setPosition(x * 10, y * 10);
+			if (type == EntityType::EMPTY)
+				rect.setFillColor(sf::Color(255, 255, 255));
+			else
+				rect.setFillColor(sf::Color(255, 0, 0));
 			m_win->draw(rect);
 		}
 	}
