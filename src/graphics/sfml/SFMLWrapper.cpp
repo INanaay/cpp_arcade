@@ -136,10 +136,10 @@ void SFMLWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
 
 void SFMLWrapper::DrawMap(Map &map)
 {
-	for (auto y = 0; y < map.size(); y++)
+	for (auto y = 0; y < (int)map.size(); y++)
 	{
 		std::string &line = map[y];
-		for (auto x = 0; x < line.size(); x++)
+		for (auto x = 0; x < (int)line.size(); x++)
 		{
 			sf::RectangleShape rect(sf::Vector2f(30, 30));
 			rect.setFillColor(sf::Color(255, 255, 255));
