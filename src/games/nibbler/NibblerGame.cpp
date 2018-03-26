@@ -19,9 +19,8 @@ NibblerGame::NibblerGame()
 
 void NibblerGame::Run()
 {
-	printf("run\n");
-/*	while (1)
-		m_library->DrawMap(m_map);*/
+	while (1)
+		m_library->DrawMap(m_map);
 }
 
 void NibblerGame::Stop()
@@ -29,8 +28,13 @@ void NibblerGame::Stop()
 
 }
 
-void NibblerGame::Init(std::unique_ptr<IGlib> library, Map &map)
+void NibblerGame::Init(std::unique_ptr<IGlib> library)
 {
-	m_map = map;
 	m_library = std::move(library);
+	loadMap("ressources/nibbler/test.map");
+}
+
+void NibblerGame::loadMap(const std::string &path)
+{
+
 }
