@@ -23,4 +23,5 @@ enum class UserEvent
 	ACTION2,
 	TEXT
 };
+
 #endif //CPP_ARCADE_USEREVENT_HPP

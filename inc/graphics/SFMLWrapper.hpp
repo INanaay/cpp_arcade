@@ -26,6 +26,8 @@ public:
 	void Display();
 	std::pair<UserEvent, char> getLastEvent();
 	char getCharacter();
+	void DrawMap(Map &) {};
+	void DrawEntity(Entity &) {};
 private:
 	void	drawGames(std::vector<std::pair<std::string, std::string>>, std::pair<std::string, std::string>);
 	std::unique_ptr<sf::RenderWindow> m_win;
