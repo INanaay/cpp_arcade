@@ -132,7 +132,7 @@ void	Core::runGame(MenuInformations menu)
 		std::exit(84);
 	}
 	m_game = std::unique_ptr<IGame>(create());
-	m_game->Init(m_lib);
+	m_game->Init(std::move(m_lib));
 	m_game->Run();
 }
 
