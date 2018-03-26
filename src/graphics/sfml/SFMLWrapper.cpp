@@ -87,7 +87,7 @@ std::pair<UserEvent, char> SFMLWrapper::getLastEvent()
 	return lastEvent;
 }
 
-void	SFMLWrapper::drawGames(std::vector<std::string> games, std::string game)
+void	SFMLWrapper::drawGames(std::vector<std::pair<std::string, std::string>> games, std::pair<std::string, std::string> game)
 {
 	int posX = SCR_WIDTH;
 	int posY = SCR_HEIGHT / 4;
@@ -97,9 +97,9 @@ void	SFMLWrapper::drawGames(std::vector<std::string> games, std::string game)
 	title.setPosition(posX, posY);
 	posY += 40;
 	m_win->draw(title);
-	for (std::string i : games)
+	for (std::pair<std::string, std::string> i : games)
 	{
-		sf::Text	name(i, *m_font);
+		sf::Text	name(i.first, *m_font);
 		if (i == game)
 			name.setFillColor(sf::Color(250, 0, 0));
 		else

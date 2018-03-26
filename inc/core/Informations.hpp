@@ -17,16 +17,16 @@ using Map = std::vector<std::string>;
 
 struct CoreInformations
 {
-	std::vector<std::string> games;
-	std::vector<std::string> libraries;
+	std::vector<std::pair<std::string, std::string>> games;
+	std::vector<std::pair<std::string, std::string>> libraries;
 	std::map<std::string, std::vector<Score>> scores;
 };
 
 struct MenuInformations
 {
 	std::string name;
-	std::string game;
-	std::string library;
+	std::pair<std::string, std::string> game;
+	std::pair<std::string, std::string> library;
 };
 
 #endif //INFORMATION _HPP

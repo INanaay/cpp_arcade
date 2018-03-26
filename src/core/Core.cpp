@@ -22,7 +22,10 @@ Core::Core(const std::string &libname)
 	loadLibrairies();
 	loadScoreBoard();
 	loadGraphicLibrary(libname.c_str());
-	m_pathLib = libname;
+	m_pathLib.second = libname;
+	std::string prefix = "/lib_arcade_";
+	std::size_t n_idx = libname.find(prefix);
+	m_pathLib.first = libname.substr(n_idx + prefix.size());
 }
 
 void	Core::Start()
@@ -31,7 +34,7 @@ void	Core::Start()
 	showMenu();
 }
 
-static std::string	incLibs(CoreInformations core, std::string toFind)
+static std::pair<std::string, std::string>	incLibs(CoreInformations core, std::pair<std::string, std::string> toFind)
 {
 		auto it = std::find(core.games.begin(), core.games.end(), toFind);
 		if (it == core.games.end())
@@ -46,7 +49,7 @@ static std::string	incLibs(CoreInformations core, std::string toFind)
 			return core.games[0];
 }
 
-static std::string	decLibs(CoreInformations core, std::string toFind)
+static std::pair<std::string, std::string>	decLibs(CoreInformations core, std::pair<std::string, std::string> toFind)
 {
 		auto it = std::find(core.games.begin(), core.games.end(), toFind);
 		if (it == core.games.end())
@@ -65,7 +68,7 @@ void	Core::loadNextLib()
 {
 	m_lib->DestroyWindow();
 	system("reset");
-	auto it = std::find(m_libraries.begin(), m_libraries.end(), m_pathLib.substr(17));
+	auto it = std::find(m_libraries.begin(), m_libraries.end(), m_pathLib);
 		if (it == m_libraries.end())
 		{
 			std::cerr << "error in change Glib" << std::endl;
@@ -74,13 +77,13 @@ void	Core::loadNextLib()
 		int index = it - m_libraries.begin();
 		if (index > 0)
 		{
-			loadGraphicLibrary(("./lib/lib_arcade_" + m_libraries[index - 1]).c_str());
-			m_pathLib = "./lib/lib_arcade_" + m_libraries[index - 1];
+			loadGraphicLibrary((m_libraries[index - 1]).second.c_str());
+			m_pathLib = m_libraries[index - 1];
 		}
 		else
 		{
-			loadGraphicLibrary(("./lib/lib_arcade_" + m_libraries[m_libraries.size() - 1]).c_str());
-			m_pathLib = "./lib/lib_arcade_" + m_libraries[m_libraries.size() - 1];
+			loadGraphicLibrary((m_libraries[m_libraries.size() - 1]).second.c_str());
+			m_pathLib = m_libraries[m_libraries.size() - 1];
 		}
 		m_lib->InitWindow();
 }
@@ -89,7 +92,7 @@ void	Core::loadPrevLib()
 {
 	m_lib->DestroyWindow();
 	system("reset");
-	auto it = std::find(m_libraries.begin(), m_libraries.end(), m_pathLib.substr(17));
+	auto it = std::find(m_libraries.begin(), m_libraries.end(), m_pathLib);
 		if (it == m_libraries.end())
 		{
 			std::cerr << "error in change Glib" << std::endl;
@@ -98,13 +101,13 @@ void	Core::loadPrevLib()
 		int index = it - m_libraries.begin();
 		if (index < (int)m_libraries.size() - 1)
 		{
-			loadGraphicLibrary(("./lib/lib_arcade_" + m_libraries[index + 1]).c_str());
-			m_pathLib = "./lib/lib_arcade_" + m_libraries[index + 1];
+			loadGraphicLibrary((m_libraries[index + 1]).second.c_str());
+			m_pathLib = m_libraries[index + 1];
 		}
 		else
 		{
-			loadGraphicLibrary(("./lib/lib_arcade_" + m_libraries[0]).c_str());
-			m_pathLib = "./lib/lib_arcade_" + m_libraries[0];
+			loadGraphicLibrary((m_libraries[0]).second.c_str());
+			m_pathLib = m_libraries[0];
 		}
 		m_lib->InitWindow();
 }
@@ -202,7 +205,10 @@ void Core::loadGames()
 		if (game.find(".so") != game.size() - suffix.size())
 			continue;
 
-		m_games.push_back(game);
+		std::pair<std::string, std::string> pairGame;
+		pairGame.first = game;
+		pairGame.second = path;
+		m_games.push_back(pairGame);
 	}
 
 	if (m_games.empty())
@@ -227,7 +233,10 @@ void Core::loadLibrairies()
 		if (libname.find(".so") != libname.size() - suffix.size())
 			continue;
 
-		m_libraries.push_back(libname);
+		std::pair<std::string, std::string> pairLib;
+		pairLib.first = libname;
+		pairLib.second = path;
+		m_libraries.push_back(pairLib);
 	}
 
 	if (m_libraries.empty())

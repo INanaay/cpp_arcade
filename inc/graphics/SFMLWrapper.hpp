@@ -27,7 +27,7 @@ public:
 	std::pair<UserEvent, char> getLastEvent();
 	char getCharacter();
 private:
-	void	drawGames(std::vector<std::string>, std::string);
+	void	drawGames(std::vector<std::pair<std::string, std::string>>, std::pair<std::string, std::string>);
 	std::unique_ptr<sf::RenderWindow> m_win;
 	sf::Font	*m_font;
 };

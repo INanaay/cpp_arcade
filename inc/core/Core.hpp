@@ -22,10 +22,10 @@ public:
 
 	void Start();
 private:
-	std::string	m_pathLib;
+	std::pair<std::string, std::string>	m_pathLib;
 	std::unique_ptr<IGlib> m_lib;
-	std::vector<std::string> m_games;
-	std::vector<std::string> m_libraries;
+	std::vector<std::pair<std::string, std::string>> m_games;
+	std::vector<std::pair<std::string, std::string>> m_libraries;
 	std::map<std::string, std::vector<Score>> m_scores;
 
 	void showMenu();
