@@ -14,6 +14,7 @@
 class NibblerGame : public IGame
 {
 public:
+	NibblerGame();
 	void Run();
 	void Stop();
 	void Init(std::unique_ptr<IGlib> library, Map &map);

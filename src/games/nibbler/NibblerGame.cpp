@@ -12,6 +12,11 @@ extern "C" NibblerGame *create_game()
 	return new NibblerGame();
 }
 
+NibblerGame::NibblerGame()
+{
+
+}
+
 void NibblerGame::Run()
 {
 	while (1)
