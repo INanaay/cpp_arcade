@@ -32,6 +32,7 @@ private:
 	void	eventHandler(std::pair<UserEvent, char>, MenuInformations &, CoreInformations &);
 	void loadGraphicLibrary(const char *);
 	void	loadNextLib();
+	void	loadPrevLib();
 
 	void *m_handle;
 	void loadGames();

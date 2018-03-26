@@ -20,13 +20,11 @@ extern "C" SFMLWrapper *create_lib()
 
 SFMLWrapper::SFMLWrapper()
 {
-	printf("Using SFML Graphic Library.\n");
 	m_win = std::make_unique<sf::RenderWindow>(sf::VideoMode(SCR_WIDTH, SCR_HEIGHT), "ARCADE");
 	sf::Font	font;
 	if (!font.loadFromFile("ressources/fonts/Consolas.ttf"))
 		throw (std::exception());
 	m_font = new sf::Font(font);
-	printf("Window Created.\n");
 }
 
 void SFMLWrapper::InitWindow()

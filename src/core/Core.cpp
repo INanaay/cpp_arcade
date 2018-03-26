@@ -65,7 +65,6 @@ void	Core::loadNextLib()
 {
 	m_lib->DestroyWindow();
 	system("reset");
-	std::cout << m_pathLib << std::endl;
 	auto it = std::find(m_libraries.begin(), m_libraries.end(), m_pathLib.substr(17));
 		if (it == m_libraries.end())
 		{
@@ -73,16 +72,43 @@ void	Core::loadNextLib()
 			std::exit(84);
 		}	
 		int index = it - m_libraries.begin();
-		if (index > 0) {
+		if (index > 0)
+		{
 			loadGraphicLibrary(("./lib/lib_arcade_" + m_libraries[index - 1]).c_str());
-		m_pathLib = "./lib/lib_arcade_" + m_libraries[index - 1];
+			m_pathLib = "./lib/lib_arcade_" + m_libraries[index - 1];
 		}
-		else {
+		else
+		{
 			loadGraphicLibrary(("./lib/lib_arcade_" + m_libraries[m_libraries.size() - 1]).c_str());
-		m_pathLib = "./lib/lib_arcade_" + m_libraries[m_libraries.size() - 1];
+			m_pathLib = "./lib/lib_arcade_" + m_libraries[m_libraries.size() - 1];
 		}
 		m_lib->InitWindow();
 }
+
+void	Core::loadPrevLib()
+{
+	m_lib->DestroyWindow();
+	system("reset");
+	auto it = std::find(m_libraries.begin(), m_libraries.end(), m_pathLib.substr(17));
+		if (it == m_libraries.end())
+		{
+			std::cerr << "error in change Glib" << std::endl;
+			std::exit(84);
+		}	
+		int index = it - m_libraries.begin();
+		if (index < (int)m_libraries.size() - 1)
+		{
+			loadGraphicLibrary(("./lib/lib_arcade_" + m_libraries[index + 1]).c_str());
+			m_pathLib = "./lib/lib_arcade_" + m_libraries[index + 1];
+		}
+		else
+		{
+			loadGraphicLibrary(("./lib/lib_arcade_" + m_libraries[0]).c_str());
+			m_pathLib = "./lib/lib_arcade_" + m_libraries[0];
+		}
+		m_lib->InitWindow();
+}
+
 
 void	Core::eventHandler(std::pair<UserEvent, char> event, MenuInformations &menu,
 		CoreInformations &core)
@@ -95,6 +121,7 @@ void	Core::eventHandler(std::pair<UserEvent, char> event, MenuInformations &menu
 	else if (event.first == UserEvent::ENTER)
 	{
 		std::cout << "Enter : " <<  menu.name << std::endl;
+		//on lance le jeu si le nom du joueur est bon.
 	}
 	else if (event.first == UserEvent::TEXT)
 	{
@@ -109,8 +136,8 @@ void	Core::eventHandler(std::pair<UserEvent, char> event, MenuInformations &menu
 			menu.game = decLibs(core, menu.game);
 	else if (event.first == UserEvent::LIB_NEXT)
 		loadNextLib();
-	/*else if (event.first == UserEvent::LIB_PREV)
-		std::exit(0);*/
+	else if (event.first == UserEvent::LIB_PREV)
+		loadPrevLib();
 }
 
 void	Core::showMenu()
