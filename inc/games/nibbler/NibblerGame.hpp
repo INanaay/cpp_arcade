@@ -21,8 +21,6 @@ private:
 	Map m_map;
 	std::vector<Entity> m_snake;
 	std::unique_ptr<IGlib> m_library;
-
-	void drawSnake(std::vector<Entity> &snake);
 };
 
 
