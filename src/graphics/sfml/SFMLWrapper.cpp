@@ -87,7 +87,8 @@ std::pair<UserEvent, char> SFMLWrapper::getLastEvent()
 	return lastEvent;
 }
 
-void	SFMLWrapper::drawGames(std::vector<std::pair<std::string, std::string>> games, std::pair<std::string, std::string> game)
+void SFMLWrapper::drawGames(std::vector<std::pair<std::string, std::string>>
+			    games, std::pair<std::string, std::string> game)
 {
 	int posX = (SCR_WIDTH / 4 ) * 3;
 	int posY = SCR_HEIGHT / 4;
@@ -111,7 +112,7 @@ void	SFMLWrapper::drawGames(std::vector<std::pair<std::string, std::string>> gam
 	}
 }
 
-void	SFMLWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
+void SFMLWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
 {
 	sf::Text name("name : " + menu.name, *m_font, 30);
 	sf::Text title("ARCADE", *m_font, 60);
