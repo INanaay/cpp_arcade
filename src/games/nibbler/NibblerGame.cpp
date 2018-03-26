@@ -9,7 +9,8 @@
 
 void NibblerGame::Run()
 {
-	m_library->DrawMap(m_map);
+	while (1)
+		m_library->DrawMap(m_map);
 }
 
 void NibblerGame::Stop()
