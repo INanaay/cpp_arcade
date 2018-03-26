@@ -7,6 +7,11 @@
 
 #include "../../../inc/games/nibbler/NibblerGame.hpp"
 
+extern "C" NibblerGame *create_game()
+{
+	return new NibblerGame();
+}
+
 void NibblerGame::Run()
 {
 	while (1)
