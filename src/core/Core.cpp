@@ -18,6 +18,7 @@
 
 Core::Core(const std::string &libname)
 {
+	m_handle = NULL;
 	loadGames();
 	loadLibrairies();
 	loadScoreBoard();
@@ -112,6 +113,28 @@ void	Core::loadPrevLib()
 		m_lib->InitWindow();
 }
 
+void	Core::runGame(MenuInformations menu)
+{
+	(void)menu;
+	void *handle = dlopen(menu.game.second.c_str(), RTLD_NOW);
+	IGame	*(*create)();
+
+	if (!handle)
+	{
+		std::cerr << "Cannot open game library." << std::endl;
+		std::cerr << dlerror() << std::endl;
+		std::exit(84);
+	}
+	create = (IGame* (*)())dlsym(handle, "create_game");
+	if (!create)
+	{
+		std::cerr << "Game library is incompatible." << std::endl;
+		std::exit(84);
+	}
+	m_game = std::unique_ptr<IGame>(create());
+	//m_game->Init(m_lib, map); on a pas de map
+	m_game->Run();
+}
 
 void	Core::eventHandler(std::pair<UserEvent, char> event, MenuInformations &menu,
 		CoreInformations &core)
@@ -123,8 +146,8 @@ void	Core::eventHandler(std::pair<UserEvent, char> event, MenuInformations &menu
 	}
 	else if (event.first == UserEvent::ENTER)
 	{
-		std::cout << "Enter : " <<  menu.name << std::endl;
-		//on lance le jeu si le nom du joueur est bon.
+		if (menu.name != "")
+			runGame(menu);
 	}
 	else if (event.first == UserEvent::TEXT)
 	{

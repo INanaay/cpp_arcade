@@ -19,8 +19,9 @@ NibblerGame::NibblerGame()
 
 void NibblerGame::Run()
 {
-	while (1)
-		m_library->DrawMap(m_map);
+	printf("run\n");
+/*	while (1)
+		m_library->DrawMap(m_map);*/
 }
 
 void NibblerGame::Stop()

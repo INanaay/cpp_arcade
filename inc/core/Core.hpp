@@ -8,9 +8,10 @@
 #ifndef CORE_HPP
 # define CORE_HPP
 
-#include <memory>
-#include <experimental/filesystem>
+# include <memory>
+# include <experimental/filesystem>
 # include "IGlib.hpp"
+# include "IGame.hpp"
 
 namespace fs = std::experimental::filesystem;
 
@@ -22,6 +23,7 @@ public:
 
 	void Start();
 private:
+	std::unique_ptr<IGame> m_game;
 	std::pair<std::string, std::string>	m_pathLib;
 	std::unique_ptr<IGlib> m_lib;
 	std::vector<std::pair<std::string, std::string>> m_games;
@@ -42,6 +44,7 @@ private:
 			       const std::string &path);
 	void serializeScores(const std::string &game,
 			     std::vector<Score> &scores);
+	void runGame(MenuInformations);
 };
 
 #endif //CORE_HPP

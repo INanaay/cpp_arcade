@@ -8,9 +8,8 @@
 #ifndef CPP_ARCADE_IGAME_HPP
 #define CPP_ARCADE_IGAME_HPP
 
-#include <bits/unique_ptr.h>
+#include <memory>
 #include "IGlib.hpp"
-#include "Core.hpp"
 
 class IGame
 {
