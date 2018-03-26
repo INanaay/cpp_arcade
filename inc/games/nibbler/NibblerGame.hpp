@@ -22,6 +22,8 @@ private:
 	Map m_map;
 	std::vector<Entity> m_snake;
 	std::unique_ptr<IGlib> m_library;
+
+	void loadMap(const std::string &path);
 };
 
 
