@@ -133,3 +133,22 @@ void SFMLWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
 	m_win->draw(name);
 	m_win->draw(title);
 }
+
+void SFMLWrapper::DrawMap(Map &map)
+{
+	for (auto y = 0; y < map.size(); y++)
+	{
+		std::string &line = map[y];
+		for (auto x = 0; x < line.size(); x++)
+		{
+			sf::RectangleShape rect(sf::Vector2f(30, 30));
+			rect.setFillColor(sf::Color(255, 255, 255));
+			rect.setPosition(x * 30, y * 30);
+			m_win->draw(rect);
+		}
+	}
+}
+void SFMLWrapper::DrawEntity(Entity &)
+{
+
+}
