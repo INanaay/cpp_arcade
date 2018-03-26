@@ -22,8 +22,3 @@ void NibblerGame::Init(std::unique_ptr<IGlib> library, Map &map)
 	m_map = map;
 	m_library = std::move(library);
 }
-
-void NibblerGame::drawSnake()
-{
-
-}
