@@ -96,14 +96,14 @@ void	NcursesWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
 {
 	menu = menu;
 	core = core;
-	//std::string name = "Player Name :"  + getPlayerName();
+	std::string name = "Player Name : "  + menu.name;
+	std::string libName = "Library : Ncurses";
+	std::string game = "Choose Game : " + menu.game.first;
 
 	box(stdscr, ACS_VLINE, ACS_HLINE);
 	box(scores, ACS_VLINE, ACS_HLINE);
-	mvwprintw(stdscr, 5, 5, menu.name.c_str());
-	mvwprintw(stdscr, 10, 5, "Choose Game :");
-	mvwprintw(stdscr, 15, 5, "Choose Library :");
+	mvwprintw(stdscr, 5, 5, name.c_str());
+	mvwprintw(stdscr, 10, 5, game.c_str());
+	mvwprintw(stdscr, 15, 5, libName.c_str());
 	mvwprintw(scores, 1, 1, "High Scores");
-
-
 }
