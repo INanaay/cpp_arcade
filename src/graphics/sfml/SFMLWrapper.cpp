@@ -20,13 +20,11 @@ extern "C" SFMLWrapper *create_lib()
 
 SFMLWrapper::SFMLWrapper()
 {
-	printf("Using SFML Graphic Library.\n");
 	m_win = std::make_unique<sf::RenderWindow>(sf::VideoMode(SCR_WIDTH, SCR_HEIGHT), "ARCADE");
 	sf::Font	font;
 	if (!font.loadFromFile("ressources/fonts/Consolas.ttf"))
 		throw (std::exception());
 	m_font = new sf::Font(font);
-	printf("Window Created.\n");
 }
 
 void SFMLWrapper::InitWindow()
@@ -89,7 +87,7 @@ std::pair<UserEvent, char> SFMLWrapper::getLastEvent()
 	return lastEvent;
 }
 
-void	SFMLWrapper::drawGames(std::vector<std::string> games, std::string game)
+void	SFMLWrapper::drawGames(std::vector<std::pair<std::string, std::string>> games, std::pair<std::string, std::string> game)
 {
 	int posX = (SCR_WIDTH / 4 ) * 3;
 	int posY = SCR_HEIGHT / 4;
@@ -99,9 +97,10 @@ void	SFMLWrapper::drawGames(std::vector<std::string> games, std::string game)
 	title.setPosition(posX, posY);
 	posY += 40;
 	m_win->draw(title);
-	for (std::string i : games)
+	for (std::pair<std::string, std::string> i : games)
 	{
-		sf::Text name(i, *m_font);
+		sf::Text name(i.first, *m_font);
+
 		if (i == game)
 			name.setFillColor(sf::Color(250, 0, 0));
 		else
