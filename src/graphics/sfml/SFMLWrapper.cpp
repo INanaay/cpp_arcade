@@ -120,11 +120,11 @@ void SFMLWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
 	sf::Text lib("SFML", *m_font, 30);
 
 	lib.setFillColor(sf::Color(150, 150, 150));
-	lib.setPosition(SCR_WIDTH, 0);
+	lib.setPosition(SCR_WIDTH * 3 / 4, 0);
 	name.setFillColor(sf::Color(150, 150, 150));
 	name.setPosition(0, 0);
 	title.setFillColor(sf::Color(150, 150, 150));
-	title.setPosition(SCR_WIDTH / 2, 0);
+	title.setPosition(SCR_WIDTH / 3, 0);
 	scores.setFillColor(sf::Color(150, 150, 150));
 	scores.setPosition(0, SCR_HEIGHT / 4);
 	drawGames(core.games, menu.game);
