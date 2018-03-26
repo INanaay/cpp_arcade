@@ -70,10 +70,14 @@ std::pair<UserEvent, char> NcursesWrapper::getLastEvent()
 		lastEvent.first =  UserEvent::LIB_NEXT;
 	else if (ch == KEY_NPAGE)
 		lastEvent.first = UserEvent::LIB_PREV;
-	else if (ch == KEY_UP)
-		lastEvent.first =  UserEvent::UP;
-	else if (ch == KEY_DOWN)
-		lastEvent.first =  UserEvent::DOWN;
+	else if (ch == KEY_UP) {
+		lastEvent.first = UserEvent::UP;
+		clear();
+	}
+	else if (ch == KEY_DOWN) {
+		lastEvent.first = UserEvent::DOWN;
+		clear();
+	}
 	else if (ch == '\n')
 		lastEvent.first =  UserEvent::ENTER;
 	else if (ch == 127 ||  ch == KEY_DC|| ch == KEY_BACKSPACE) {
