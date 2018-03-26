@@ -33,7 +33,7 @@ void SFMLWrapper::InitWindow()
 {
 }
 
-void	SFMLWrapper::DestroyWindow()
+void SFMLWrapper::DestroyWindow()
 {
 	m_win->close();
 }
@@ -50,7 +50,7 @@ void SFMLWrapper::Display()
 
 std::pair<UserEvent, char> SFMLWrapper::getLastEvent()
 {
-	sf::Event	event;
+	sf::Event event;
 	std::pair<UserEvent, char> lastEvent = std::make_pair<UserEvent, char>(UserEvent::NONE, 0);
 
 	while (m_win->pollEvent(event))
@@ -91,7 +91,7 @@ std::pair<UserEvent, char> SFMLWrapper::getLastEvent()
 
 void	SFMLWrapper::drawGames(std::vector<std::string> games, std::string game)
 {
-	int posX = SCR_WIDTH;
+	int posX = (SCR_WIDTH / 4 ) * 3;
 	int posY = SCR_HEIGHT / 4;
 
 	sf::Text	title("Games :", *m_font);
@@ -101,7 +101,7 @@ void	SFMLWrapper::drawGames(std::vector<std::string> games, std::string game)
 	m_win->draw(title);
 	for (std::string i : games)
 	{
-		sf::Text	name(i, *m_font);
+		sf::Text name(i, *m_font);
 		if (i == game)
 			name.setFillColor(sf::Color(250, 0, 0));
 		else
