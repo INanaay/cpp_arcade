@@ -17,7 +17,7 @@ public:
 	~IGame() = default;
 	virtual void Run() = 0;
 	virtual void Stop() = 0;
-	virtual void Init(std::unique_ptr<IGlib> library, Map &map) = 0;
+	virtual void Init(std::unique_ptr<IGlib> library) = 0;
 };
 
 #endif //CPP_ARCADE_IGAME_HPP

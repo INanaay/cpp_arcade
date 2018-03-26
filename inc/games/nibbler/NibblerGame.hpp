@@ -17,7 +17,7 @@ public:
 	NibblerGame();
 	void Run();
 	void Stop();
-	void Init(std::unique_ptr<IGlib> library, Map &map);
+	void Init(std::unique_ptr<IGlib> library);
 private:
 	Map m_map;
 	std::vector<Entity> m_snake;
