@@ -91,7 +91,6 @@ void	NcursesWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
 
 void NcursesWrapper::DrawMap(Map &map)
 {
-	clear();
 	for (std::size_t y = 0; y < map.size(); y++) {
 		std::string &line = map[y];
 		for (std::size_t x = 0; x < line.size(); x++) {

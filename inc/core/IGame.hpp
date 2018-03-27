@@ -15,9 +15,11 @@ class IGame
 {
 public:
 	~IGame() = default;
-	virtual void Run() = 0;
+	virtual UserEvent Run() = 0;
 	virtual void Stop() = 0;
 	virtual void Init(std::unique_ptr<IGlib> library) = 0;
+	virtual std::unique_ptr<IGlib> getLib() = 0;
+	virtual void setLib(std::unique_ptr<IGlib>) = 0;
 };
 
 #endif //CPP_ARCADE_IGAME_HPP

@@ -30,7 +30,7 @@ void NibblerGame::eventHandler(std::pair<UserEvent, char> event)
 	}
 }
 
-void NibblerGame::Run()
+UserEvent NibblerGame::Run()
 {
 	std::pair<UserEvent, char> event;
 
@@ -38,10 +38,13 @@ void NibblerGame::Run()
 	{
 		m_library->Clear();
 		event = m_library->getLastEvent();
+		if (event.first == UserEvent::LIB_NEXT || event.first == UserEvent::LIB_PREV)
+			return event.first;
 		eventHandler(event);
 		m_library->DrawMap(m_map);
 		m_library->Display();
 	}
+	return UserEvent::NONE;
 }
 
 void NibblerGame::Stop()
@@ -49,9 +52,19 @@ void NibblerGame::Stop()
 
 }
 
-void NibblerGame::Init(std::unique_ptr<IGlib> library)
+std::unique_ptr<IGlib>	NibblerGame::getLib()
+{
+	return std::move(m_library);
+}
+
+void NibblerGame::setLib(std::unique_ptr<IGlib> library)
 {
 	m_library = std::move(library);
+}
+
+void NibblerGame::Init(std::unique_ptr<IGlib> library)
+{
+	setLib(std::move(library));
 	loadMap("ressources/nibbler/test.map");
 }
 

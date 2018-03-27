@@ -15,9 +15,11 @@ class NibblerGame : public IGame
 {
 public:
 	NibblerGame();
-	void Run();
+	UserEvent Run();
 	void Stop();
 	void Init(std::unique_ptr<IGlib> library);
+	std::unique_ptr<IGlib> getLib();
+	void setLib(std::unique_ptr<IGlib>);
 private:
 	Map m_map;
 	std::vector<Entity> m_snake;

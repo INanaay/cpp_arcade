@@ -35,6 +35,7 @@ private:
 	void loadGraphicLibrary(const char *);
 	void	loadNextLib();
 	void	loadPrevLib();
+	void loopGame();
 
 	void *m_handle;
 	void loadGames();

@@ -132,8 +132,25 @@ void	Core::runGame(MenuInformations menu)
 		std::exit(84);
 	}
 	m_game = std::unique_ptr<IGame>(create());
+	loopGame();
+}
+
+void Core::loopGame()
+{
+	UserEvent gameEvent;
 	m_game->Init(std::move(m_lib));
-	m_game->Run();
+	while (1) {
+		gameEvent = m_game->Run();
+		if (gameEvent == UserEvent::LIB_NEXT) {
+			std::cout << "lib_next" << std::endl;
+			m_lib = std::move(m_game->getLib());
+			loadNextLib();
+			m_game->setLib(std::move(m_lib));
+		} else if (gameEvent == UserEvent::LIB_PREV) {
+			std::cout << "lib_prev" << std::endl;
+			std::exit(0);
+		}
+	}
 }
 
 void	Core::eventHandler(std::pair<UserEvent, char> event, MenuInformations &menu,
