@@ -24,7 +24,10 @@ NibblerGame::NibblerGame()
 void NibblerGame::eventHandler(std::pair<UserEvent, char> event)
 {
 	if (event.first == UserEvent::ESCAPE)
+	{
+		m_library->DestroyWindow();
 		std::exit(0);
+	}
 }
 
 void NibblerGame::Run()
