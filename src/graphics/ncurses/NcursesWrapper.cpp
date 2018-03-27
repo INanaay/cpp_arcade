@@ -14,27 +14,6 @@ extern "C" NcursesWrapper *create_lib()
 	return new NcursesWrapper();
 }
 
-
-std::string NcursesWrapper::getPlayerName()
-{
-	std::string name;
-	std::string enterName = "Enter Name";
-	int ch;
-
-	keypad(stdscr, TRUE);
-	noecho();
-	mvwprintw(stdscr, 10, 10, enterName.c_str());
-	move(20, 10);
-	for (int i = 0; i <= 2; i++) {
-		move(20, 10 + i);
-		ch = getch();
-		name += ch;
-		mvwprintw(stdscr, 20, 10, name.c_str());
-		refresh(); }
-	clear();
-	return name;
-}
-
 void NcursesWrapper::InitWindow()
 {
 	initscr();
@@ -110,7 +89,8 @@ void	NcursesWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
 	mvwprintw(scores, 1, 1, "High Scores");
 }
 
-void NcursesWrapper::DrawMap(Map &map) {
+void NcursesWrapper::DrawMap(Map &map)
+{
 	clear();
 	for (std::size_t y = 0; y < map.size(); y++) {
 		std::string &line = map[y];
