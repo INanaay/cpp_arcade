@@ -24,6 +24,7 @@ private:
 	std::unique_ptr<IGlib> m_library;
 
 	void loadMap(const std::string &path);
+	void eventHandler(std::pair<UserEvent, char>);
 };
 
 

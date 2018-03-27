@@ -21,11 +21,21 @@ NibblerGame::NibblerGame()
 
 }
 
+void NibblerGame::eventHandler(std::pair<UserEvent, char> event)
+{
+	if (event.first == UserEvent::ESCAPE)
+		std::exit(0);
+}
+
 void NibblerGame::Run()
 {
+	std::pair<UserEvent, char> event;
+
 	while (1)
 	{
 		m_library->Clear();
+		event = m_library->getLastEvent();
+		eventHandler(event);
 		m_library->DrawMap(m_map);
 		m_library->Display();
 	}
