@@ -22,7 +22,7 @@ public:
 	void Clear();
 	void Display();
 	std::pair<UserEvent, char> getLastEvent();
-	void DrawMap(Map &) {};
+	void DrawMap(Map &);
 	void DrawEntity(Entity &) {};
 private:
     	std::string getPlayerName();

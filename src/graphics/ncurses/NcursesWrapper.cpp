@@ -94,8 +94,6 @@ std::pair<UserEvent, char> NcursesWrapper::getLastEvent()
 	return lastEvent;
 }
 
-
-
 void	NcursesWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
 {
 	menu = menu;
@@ -110,4 +108,15 @@ void	NcursesWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
 	mvwprintw(stdscr, 10, 5, game.c_str());
 	mvwprintw(stdscr, 15, 5, libName.c_str());
 	mvwprintw(scores, 1, 1, "High Scores");
+}
+
+void NcursesWrapper::DrawMap(Map &map) {
+	clear();
+	for (std::size_t y = 0; y < map.size(); y++) {
+		std::string &line = map[y];
+		for (std::size_t x = 0; x < line.size(); x++) {
+			mvwaddch(stdscr, y, x, line[x]);
+		}
+	}
+	refresh();
 }
