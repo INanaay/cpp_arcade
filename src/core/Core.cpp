@@ -142,13 +142,13 @@ void Core::loopGame()
 	while (1) {
 		gameEvent = m_game->Run();
 		if (gameEvent == UserEvent::LIB_NEXT) {
-			std::cout << "lib_next" << std::endl;
 			m_lib = std::move(m_game->getLib());
 			loadNextLib();
 			m_game->setLib(std::move(m_lib));
 		} else if (gameEvent == UserEvent::LIB_PREV) {
-			std::cout << "lib_prev" << std::endl;
-			std::exit(0);
+			m_lib = std::move(m_game->getLib());
+			loadPrevLib();
+			m_game->setLib(std::move(m_lib));
 		}
 	}
 }
