@@ -13,6 +13,7 @@ enum class EntityType
 	EMPTY,
 	WALL,
 	PICKUP,
+	TP,
 	PLAYER,
 	ENEMY
 };
