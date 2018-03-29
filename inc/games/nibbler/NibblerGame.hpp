@@ -10,6 +10,7 @@
 
 
 #include "../../core/IGame.hpp"
+#include "../../core/EntityType.hpp"
 
 class NibblerGame : public IGame
 {
@@ -24,6 +25,7 @@ private:
 	Map m_map;
 	std::vector<Entity> m_snake;
 	std::unique_ptr<IGlib> m_library;
+	std::map<EntityType, std::pair<char, std::string>> m_assets;
 
 	void loadMap(const std::string &path);
 	void eventHandler(std::pair<UserEvent, char>);

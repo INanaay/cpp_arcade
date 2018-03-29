@@ -10,6 +10,7 @@
 #include <iostream>
 #include "../../../inc/games/nibbler/NibblerGame.hpp"
 #include "../../../inc/core/GameException.hpp"
+#include "../../../inc/core/EntityType.hpp"
 
 extern "C" NibblerGame *create_game()
 {
@@ -18,7 +19,10 @@ extern "C" NibblerGame *create_game()
 
 NibblerGame::NibblerGame()
 {
-
+	std::pair<char, std::string> wall('0', "resources/nibbler/wall.png");
+	m_assets.insert({EntityType::WALL, wall});
+	std::pair<char, std::string> apple('9', "resources/nibbler/apple.png");
+	m_assets.insert({EntityType::PICKUP, apple});
 }
 
 void NibblerGame::eventHandler(std::pair<UserEvent, char> event)
