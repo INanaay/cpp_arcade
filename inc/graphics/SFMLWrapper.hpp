@@ -9,6 +9,7 @@
 # define CPP_ARCADE_SFMLWRAPPER_HPP
 
 # include <SFML/Graphics.hpp>
+#include "../core/EntityType.hpp"
 #include "../core/IGlib.hpp"
 
 # define SCR_WIDTH 720
@@ -28,8 +29,12 @@ public:
 	char getCharacter();
 	void DrawMap(Map &);
 	void DrawEntity(Entity &);
+	void loadAssets(std::map<EntityType, std::pair<char, std::string>>);
 private:
+	void	drawCase(sf::Texture, std::size_t, std::size_t);
 	void	drawGames(std::vector<std::pair<std::string, std::string>>, std::pair<std::string, std::string>);
+	sf::Texture	te;
+	std::map<EntityType, sf::Sprite> m_assets;
 	std::unique_ptr<sf::RenderWindow> m_win;
 	sf::Font	*m_font;
 };

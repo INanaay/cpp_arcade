@@ -19,9 +19,11 @@ extern "C" NibblerGame *create_game()
 
 NibblerGame::NibblerGame()
 {
-	std::pair<char, std::string> wall('0', "resources/nibbler/wall.png");
+	std::pair<char, std::string> wall('X', "resources/nibbler/wall.png");
 	m_assets.insert({EntityType::WALL, wall});
-	std::pair<char, std::string> apple('9', "resources/nibbler/apple.png");
+	std::pair<char, std::string> grass(' ', "resources/nibbler/grass.jpg");
+	m_assets.insert({EntityType::EMPTY, wall});
+	std::pair<char, std::string> apple('o', "resources/nibbler/apple.png");
 	m_assets.insert({EntityType::PICKUP, apple});
 }
 

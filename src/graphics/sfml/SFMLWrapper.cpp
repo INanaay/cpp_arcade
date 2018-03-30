@@ -47,6 +47,17 @@ void SFMLWrapper::Display()
 	m_win->display();
 }
 
+void	SFMLWrapper::loadAssets(std::map<EntityType, std::pair<char, std::string>> toLoad)
+{
+	for(auto i : toLoad)
+	{
+		if (!te.loadFromFile(i.second.second, sf::IntRect(10, 10, 10, 10))) {
+			throw (std::exception());
+			m_assets[i.first].setTexture(te);
+		}
+	}
+}
+
 std::pair<UserEvent, char> SFMLWrapper::getLastEvent()
 {
 	sf::Event event;
@@ -135,6 +146,13 @@ void SFMLWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
 	m_win->draw(title);
 }
 
+void SFMLWrapper::drawCase(sf::Texture texture, std::size_t x, std::size_t y)
+{
+	sf::Sprite sprite(texture);
+	sprite.setPosition(x * 20.0, y * 20.0);
+	m_win->draw(sprite);
+}
+
 void SFMLWrapper::DrawMap(Map &map)
 {
 	for (std::size_t y = 0; y < map.size(); y++)
@@ -145,11 +163,16 @@ void SFMLWrapper::DrawMap(Map &map)
 			EntityType type = (EntityType)(map[y][x] - '0');
 			sf::RectangleShape rect(sf::Vector2f(10, 10));
 			rect.setPosition(x * 10, y * 10);
-			if (type == EntityType::EMPTY)
-				rect.setFillColor(sf::Color(255, 255, 255));
-			else
+			if (type == EntityType::EMPTY) {
+				//	drawCase(m_assets[type], x, y);
+				sf::Sprite sprite(m_assets[type]);
+				sprite.setPosition(x * 10.0, y * 10.0);
+				m_win->draw(sprite);
+			}
+			else {
 				rect.setFillColor(sf::Color(255, 0, 0));
 			m_win->draw(rect);
+			}
 		}
 	}
 }
