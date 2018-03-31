@@ -89,13 +89,7 @@ void	NcursesWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
 	mvwprintw(scores, 1, 1, "High Scores");
 }
 
-void NcursesWrapper::DrawMap(Map &map)
+void NcursesWrapper::DrawMap(std::vector<Entity> &map)
 {
-	for (std::size_t y = 0; y < map.size(); y++) {
-		std::string &line = map[y];
-		for (std::size_t x = 0; x < line.size(); x++) {
-			mvwaddch(stdscr, y, x, line[x]);
-		}
-	}
-	refresh();
+	map = map;
 }

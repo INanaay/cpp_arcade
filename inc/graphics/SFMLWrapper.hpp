@@ -26,17 +26,15 @@ public:
 	void Clear();
 	void Display();
 	std::pair<UserEvent, char> getLastEvent();
-	char getCharacter();
-	void DrawMap(Map &);
-	void DrawEntity(Entity &);
-	void loadAssets(std::map<EntityType, std::pair<char, std::string>>);
+	void DrawMap(std::vector<Entity> &map);
+	void DrawEntity(Entity &entity);
 private:
-	void	drawCase(sf::Texture, std::size_t, std::size_t);
-	void	drawGames(std::vector<std::pair<std::string, std::string>>, std::pair<std::string, std::string>);
-	sf::Texture	te;
-	std::map<EntityType, sf::Sprite> m_assets;
+	void drawGames(std::vector<std::pair<std::string, std::string>>,
+		       std::pair<std::string, std::string>);
+	sf::Font *m_font;
 	std::unique_ptr<sf::RenderWindow> m_win;
-	sf::Font	*m_font;
+	std::map<EntityType, sf::Sprite> m_assets;
+	std::map<std::string, sf::Texture> m_cache;
 };
 
 #endif //CPP_ARCADE_SFMLWRAPPER_HPP

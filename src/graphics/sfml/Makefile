@@ -13,7 +13,8 @@ CXXFLAGS	+=	-W -Wextra -Wall -Werror
 
 NAME		=	../../../lib/lib_arcade_SFML.so
 
-SRCS		=	./SFMLWrapper.cpp
+SRCS		=	./SFMLWrapper.cpp	\
+			../../core/Entity.cpp
 
 OBJS		=	$(SRCS:.cpp=.o)
 

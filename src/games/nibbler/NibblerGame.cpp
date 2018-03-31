@@ -19,12 +19,31 @@ extern "C" NibblerGame *create_game()
 
 NibblerGame::NibblerGame()
 {
-	std::pair<char, std::string> wall('X', "resources/nibbler/wall.png");
-	m_assets.insert({EntityType::WALL, wall});
-	std::pair<char, std::string> grass(' ', "resources/nibbler/grass.jpg");
-	m_assets.insert({EntityType::EMPTY, wall});
-	std::pair<char, std::string> apple('o', "resources/nibbler/apple.png");
-	m_assets.insert({EntityType::PICKUP, apple});
+	Entity wallEntity;
+	Entity appleEntity;
+	Entity grassEntity;
+
+	wallEntity.setSize(1);
+	wallEntity.setSpeed(0);
+	wallEntity.setAscii('X');
+	wallEntity.setDirection(Direction::TOP);
+	wallEntity.setSprite("ressources/nibbler/wall.png");
+
+	appleEntity.setSize(1);
+	appleEntity.setSpeed(0);
+	appleEntity.setAscii('A');
+	appleEntity.setDirection(Direction::TOP);
+	appleEntity.setSprite("ressources/nibbler/apple.png");
+
+	grassEntity.setSize(1);
+	grassEntity.setSpeed(0);
+	grassEntity.setAscii(' ');
+	grassEntity.setDirection(Direction::TOP);
+	grassEntity.setSprite("ressources/nibbler/grass.png");
+
+	m_assets[EntityType::WALL] = wallEntity;
+	m_assets[EntityType::EMPTY] = grassEntity;
+	m_assets[EntityType::PICKUP] = appleEntity;
 }
 
 void NibblerGame::eventHandler(std::pair<UserEvent, char> event)
@@ -40,7 +59,7 @@ UserEvent NibblerGame::Run()
 {
 	std::pair<UserEvent, char> event;
 
-	while (1)
+	while (!isGameFinished())
 	{
 		m_library->Clear();
 		event = m_library->getLastEvent();
@@ -78,9 +97,27 @@ void NibblerGame::loadMap(const std::string &path)
 {
 	std::string line;
 	std::ifstream fstream(path);
+	std::vector<std::string> buffer;
 
 	if (!fstream)
 		throw GameException("Cannot load given map.");
 	while (std::getline(fstream, line))
-		m_map.push_back(line);
+		buffer.push_back(line);
+	for (std::size_t y = 0; y < buffer.size(); y++)
+	{
+		line = buffer[y];
+		for (std::size_t x = 0; x < line.size(); x++)
+		{
+			auto type = (EntityType)(line[x] - '0');
+			if (m_assets.find(type) == m_assets.end())
+				continue ;
+			auto entity = m_assets[type];
+			entity.setPosition({x * 30, y * 30});
+			m_map.push_back(entity);
+		}
+	}
+}
+bool NibblerGame::isGameFinished()
+{
+	return false;
 }
