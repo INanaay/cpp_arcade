@@ -5,6 +5,7 @@
 **      Made on 2018/03 by lebovin
 */
 
+#include <string>
 #include <memory>
 #include <utility>
 #include <cstring>
@@ -35,7 +36,7 @@ void	Core::Start()
 	showMenu();
 }
 
-static std::pair<std::string, std::string>	incLibs(CoreInformations core, std::pair<std::string, std::string> toFind)
+static std::pair<std::string, std::string>incLibs(CoreInformations core, std::pair<std::string, std::string> toFind)
 {
 		auto it = std::find(core.games.begin(), core.games.end(), toFind);
 		if (it == core.games.end())
@@ -156,8 +157,7 @@ void Core::loopGame()
 void	Core::eventHandler(std::pair<UserEvent, char> event, MenuInformations &menu,
 		CoreInformations &core)
 {
-	if (event.first == UserEvent::ESCAPE)
-	{
+	if (event.first == UserEvent::ESCAPE) {
 		m_lib->DestroyWindow();
 		std::exit(0);
 	}
@@ -304,27 +304,23 @@ void Core::loadScoreBoard()
 
 void Core::deserializeScores(const std::string &game, const std::string &path)
 {
-	const std::size_t nameLength = 3;
 	std::ifstream fileStream(path);
+	std::string line;
+	std::string key;
+	int separatorPosition;
 
+	separatorPosition = game.find('.');
+	key = game.substr(0, separatorPosition) + ".so";
 	if (!fileStream)
 		throw std::exception();
 
-	std::vector<Score> list;
-	if (m_scores.find(game) != m_scores.end())
-		list = m_scores[game];
 
-	while (!fileStream.eof())
+	while (std::getline(fileStream, line))
 	{
-		std::size_t score;
-		char player[nameLength + 1];
-
-		fileStream.read(player, nameLength);
-		player[nameLength] = 0;
-		if (fileStream.eof())
-			throw std::exception(); //corrupted
-		fileStream.read((char *)&score, sizeof(std::size_t));
-		m_scores[game].push_back({player, score});
+		separatorPosition= line.find(':');
+		std::string score = line.substr(0, separatorPosition);
+		std::string name = line.substr(separatorPosition + 1, line.size());
+		m_scores[key].push_back({name, std::stoi(score)});
 	}
 }
 

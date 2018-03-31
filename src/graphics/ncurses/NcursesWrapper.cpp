@@ -7,6 +7,7 @@
 
 #include <ncurses.h>
 #include <iostream>
+#include <algorithm>
 #include "../../../inc/graphics/NcursesWrapper.hpp"
 
 extern "C" NcursesWrapper *create_lib()
@@ -21,7 +22,7 @@ void NcursesWrapper::InitWindow()
 	noecho();
 	nodelay(stdscr, TRUE);
 	keypad(stdscr, TRUE);
-	scores = subwin(stdscr, LINES - 2, COLS / 2, 1, COLS / 2 - 1);
+	scoresWindow = subwin(stdscr, LINES - 2, COLS / 2, 1, COLS / 2 - 1);
 }
 
 void NcursesWrapper::DestroyWindow()
@@ -82,11 +83,12 @@ void	NcursesWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
 	std::string game = "Choose Game : " + menu.game.first;
 
 	box(stdscr, ACS_VLINE, ACS_HLINE);
-	box(scores, ACS_VLINE, ACS_HLINE);
+	box(scoresWindow, ACS_VLINE, ACS_HLINE);
 	mvwprintw(stdscr, 5, 5, name.c_str());
 	mvwprintw(stdscr, 10, 5, game.c_str());
 	mvwprintw(stdscr, 15, 5, libName.c_str());
-	mvwprintw(scores, 1, 1, "High Scores");
+	mvwprintw(scoresWindow, 1, 1, "High Scores");
+	DrawScores(core.scores, menu.game.first);
 }
 
 void NcursesWrapper::DrawMap(Map &map)
@@ -98,4 +100,25 @@ void NcursesWrapper::DrawMap(Map &map)
 		}
 	}
 	refresh();
+}
+
+bool test(std::pair<std::string, uint> i,  std::pair<std::string, uint> j)
+{
+	return i.second > j.second;
+}
+
+void NcursesWrapper::DrawScores(std::map<std::string, std::vector<Score>> scores, std::string game) {
+
+	if (!(scores.find(game) == scores.end())) {
+		{
+			auto vector = scores[game];
+			std::sort(vector.begin(), vector.end(), test);
+			int y = 3;
+			for (unsigned int i = 0; i < vector.size(); i++) {
+				mvwprintw(scoresWindow, y, 1, vector[i].first.c_str());
+				mvwprintw(scoresWindow, y, 10, std::to_string(vector[i].second).c_str());
+				y++;
+			}
+		}
+	}
 }
