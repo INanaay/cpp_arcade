@@ -322,6 +322,7 @@ void Core::deserializeScores(const std::string &game, const std::string &path)
 		std::string name = line.substr(separatorPosition + 1, line.size());
 		m_scores[key].push_back({name, std::stoi(score)});
 	}
+	fileStream.close();
 }
 
 void Core::serializeScores(const std::string &game, std::vector<Score> &scores)
@@ -331,14 +332,23 @@ void Core::serializeScores(const std::string &game, std::vector<Score> &scores)
 	const std::string filename = "arcade_score_" + game;
 	std::ofstream fileStream(dir + filename);
 
+
+
 	if (!fileStream)
 		throw std::exception();
-
+	for (int i = 0; i < scores.size(); i++) {
+		fileStream << scores[i].second << ":" << scores[i].first << "\n";
+	}
+	fileStream.close();
+	/*
 	std::vector<Score> list;
 	if (m_scores.find(game) != m_scores.end())
 		list = m_scores[game];
 
 	scores = scores;
+	for (int i = 0; i < scores.size(); i++) {
+
+	}
 	while (!fileStream.eof())
 	{
 		std::size_t score;
@@ -350,4 +360,5 @@ void Core::serializeScores(const std::string &game, std::vector<Score> &scores)
 			throw std::exception(); //corrupted
 		fileStream.write((char *)&score, sizeof(std::size_t));
 	}
+	 */
 }
