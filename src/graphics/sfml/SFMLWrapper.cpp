@@ -47,17 +47,6 @@ void SFMLWrapper::Display()
 	m_win->display();
 }
 
-void	SFMLWrapper::loadAssets(std::map<EntityType, std::pair<char, std::string>> toLoad)
-{
-	for(auto i : toLoad)
-	{
-		if (!te.loadFromFile(i.second.second, sf::IntRect(10, 10, 10, 10))) {
-			throw (std::exception());
-			m_assets[i.first].setTexture(te);
-		}
-	}
-}
-
 std::pair<UserEvent, char> SFMLWrapper::getLastEvent()
 {
 	sf::Event event;
@@ -146,37 +135,28 @@ void SFMLWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
 	m_win->draw(title);
 }
 
-void SFMLWrapper::drawCase(sf::Texture texture, std::size_t x, std::size_t y)
+void SFMLWrapper::DrawMap(std::vector<Entity> &map)
 {
-	sf::Sprite sprite(texture);
-	sprite.setPosition(x * 20.0, y * 20.0);
-	m_win->draw(sprite);
+	for (auto &entity: map)
+		DrawEntity(entity);
 }
 
-void SFMLWrapper::DrawMap(Map &map)
+void SFMLWrapper::DrawEntity(Entity &entity)
 {
-	for (std::size_t y = 0; y < map.size(); y++)
+	sf::Sprite sprite;
+	sf::Texture texture;
+
+	if (m_cache.find(entity.getSprite()) == m_cache.end())
 	{
-		std::string &line = map[y];
-		for (std::size_t x = 0; x < line.size(); x++)
-		{
-			EntityType type = (EntityType)(map[y][x] - '0');
-			sf::RectangleShape rect(sf::Vector2f(10, 10));
-			rect.setPosition(x * 10, y * 10);
-			if (type == EntityType::EMPTY) {
-				//	drawCase(m_assets[type], x, y);
-				sf::Sprite sprite(m_assets[type]);
-				sprite.setPosition(x * 10.0, y * 10.0);
-				m_win->draw(sprite);
-			}
-			else {
-				rect.setFillColor(sf::Color(255, 0, 0));
-			m_win->draw(rect);
-			}
-		}
+		texture.loadFromFile(entity.getSprite());
+		m_cache[entity.getSprite()] = texture;
 	}
-}
-void SFMLWrapper::DrawEntity(Entity &)
-{
-
+	else
+		texture = m_cache[entity.getSprite()];
+	sprite = sf::Sprite(texture);
+	sprite.setPosition(entity.getPosition().first,
+			   entity.getPosition().second);
+	sprite.setScale(entity.getSize(), entity.getSize());
+	sprite.setRotation((int)entity.getDirection() * 45);
+	m_win->draw(sprite);
 }

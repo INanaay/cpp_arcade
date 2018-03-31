@@ -156,7 +156,7 @@ void AllegroWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
 	al_draw_text(m_font, al_map_rgb(150, 150, 150), 0, 100, ALLEGRO_ALIGN_LEFT, game.c_str());
 }
 
-void	AllegroWrapper::DrawMap(Map &map)
+void	AllegroWrapper::DrawMap(std::vector<Entity> &map)
 {
 	(void)map;
 	al_draw_text(m_font, al_map_rgb(150, 150, 150), 0, 0, ALLEGRO_ALIGN_LEFT, "GAME");

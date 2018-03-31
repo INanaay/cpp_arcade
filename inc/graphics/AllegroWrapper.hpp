@@ -29,8 +29,8 @@ public:
 	void Display();
 	std::pair<UserEvent, char> getLastEvent();
 	char getCharacter() {return 0;};
-	void DrawMap(Map &);
 	void DrawEntity(Entity &) {};
+	void DrawMap(std::vector<Entity> &map);
 private:
 	ALLEGRO_DISPLAY *m_display;
 	ALLEGRO_EVENT_QUEUE *m_queue;

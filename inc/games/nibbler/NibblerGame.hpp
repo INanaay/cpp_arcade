@@ -21,14 +21,17 @@ public:
 	void Init(std::unique_ptr<IGlib> library);
 	std::unique_ptr<IGlib> getLib();
 	void setLib(std::unique_ptr<IGlib>);
+
 private:
-	Map m_map;
+	std::vector<Entity> m_map;
 	std::vector<Entity> m_snake;
+	std::vector<Entity> m_apples;
 	std::unique_ptr<IGlib> m_library;
-	std::map<EntityType, std::pair<char, std::string>> m_assets;
+	std::map<EntityType, Entity> m_assets;
 
 	void loadMap(const std::string &path);
 	void eventHandler(std::pair<UserEvent, char>);
+	bool isGameFinished();
 };
 
 
