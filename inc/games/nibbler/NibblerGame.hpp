@@ -30,6 +30,7 @@ private:
 	std::map<EntityType, Entity> m_assets;
 
 	void loadMap(const std::string &path);
+	void drawSnake();
 	void eventHandler(std::pair<UserEvent, char>);
 	bool isGameFinished();
 };
