@@ -305,9 +305,9 @@ void Core::loadScoreBoard()
 void Core::deserializeScores(const std::string &game, const std::string &path)
 {
 	std::ifstream fileStream(path);
-	std::string line;
 	std::string key;
 	int separatorPosition;
+	std::string line;
 
 	separatorPosition = game.find('.');
 	key = game.substr(0, separatorPosition) + ".so";
@@ -327,7 +327,6 @@ void Core::deserializeScores(const std::string &game, const std::string &path)
 
 void Core::serializeScores(const std::string &game, std::vector<Score> &scores)
 {
-	const std::size_t nameLength = 3;
 	const std::string dir = "scores/";
 	const std::string filename = "arcade_score_" + game;
 	std::ofstream fileStream(dir + filename);
@@ -336,7 +335,7 @@ void Core::serializeScores(const std::string &game, std::vector<Score> &scores)
 
 	if (!fileStream)
 		throw std::exception();
-	for (int i = 0; i < scores.size(); i++) {
+	for (unsigned int i = 0; i < scores.size(); i++) {
 		fileStream << scores[i].second << ":" << scores[i].first << "\n";
 	}
 	fileStream.close();
