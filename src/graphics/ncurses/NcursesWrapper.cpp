@@ -8,7 +8,10 @@
 #include <ncurses.h>
 #include <iostream>
 #include <algorithm>
+#include <fstream>
+#include <unistd.h>
 #include "../../../inc/graphics/NcursesWrapper.hpp"
+
 
 extern "C" NcursesWrapper *create_lib()
 {
@@ -44,24 +47,26 @@ std::pair<UserEvent, char> NcursesWrapper::getLastEvent()
 	std::pair<UserEvent, char> lastEvent = std::make_pair<UserEvent, char>(UserEvent::NONE, 0);
 	int ch = getch();
 
-	if (ch == 27)
-		lastEvent.first =  UserEvent::ESCAPE;
+	if (ch == 27) {
+		lastEvent.first = UserEvent::ESCAPE;
+	}
 	else if (ch == KEY_PPAGE)
 		lastEvent.first =  UserEvent::LIB_NEXT;
 	else if (ch == KEY_NPAGE)
 		lastEvent.first = UserEvent::LIB_PREV;
-	else if (ch == KEY_UP) {
+	else if (ch == KEY_UP)
 		lastEvent.first = UserEvent::UP;
-		clear();
-	}
-	else if (ch == KEY_DOWN) {
+	else if (ch == KEY_LEFT)
+		lastEvent.first = UserEvent::LEFT;
+	else if (ch == KEY_RIGHT)
+		lastEvent.first = UserEvent::RIGHT;
+	else if (ch == KEY_DOWN)
 		lastEvent.first = UserEvent::DOWN;
+	else if (ch == '\n') {
+		lastEvent.first = UserEvent::ENTER;
 		clear();
 	}
-	else if (ch == '\n')
-		lastEvent.first =  UserEvent::ENTER;
 	else if (ch == 127 ||  ch == KEY_DC|| ch == KEY_BACKSPACE) {
-		clear();
 		lastEvent.first = UserEvent::TEXT;
 		lastEvent.second = '\b';
 	}
@@ -76,12 +81,11 @@ std::pair<UserEvent, char> NcursesWrapper::getLastEvent()
 
 void	NcursesWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
 {
-	menu = menu;
-	core = core;
 	std::string name = "Player Name : "  + menu.name;
 	std::string libName = "Library : Ncurses";
 	std::string game = "Choose Game : " + menu.game.first;
 
+	clear();
 	box(stdscr, ACS_VLINE, ACS_HLINE);
 	box(scoresWindow, ACS_VLINE, ACS_HLINE);
 	mvwprintw(stdscr, 5, 5, name.c_str());
@@ -93,8 +97,29 @@ void	NcursesWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
 
 void NcursesWrapper::DrawMap(std::vector<Entity> &map)
 {
-	map = map;
+	for (auto &entity: map)
+		DrawEntity(entity);
 }
+
+void NcursesWrapper::DrawEntity(Entity &entity)
+{
+	int x, y;
+	char toDraw;
+		std::ofstream fileStream("Debug", std::ios::in);
+
+
+
+	x = entity.getPosition().first;
+	y = entity.getPosition().second;
+
+	x /= 29;
+	y /= 29;
+	toDraw = entity.getAscii();
+	mvwaddch(stdscr, y, x, toDraw);
+	usleep(200);
+}
+
+/* This function is temporary */
 
 bool test(std::pair<std::string, uint> i,  std::pair<std::string, uint> j)
 {

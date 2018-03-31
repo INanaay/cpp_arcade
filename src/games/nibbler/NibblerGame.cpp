@@ -164,7 +164,7 @@ void NibblerGame::drawSnake()
 	auto &head = m_snake[0];
 
 	auto event = m_library->getLastEvent();
-	std::cout << (int)event.first << std::endl;
+	//std::cout << (int)event.first << std::endl;
 	if (event.first == UserEvent::RIGHT)
 		head.setDirection(Direction::RIGHT);
 	else if (event.first == UserEvent::LEFT)

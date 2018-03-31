@@ -314,7 +314,6 @@ void Core::deserializeScores(const std::string &game, const std::string &path)
 	if (!fileStream)
 		throw std::exception();
 
-
 	while (std::getline(fileStream, line))
 	{
 		separatorPosition= line.find(':');
@@ -330,8 +329,6 @@ void Core::serializeScores(const std::string &game, std::vector<Score> &scores)
 	const std::string dir = "scores/";
 	const std::string filename = "arcade_score_" + game;
 	std::ofstream fileStream(dir + filename);
-
-
 
 	if (!fileStream)
 		throw std::exception();
