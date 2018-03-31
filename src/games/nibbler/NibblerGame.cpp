@@ -67,6 +67,7 @@ UserEvent NibblerGame::Run()
 			return event.first;
 		eventHandler(event);
 		m_library->DrawMap(m_map);
+		drawSnake();
 		m_library->Display();
 	}
 	return UserEvent::NONE;
@@ -89,6 +90,35 @@ void NibblerGame::setLib(std::unique_ptr<IGlib> library)
 
 void NibblerGame::Init(std::unique_ptr<IGlib> library)
 {
+	Entity head;
+	Entity body;
+	Entity tail;
+
+	head.setPosition({4 * 30, 10 * 30});
+	head.setSprite("ressources/nibbler/head.png");
+	head.setAscii('O');
+	head.setSize(1);
+	head.setSpeed(1);
+	head.setDirection(Direction::TOP);
+
+	body.setPosition({4 * 30, 11 * 30});
+	body.setSprite("ressources/nibbler/body.png");
+	body.setAscii('O');
+	body.setSize(1);
+	body.setSpeed(1);
+	body.setDirection(Direction::TOP);
+
+	tail.setPosition({4 * 30, 12 * 30});
+	tail.setSprite("ressources/nibbler/tail.png");
+	tail.setAscii('O');
+	tail.setSize(1);
+	tail.setSpeed(1);
+	tail.setDirection(Direction::TOP);
+
+	m_snake.push_back(head);
+	m_snake.push_back(body);
+	m_snake.push_back(tail);
+
 	setLib(std::move(library));
 	loadMap("ressources/nibbler/test.map");
 }
@@ -120,4 +150,40 @@ void NibblerGame::loadMap(const std::string &path)
 bool NibblerGame::isGameFinished()
 {
 	return false;
+}
+void NibblerGame::drawSnake()
+{
+	for (std::size_t i = m_snake.size() - 1; i > 0; i--)
+	{
+		auto &entity = m_snake[i];
+		auto &next = m_snake[i - 1];
+
+		entity.setPosition(next.getPosition());
+		entity.setDirection(next.getDirection());
+	}
+	auto &head = m_snake[0];
+
+	auto event = m_library->getLastEvent();
+	std::cout << (int)event.first << std::endl;
+	if (event.first == UserEvent::RIGHT)
+		head.setDirection(Direction::RIGHT);
+	else if (event.first == UserEvent::LEFT)
+		head.setDirection(Direction::LEFT);
+	else if (event.first == UserEvent::UP)
+		head.setDirection(Direction::TOP);
+	else if (event.first == UserEvent::DOWN)
+		head.setDirection(Direction::BOTTOM);
+
+	auto position = head.getPosition();
+	if (head.getDirection() == Direction::TOP)
+		position.second -= 30;
+	else if (head.getDirection() == Direction::RIGHT)
+		position.first += 30;
+	else if (head.getDirection() == Direction::BOTTOM)
+		position.second += 30;
+	else
+		position.first -= 30;
+	head.setPosition(position);
+	for (auto &entity: m_snake)
+		m_library->DrawEntity(entity);
 }

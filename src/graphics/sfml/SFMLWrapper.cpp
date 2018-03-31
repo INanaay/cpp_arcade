@@ -157,6 +157,6 @@ void SFMLWrapper::DrawEntity(Entity &entity)
 	sprite.setPosition(entity.getPosition().first,
 			   entity.getPosition().second);
 	sprite.setScale(entity.getSize(), entity.getSize());
-	sprite.setRotation((int)entity.getDirection() * 45);
+	sprite.setRotation((int)entity.getDirection() * 90);
 	m_win->draw(sprite);
 }

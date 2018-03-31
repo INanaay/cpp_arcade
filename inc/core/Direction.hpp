@@ -10,10 +10,10 @@
 
 enum class Direction
 {
-	TOP,
-	LEFT,
-	RIGHT,
-	BOTTOM
+	TOP = 0,
+	RIGHT = 1,
+	BOTTOM = 2,
+	LEFT = 3,
 };
 
 #endif //CPP_ARCADE_DIRECTION_HPP
