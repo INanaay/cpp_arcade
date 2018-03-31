@@ -26,7 +26,8 @@ public:
 	void DrawEntity(Entity &) {};
 private:
     	std::string getPlayerName();
-    	WINDOW *scores;
+    	WINDOW *scoresWindow;
+	void DrawScores(std::map<std::string, std::vector<Score>>, std::string);
 
 };
 
