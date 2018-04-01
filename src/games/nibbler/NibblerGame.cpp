@@ -6,6 +6,7 @@
 */
 
 #include <unistd.h>
+#include <time.h>
 #include <fstream>
 #include <iostream>
 #include "../../../inc/games/nibbler/NibblerGame.hpp"
@@ -58,6 +59,7 @@ void NibblerGame::eventHandler(std::pair<UserEvent, char> event)
 UserEvent NibblerGame::Run()
 {
 	std::pair<UserEvent, char> event;
+	clock_t time;
 
 	while (!isGameFinished())
 	{
@@ -66,8 +68,25 @@ UserEvent NibblerGame::Run()
 		if (event.first == UserEvent::LIB_NEXT || event.first == UserEvent::LIB_PREV)
 			return event.first;
 		eventHandler(event);
+		auto &head = m_snake[0];
+
+		if (event.first == UserEvent::RIGHT)
+			head.setDirection(Direction::RIGHT);
+		else if (event.first == UserEvent::LEFT)
+			head.setDirection(Direction::LEFT);
+		else if (event.first == UserEvent::UP)
+			head.setDirection(Direction::TOP);
+		else if (event.first == UserEvent::DOWN)
+			head.setDirection(Direction::BOTTOM);
+
 		m_library->DrawMap(m_map);
-		drawSnake();
+		time = clock() - time;
+		if (time > 100000000)
+		{
+			drawSnake();
+		}
+		for (auto &entity: m_snake)
+			m_library->DrawEntity(entity);
 		m_library->Display();
 	}
 	return UserEvent::NONE;
@@ -147,10 +166,12 @@ void NibblerGame::loadMap(const std::string &path)
 		}
 	}
 }
+
 bool NibblerGame::isGameFinished()
 {
 	return false;
 }
+
 void NibblerGame::drawSnake()
 {
 	for (std::size_t i = m_snake.size() - 1; i > 0; i--)
@@ -163,17 +184,6 @@ void NibblerGame::drawSnake()
 	}
 	auto &head = m_snake[0];
 
-	auto event = m_library->getLastEvent();
-	//std::cout << (int)event.first << std::endl;
-	if (event.first == UserEvent::RIGHT)
-		head.setDirection(Direction::RIGHT);
-	else if (event.first == UserEvent::LEFT)
-		head.setDirection(Direction::LEFT);
-	else if (event.first == UserEvent::UP)
-		head.setDirection(Direction::TOP);
-	else if (event.first == UserEvent::DOWN)
-		head.setDirection(Direction::BOTTOM);
-
 	auto position = head.getPosition();
 	if (head.getDirection() == Direction::TOP)
 		position.second -= 30;
@@ -184,6 +194,4 @@ void NibblerGame::drawSnake()
 	else
 		position.first -= 30;
 	head.setPosition(position);
-	for (auto &entity: m_snake)
-		m_library->DrawEntity(entity);
-}
+	}
