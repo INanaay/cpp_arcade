@@ -176,10 +176,12 @@ void NibblerGame::loadMap(const std::string &path)
 bool NibblerGame::isGameFinished()
 {
 	auto headCase = m_snake[0].getCase();
-	std::cout << headCase.first << ";" << headCase.second << std::endl;
 	for (auto &entity: m_map)
 		if (entity.getType() == EntityType::WALL &&
 		    entity.getCase() == headCase)
+			return (true);
+		else if (entity.getType() == EntityType::PLAYER &&
+			 entity.getCase() == headCase);
 			return (true);
 	return (false);
 }
