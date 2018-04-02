@@ -72,12 +72,48 @@ std::pair<UserEvent, char> SDLWrapper::getLastEvent()
 	std::pair<UserEvent, char> lastEvent = std::make_pair<UserEvent, char>(UserEvent::NONE, 0);
 	SDL_PollEvent(&event);
 	switch (event.type) {
-		case SDLK_ESCAPE:
-			lastEvent.first = UserEvent::ESCAPE;
-			break;
 		case SDL_QUIT:
 			lastEvent.first = UserEvent::ESCAPE;
 			break;
+		case SDL_KEYDOWN:
+			switch (event.key.keysym.sym) {
+				case SDLK_ESCAPE:
+					lastEvent.first = UserEvent::ESCAPE;
+					break;
+				case SDLK_BACKSPACE:
+					lastEvent.first = UserEvent::TEXT;
+					lastEvent.second = '\b';
+					break;
+				case SDLK_LEFT:
+					lastEvent.first = UserEvent::LEFT;
+					break;
+				case SDLK_RIGHT:
+					lastEvent.first = UserEvent::RIGHT;
+					break;
+				case SDLK_UP:
+					lastEvent.first = UserEvent::UP;
+					break;
+				case SDLK_DOWN:
+					lastEvent.first = UserEvent::DOWN;
+					break;
+				case SDLK_PAGEUP:
+					lastEvent.first = UserEvent::LIB_NEXT;
+					break;
+				case SDLK_PAGEDOWN:
+					lastEvent.first = UserEvent::LIB_PREV;
+					break;
+				case SDLK_SPACE:
+					lastEvent.first = UserEvent::ACTION1;
+					break;
+				case SDLK_TAB:
+					lastEvent.first = UserEvent::ACTION2;
+					break;
+				default:
+					lastEvent.first = UserEvent::TEXT;
+					lastEvent.second = static_cast<char>(event.key.keysym.sym);
+					break;
+
+			}
 		default:
 			break;
 	}
@@ -98,10 +134,12 @@ void SDLWrapper::DrawMap(std::vector<Entity> &map) {map = map;}
 
 void SDLWrapper::drawGames(std::vector<std::pair<std::string, std::string>>, std::pair<std::string, std::string>) {}
 
-void SDLWrapper::DrawMenu(MenuInformations, CoreInformations)
+void SDLWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
 {
-	DrawText("Lol", 0, 0);
-	DrawText("PD", 100, 100);
+	core = core;
+	DrawText("Name :" + menu.name, 0, 0);
+	DrawText("ACADE", SCR_WIDTH / 3, 0);
+	DrawText("SDL", SCR_WIDTH * 3 / 4, 0);
 }
 
 void SDLWrapper::DrawEntity(Entity &entity) {entity = entity;}
