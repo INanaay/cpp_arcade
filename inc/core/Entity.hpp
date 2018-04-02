@@ -11,6 +11,7 @@
 #include <string>
 #include <utility>
 #include "Direction.hpp"
+#include "EntityType.hpp"
 
 typedef unsigned char uchar;
 
@@ -40,6 +41,11 @@ private:
 	float m_size;
 	float m_speed;
 	uchar m_ascii;
+	EntityType m_type;
+public:
+	EntityType getType() const;
+	void setType(EntityType type);
+private:
 	std::string m_sprite;
 	Direction m_direction;
 	Direction m_nextDirection;
