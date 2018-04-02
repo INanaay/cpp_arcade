@@ -30,16 +30,21 @@ public:
 	void setSprite(const std::string &sprite);
 	Direction getDirection() const;
 	void setDirection(Direction direction);
+	Direction getNextDirection() const;
+	void setNextDirection(Direction direction);
 	const std::pair<float, float> &getPosition() const;
 	void setPosition(const std::pair<float, float> &position);
+	const std::pair<uint, uint> &getCase() const;
+	void setCase(const std::pair<uint, uint> &pos);
 private:
 	float m_size;
 	float m_speed;
-	uchar ascii;
+	uchar m_ascii;
 	std::string m_sprite;
 	Direction m_direction;
+	Direction m_nextDirection;
 	std::pair<float, float> m_position;
-
+	std::pair<uint, uint> m_case;
 };
 
 

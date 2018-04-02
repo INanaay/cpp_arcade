@@ -21,7 +21,6 @@ public:
 	void Init(std::unique_ptr<IGlib> library);
 	std::unique_ptr<IGlib> getLib();
 	void setLib(std::unique_ptr<IGlib>);
-
 private:
 	std::vector<Entity> m_map;
 	std::vector<Entity> m_snake;
@@ -30,9 +29,10 @@ private:
 	std::map<EntityType, Entity> m_assets;
 
 	void loadMap(const std::string &path);
-	void drawSnake();
+	void moveSnake();
 	void eventHandler(std::pair<UserEvent, char>);
 	bool isGameFinished();
+	void chooseNextDir(Entity &, std::size_t);
 };
 
 

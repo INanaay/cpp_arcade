@@ -155,8 +155,14 @@ void SFMLWrapper::DrawEntity(Entity &entity)
 		texture = m_cache[entity.getSprite()];
 	sprite = sf::Sprite(texture);
 	sprite.setPosition(entity.getPosition().first,
-			   entity.getPosition().second);
+			entity.getPosition().second);
 	sprite.setScale(entity.getSize(), entity.getSize());
 	sprite.setRotation((int)entity.getDirection() * 90);
-	m_win->draw(sprite);
+	if (entity.getAscii() == 'O') {
+		sf::RectangleShape rec(sf::Vector2f(30, 30));
+		rec.setFillColor(sf::Color(255, 255, 0));
+		rec.setPosition(entity.getPosition().first, entity.getPosition().second);
+		m_win->draw(rec);
+	} else
+		m_win->draw(sprite);
 }

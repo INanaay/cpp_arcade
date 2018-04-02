@@ -54,12 +54,19 @@ void NibblerGame::eventHandler(std::pair<UserEvent, char> event)
 		m_library->DestroyWindow();
 		std::exit(0);
 	}
+	if (event.first == UserEvent::RIGHT)
+		m_snake[0].setNextDirection(Direction::RIGHT);
+	else if (event.first == UserEvent::LEFT)
+		m_snake[0].setNextDirection(Direction::LEFT);
+	else if (event.first == UserEvent::UP)
+		m_snake[0].setNextDirection(Direction::TOP);
+	else if (event.first == UserEvent::DOWN)
+		m_snake[0].setNextDirection(Direction::BOTTOM);
 }
 
 UserEvent NibblerGame::Run()
 {
 	std::pair<UserEvent, char> event;
-	clock_t time;
 
 	while (!isGameFinished())
 	{
@@ -68,23 +75,8 @@ UserEvent NibblerGame::Run()
 		if (event.first == UserEvent::LIB_NEXT || event.first == UserEvent::LIB_PREV)
 			return event.first;
 		eventHandler(event);
-		auto &head = m_snake[0];
-
-		if (event.first == UserEvent::RIGHT)
-			head.setDirection(Direction::RIGHT);
-		else if (event.first == UserEvent::LEFT)
-			head.setDirection(Direction::LEFT);
-		else if (event.first == UserEvent::UP)
-			head.setDirection(Direction::TOP);
-		else if (event.first == UserEvent::DOWN)
-			head.setDirection(Direction::BOTTOM);
-
 		m_library->DrawMap(m_map);
-		time = clock() - time;
-		if (time > 100000000)
-		{
-			drawSnake();
-		}
+		moveSnake();
 		for (auto &entity: m_snake)
 			m_library->DrawEntity(entity);
 		m_library->Display();
@@ -114,24 +106,30 @@ void NibblerGame::Init(std::unique_ptr<IGlib> library)
 	Entity tail;
 
 	head.setPosition({4 * 30, 10 * 30});
+	head.setCase({4, 10});
 	head.setSprite("ressources/nibbler/head.png");
 	head.setAscii('O');
 	head.setSize(1);
 	head.setSpeed(1);
 	head.setDirection(Direction::TOP);
+	head.setNextDirection(Direction::TOP);
 
 	body.setPosition({4 * 30, 11 * 30});
+	body.setCase({4, 11});
 	body.setSprite("ressources/nibbler/body.png");
 	body.setAscii('O');
 	body.setSize(1);
 	body.setSpeed(1);
 	body.setDirection(Direction::TOP);
+	body.setNextDirection(Direction::TOP);
 
 	tail.setPosition({4 * 30, 12 * 30});
+	tail.setCase({4, 12});
 	tail.setSprite("ressources/nibbler/tail.png");
 	tail.setAscii('O');
 	tail.setSize(1);
 	tail.setSpeed(1);
+	tail.setDirection(Direction::TOP);
 	tail.setDirection(Direction::TOP);
 
 	m_snake.push_back(head);
@@ -172,26 +170,42 @@ bool NibblerGame::isGameFinished()
 	return false;
 }
 
-void NibblerGame::drawSnake()
+void NibblerGame::chooseNextDir(Entity &entity, std::size_t i)
 {
-	for (std::size_t i = m_snake.size() - 1; i > 0; i--)
+	if (i < m_snake.size() - 1)
+		m_snake[i + 1].setNextDirection(entity.getDirection());
+	entity.setDirection(entity.getNextDirection());
+}
+
+void NibblerGame::moveSnake()
+{
+	for (std::size_t i = 0; i < m_snake.size(); i++)
 	{
 		auto &entity = m_snake[i];
-		auto &next = m_snake[i - 1];
+		auto pos = entity.getPosition();
+		auto currentCase = entity.getCase();
 
-		entity.setPosition(next.getPosition());
-		entity.setDirection(next.getDirection());
+		if (entity.getDirection() == Direction::TOP)
+			pos.second -= 5;
+		else if (entity.getDirection() == Direction::RIGHT)
+			pos.first += 5;
+		else if (entity.getDirection() == Direction::BOTTOM)
+			pos.second += 5;
+		else
+			pos.first -= 5;
+		entity.setPosition(pos);
+		if ((int)(pos.first) % 30 == 0 && (int)(pos.second) % 30 == 0)
+		{
+			chooseNextDir(entity, i);
+			if (entity.getDirection() == Direction::TOP)
+				currentCase.second -= 1;
+			else if (entity.getDirection() == Direction::RIGHT)
+				currentCase.first += 1;
+			else if (entity.getDirection() == Direction::BOTTOM)
+				currentCase.second += 1;
+			else
+				currentCase.first -= 1;
+			entity.setCase(currentCase);
+		}
 	}
-	auto &head = m_snake[0];
-
-	auto position = head.getPosition();
-	if (head.getDirection() == Direction::TOP)
-		position.second -= 30;
-	else if (head.getDirection() == Direction::RIGHT)
-		position.first += 30;
-	else if (head.getDirection() == Direction::BOTTOM)
-		position.second += 30;
-	else
-		position.first -= 30;
-	head.setPosition(position);
-	}
+}

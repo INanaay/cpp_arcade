@@ -26,11 +26,11 @@ void Entity::setSpeed(float speed)
 }
 uchar Entity::getAscii() const
 {
-	return ascii;
+	return m_ascii;
 }
 void Entity::setAscii(uchar ascii)
 {
-	Entity::ascii = ascii;
+	m_ascii = ascii;
 }
 const std::string &Entity::getSprite() const
 {
@@ -48,6 +48,14 @@ void Entity::setDirection(Direction direction)
 {
 	m_direction = direction;
 }
+Direction Entity::getNextDirection() const
+{
+	return m_nextDirection;
+}
+void Entity::setNextDirection(Direction nextDirection)
+{
+	m_nextDirection = nextDirection;
+}
 const std::pair<float, float> &Entity::getPosition() const
 {
 	return m_position;
@@ -55,4 +63,12 @@ const std::pair<float, float> &Entity::getPosition() const
 void Entity::setPosition(const std::pair<float, float> &position)
 {
 	m_position = position;
+}
+const std::pair<uint, uint> &Entity::getCase() const
+{
+	return m_case;
+}
+void Entity::setCase(const std::pair<uint, uint> &pos)
+{
+	m_case = pos;
 }
