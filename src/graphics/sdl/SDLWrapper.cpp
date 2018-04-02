@@ -8,8 +8,8 @@
 #include "../../../inc/graphics/SDLWrapper.hpp"
 #include "../../../inc/core/EntityType.hpp"
 #include "../../../inc/core/UserEvent.hpp"
-#include <SDL/SDL_ttf.h>
-#include <SDL/SDL_video.h>
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_video.h>
 
 extern "C" SDLWrapper *create_lib()
 {
@@ -27,17 +27,27 @@ SDLWrapper::SDLWrapper()
 		std::cout << "Cant init TTF" << std::endl;
 		throw new std::exception;
 	}
-	m_font = TTF_OpenFont("test.ttf", 28);
+	m_font = TTF_OpenFont("ressources/fonts/Consolas.ttf", 30);
 	if (!m_font) {
 		std::cout << "Cant open font\n";
 		throw std::exception();
 	}
 }
 
+
 void SDLWrapper::InitWindow()
 {
-	SDL_CreateWindowAndRenderer(SCR_WIDTH, SCR_HEIGHT, 0, &m_window, &m_renderer);
-	m_color = {255, 255, 255, 1};
+	m_window = SDL_CreateWindow("SDL_RenderClear",
+				    SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+				    SCR_WIDTH, SCR_HEIGHT,
+				    0);
+	m_renderer = SDL_CreateRenderer(m_window, -1, 0);
+
+	m_color = {0, 0, 255, 255};
+
+	 m_color = {255, 255, 255, 255};
+
+
 }
 
 void SDLWrapper::DestroyWindow()
@@ -46,9 +56,15 @@ void SDLWrapper::DestroyWindow()
 	SDL_Quit();
 }
 
-void SDLWrapper::Clear() {}
+void SDLWrapper::Clear()
+{
+	SDL_RenderClear(m_renderer);
 
-void SDLWrapper::Display() {}
+}
+
+void SDLWrapper::Display() {
+	SDL_RenderPresent(m_renderer);
+}
 
 std::pair<UserEvent, char> SDLWrapper::getLastEvent()
 {
@@ -63,12 +79,22 @@ std::pair<UserEvent, char> SDLWrapper::getLastEvent()
 			std::cout << "Prout\n";
 
 			lastEvent.first = UserEvent::ESCAPE;
-		std::cout << "Down\n";
+			std::cout << "Down\n";
 		default:
 			break;
 	}
 	return lastEvent;
 };
+
+void SDLWrapper::DrawText(std::string text, int posx, int posy)
+{
+	SDL_Surface *textSurface = TTF_RenderText_Solid(m_font, text.c_str(), m_color);
+	SDL_Texture *texture = SDL_CreateTextureFromSurface(m_renderer, textSurface);
+	textRect.x = posx;
+	textRect.y = posy;
+	SDL_QueryTexture(texture, NULL, NULL, &textRect.w, &textRect.h);
+	SDL_RenderCopy(m_renderer, texture, NULL, &textRect);
+}
 
 void SDLWrapper::DrawMap(std::vector<Entity> &map) {map = map;}
 
@@ -76,14 +102,8 @@ void SDLWrapper::drawGames(std::vector<std::pair<std::string, std::string>>, std
 
 void SDLWrapper::DrawMenu(MenuInformations, CoreInformations)
 {
-	auto s_text = TTF_RenderText_Solid(m_font, "Fils de pute", m_color);
-	SDL_Rect rect_dest;
-	rect_dest.x = 0;
-	rect_dest.y = 0;
-	rect_dest.w = s_text->w;
-	rect_dest.h = s_text->h;
-	auto screen = SDL_GetWindowSurface(m_window);
-	SDL_BlitSurface(s_text, NULL, screen, &rect_dest);
+	DrawText("Lol", 0, 0);
+	DrawText("PD", 100, 100);
 }
 
 void SDLWrapper::DrawEntity(Entity &entity) {entity = entity;}
