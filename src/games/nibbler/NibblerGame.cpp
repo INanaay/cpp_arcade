@@ -181,7 +181,7 @@ bool NibblerGame::isGameFinished()
 		    entity.getCase() == headCase)
 			return (true);
 		else if (entity.getType() == EntityType::PLAYER &&
-			 entity.getCase() == headCase);
+			 entity.getCase() == headCase)
 			return (true);
 	return (false);
 }
