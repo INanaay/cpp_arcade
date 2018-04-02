@@ -8,10 +8,10 @@
 #ifndef CPP_ARCADE_SDLWRAPPER_HPP
 # define CPP_ARCADE_SDLWRAPPER_HPP
 
-#include "SDL2/SDL.h"
+#include <SDL2/SDL.h>
 #include <vector>
 #include <memory>
-#include <SDL/SDL_ttf.h>
+#include <SDL2/SDL_ttf.h>
 #include "../../inc/core/UserEvent.hpp"
 #include "../core/IGlib.hpp"
 

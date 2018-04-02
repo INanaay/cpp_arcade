@@ -151,6 +151,10 @@ void Core::loopGame()
 			loadPrevLib();
 			m_game->setLib(std::move(m_lib));
 		}
+		if (gameEvent == UserEvent::ESCAPE) {
+			printf("fin\n");
+			std::exit(0);
+		}
 	}
 }
 

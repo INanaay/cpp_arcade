@@ -86,7 +86,7 @@ UserEvent NibblerGame::Run()
 			m_library->DrawEntity(entity);
 		m_library->Display();
 	}
-	return UserEvent::NONE;
+	return UserEvent::ESCAPE;
 }
 
 void NibblerGame::Stop()
@@ -111,7 +111,7 @@ void NibblerGame::Init(std::unique_ptr<IGlib> library)
 	Entity tail;
 
 	head.setPosition({4 * 30, 10 * 30});
-	head.setCase({4, 10});
+	head.setCase({4, 9});
 	head.setSprite("ressources/nibbler/head.png");
 	head.setAscii('O');
 	head.setSize(1);
@@ -121,7 +121,7 @@ void NibblerGame::Init(std::unique_ptr<IGlib> library)
 	head.setType(EntityType::PLAYER);
 
 	body.setPosition({4 * 30, 11 * 30});
-	body.setCase({4, 11});
+	body.setCase({4, 10});
 	body.setSprite("ressources/nibbler/body.png");
 	body.setAscii('O');
 	body.setSize(1);
@@ -131,12 +131,13 @@ void NibblerGame::Init(std::unique_ptr<IGlib> library)
 	body.setType(EntityType::PLAYER);
 
 	tail.setPosition({4 * 30, 12 * 30});
-	tail.setCase({4, 12});
+	tail.setCase({4, 11});
 	tail.setSprite("ressources/nibbler/tail.png");
 	tail.setAscii('O');
 	tail.setSize(1);
 	tail.setSpeed(1);
 	tail.setDirection(Direction::TOP);
+	body.setNextDirection(Direction::TOP);
 	tail.setType(EntityType::PLAYER);
 
 	m_snake.push_back(head);
