@@ -27,18 +27,21 @@ NibblerGame::NibblerGame()
 	wallEntity.setSize(1);
 	wallEntity.setSpeed(0);
 	wallEntity.setAscii('X');
+	wallEntity.setType(EntityType::WALL);
 	wallEntity.setDirection(Direction::TOP);
 	wallEntity.setSprite("ressources/nibbler/wall.png");
 
 	appleEntity.setSize(1);
 	appleEntity.setSpeed(0);
 	appleEntity.setAscii('A');
+	appleEntity.setType(EntityType::PICKUP);
 	appleEntity.setDirection(Direction::TOP);
 	appleEntity.setSprite("ressources/nibbler/apple.png");
 
 	grassEntity.setSize(1);
 	grassEntity.setSpeed(0);
 	grassEntity.setAscii(' ');
+	grassEntity.setType(EntityType::EMPTY);
 	grassEntity.setDirection(Direction::TOP);
 	grassEntity.setSprite("ressources/nibbler/grass.png");
 
@@ -115,6 +118,7 @@ void NibblerGame::Init(std::unique_ptr<IGlib> library)
 	head.setSpeed(1);
 	head.setDirection(Direction::TOP);
 	head.setNextDirection(Direction::TOP);
+	head.setType(EntityType::PLAYER);
 
 	body.setPosition({4 * 30, 11 * 30});
 	body.setCase({4, 11});
@@ -124,6 +128,7 @@ void NibblerGame::Init(std::unique_ptr<IGlib> library)
 	body.setSpeed(1);
 	body.setDirection(Direction::TOP);
 	body.setNextDirection(Direction::TOP);
+	body.setType(EntityType::PLAYER);
 
 	tail.setPosition({4 * 30, 12 * 30});
 	tail.setCase({4, 12});
@@ -132,7 +137,7 @@ void NibblerGame::Init(std::unique_ptr<IGlib> library)
 	tail.setSize(1);
 	tail.setSpeed(1);
 	tail.setDirection(Direction::TOP);
-	tail.setDirection(Direction::TOP);
+	tail.setType(EntityType::PLAYER);
 
 	m_snake.push_back(head);
 	m_snake.push_back(body);
@@ -162,6 +167,7 @@ void NibblerGame::loadMap(const std::string &path)
 				continue ;
 			auto entity = m_assets[type];
 			entity.setPosition({x * 30, y * 30});
+			entity.setCase({x, y});
 			m_map.push_back(entity);
 		}
 	}
@@ -169,7 +175,15 @@ void NibblerGame::loadMap(const std::string &path)
 
 bool NibblerGame::isGameFinished()
 {
-	return false;
+	auto headCase = m_snake[0].getCase();
+	for (auto &entity: m_map)
+		if (entity.getType() == EntityType::WALL &&
+		    entity.getCase() == headCase)
+			return (true);
+		else if (entity.getType() == EntityType::PLAYER &&
+			 entity.getCase() == headCase)
+			return (true);
+	return (false);
 }
 
 void NibblerGame::chooseNextDir(Entity &entity, std::size_t i)

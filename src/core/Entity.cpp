@@ -28,6 +28,14 @@ uchar Entity::getAscii() const
 {
 	return m_ascii;
 }
+EntityType Entity::getType() const
+{
+	return m_type;
+}
+void Entity::setType(EntityType type)
+{
+	m_type = type;
+}
 void Entity::setAscii(uchar ascii)
 {
 	m_ascii = ascii;
