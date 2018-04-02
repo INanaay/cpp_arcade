@@ -29,12 +29,13 @@ public:
 	void Display();
 	std::pair<UserEvent, char> getLastEvent();
 	char getCharacter() {return 0;};
-	void DrawEntity(Entity &) {};
+	void DrawEntity(Entity &);
 	void DrawMap(std::vector<Entity> &map);
 private:
 	ALLEGRO_DISPLAY *m_display;
 	ALLEGRO_EVENT_QUEUE *m_queue;
 	ALLEGRO_FONT *m_font;
+	std::map<std::string, ALLEGRO_BITMAP *> m_cache;
 };
 
 #endif //CPP_ARCADE_ALLEGROWRAPPER_HPP

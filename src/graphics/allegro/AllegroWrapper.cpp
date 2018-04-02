@@ -156,8 +156,25 @@ void AllegroWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
 	al_draw_text(m_font, al_map_rgb(150, 150, 150), 0, 100, ALLEGRO_ALIGN_LEFT, game.c_str());
 }
 
+void AllegroWrapper::DrawEntity(Entity &entity)
+{
+	ALLEGRO_BITMAP *sprite;
+
+	sprite = al_load_bitmap(entity.getSprite().c_str());
+	if(!sprite) {
+		al_show_native_message_box(m_display, "Error", "Error", "Failed to load image!",
+					   NULL, ALLEGRO_MESSAGEBOX_ERROR);
+		exit(0);
+	}
+
+	al_draw_bitmap(sprite, 50, 50, ALLEGRO_FLIP_HORIZONTAL);
+	//al_draw_bitmap(sprite, entity.getPosition().first, entity.getPosition().second, 0);
+}
+
 void	AllegroWrapper::DrawMap(std::vector<Entity> &map)
 {
-	(void)map;
-	al_draw_text(m_font, al_map_rgb(150, 150, 150), 0, 0, ALLEGRO_ALIGN_LEFT, "GAME");
+	for (auto &entity: map)
+		DrawEntity(entity);
+	//(void)map;
+	//al_draw_text(m_font, al_map_rgb(150, 150, 150), 0, 0, ALLEGRO_ALIGN_LEFT, "GAME");
 }

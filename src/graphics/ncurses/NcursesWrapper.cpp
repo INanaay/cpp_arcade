@@ -115,7 +115,7 @@ void NcursesWrapper::DrawEntity(Entity &entity)
 	y /= 30;
 	toDraw = entity.getAscii();
 	mvwaddch(stdscr, y, x, toDraw);
-	usleep(20);
+	usleep(10);
 }
 
 /* This function is temporary */
