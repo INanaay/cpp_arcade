@@ -112,7 +112,6 @@ std::pair<UserEvent, char> SDLWrapper::getLastEvent()
 					lastEvent.first = UserEvent::TEXT;
 					lastEvent.second = static_cast<char>(event.key.keysym.sym);
 					break;
-
 			}
 		default:
 			break;
@@ -140,6 +139,7 @@ void SDLWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
 	DrawText("Name :" + menu.name, 0, 0);
 	DrawText("ACADE", SCR_WIDTH / 3, 0);
 	DrawText("SDL", SCR_WIDTH * 3 / 4, 0);
+	DrawText("Choose game : " + menu.game.first, 0, SCR_HEIGHT / 2);
 }
 
 void SDLWrapper::DrawEntity(Entity &entity) {entity = entity;}
