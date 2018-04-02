@@ -69,6 +69,7 @@ std::pair<UserEvent, char> NcursesWrapper::getLastEvent()
 	else if (ch == 127 ||  ch == KEY_DC|| ch == KEY_BACKSPACE) {
 		lastEvent.first = UserEvent::TEXT;
 		lastEvent.second = '\b';
+		clear();
 	}
 	else if (isalnum(ch)) {
 		lastEvent.first = UserEvent::TEXT;
@@ -85,7 +86,7 @@ void	NcursesWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
 	std::string libName = "Library : Ncurses";
 	std::string game = "Choose Game : " + menu.game.first;
 
-	clear();
+
 	box(stdscr, ACS_VLINE, ACS_HLINE);
 	box(scoresWindow, ACS_VLINE, ACS_HLINE);
 	mvwprintw(stdscr, 5, 5, name.c_str());
@@ -107,16 +108,14 @@ void NcursesWrapper::DrawEntity(Entity &entity)
 	char toDraw;
 		std::ofstream fileStream("Debug", std::ios::in);
 
-
-
 	x = entity.getPosition().first;
 	y = entity.getPosition().second;
 
-	x /= 29;
-	y /= 29;
+	x /= 30;
+	y /= 30;
 	toDraw = entity.getAscii();
 	mvwaddch(stdscr, y, x, toDraw);
-	usleep(200);
+	usleep(20);
 }
 
 /* This function is temporary */
