@@ -12,7 +12,7 @@
 #include <vector>
 #include <memory>
 #include <SDL/SDL_ttf.h>
-#include "../../../inc/core/UserEvent.hpp"
+#include "../../inc/core/UserEvent.hpp"
 #include "../core/IGlib.hpp"
 
 

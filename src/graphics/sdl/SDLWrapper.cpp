@@ -57,13 +57,11 @@ std::pair<UserEvent, char> SDLWrapper::getLastEvent()
 	SDL_PollEvent(&event);
 	switch (event.type) {
 		case SDLK_ESCAPE:
-		std::cout << "Prout\n";
 			lastEvent.first = UserEvent::ESCAPE;
+			break;
 		case SDL_QUIT:
-			std::cout << "Prout\n";
-
 			lastEvent.first = UserEvent::ESCAPE;
-		std::cout << "Down\n";
+			break;
 		default:
 			break;
 	}
