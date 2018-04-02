@@ -49,18 +49,20 @@ NibblerGame::NibblerGame()
 
 void NibblerGame::eventHandler(std::pair<UserEvent, char> event)
 {
+	auto currentDir = m_snake[0].getDirection();
+
 	if (event.first == UserEvent::ESCAPE)
 	{
 		m_library->DestroyWindow();
 		std::exit(0);
 	}
-	if (event.first == UserEvent::RIGHT)
+	if (event.first == UserEvent::RIGHT && currentDir != Direction::LEFT)
 		m_snake[0].setNextDirection(Direction::RIGHT);
-	else if (event.first == UserEvent::LEFT)
+	else if (event.first == UserEvent::LEFT && currentDir != Direction::RIGHT)
 		m_snake[0].setNextDirection(Direction::LEFT);
-	else if (event.first == UserEvent::UP)
+	else if (event.first == UserEvent::UP && currentDir != Direction::BOTTOM)
 		m_snake[0].setNextDirection(Direction::TOP);
-	else if (event.first == UserEvent::DOWN)
+	else if (event.first == UserEvent::DOWN && currentDir != Direction::TOP)
 		m_snake[0].setNextDirection(Direction::BOTTOM);
 }
 
