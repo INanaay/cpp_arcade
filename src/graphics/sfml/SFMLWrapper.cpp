@@ -23,7 +23,7 @@ SFMLWrapper::SFMLWrapper()
 {
 	m_win = std::make_unique<sf::RenderWindow>(sf::VideoMode(SCR_WIDTH, SCR_HEIGHT), "ARCADE");
 	sf::Font	font;
-	if (!font.loadFromFile("ressources/fonts/Consolas.ttf"))
+	if (!font.loadFromFile("resources/fonts/Consolas.ttf"))
 		throw (std::exception());
 	m_font = new sf::Font(font);
 }
@@ -146,22 +146,21 @@ void SFMLWrapper::DrawEntity(Entity &entity)
 	sf::Sprite sprite;
 	sf::Texture texture;
 
-	if (m_cache.find(entity.getSprite()) == m_cache.end())
+	if (m_cache.find(entity.sprite) == m_cache.end())
 	{
-		texture.loadFromFile(entity.getSprite());
-		m_cache[entity.getSprite()] = texture;
+		texture.loadFromFile(entity.sprite);
+		m_cache[entity.sprite] = texture;
 	}
 	else
-		texture = m_cache[entity.getSprite()];
+		texture = m_cache[entity.sprite];
 	sprite = sf::Sprite(texture);
-	sprite.setPosition(entity.getPosition().first,
-			entity.getPosition().second);
-	sprite.setScale(entity.getSize(), entity.getSize());
-	sprite.setRotation((int)entity.getDirection() * 90);
-	if (entity.getAscii() == 'O') {
+	sprite.setPosition(entity.cellPosition.first,
+			entity.cellPosition.second);
+	sprite.setRotation((int)entity.direction * 90);
+	if (entity.ascii == 'O') {
 		sf::RectangleShape rec(sf::Vector2f(30, 30));
 		rec.setFillColor(sf::Color(255, 255, 0));
-		rec.setPosition(entity.getPosition().first, entity.getPosition().second);
+		rec.setPosition(entity.cellPosition.first, entity.cellPosition.second);
 		m_win->draw(rec);
 	} else
 		m_win->draw(sprite);
