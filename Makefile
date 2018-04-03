@@ -26,3 +26,16 @@ fclean:
 	make fclean -C ./src/graphics/ncurses/
 	make fclean -C ./src/graphics/allegro/
 	make fclean -C ./src/graphics/sdl/
+
+core:
+	make -j4 -C ./src/core
+
+games:
+	make -C ./src/games/nibbler/
+
+graphicals:
+	make -j4 -C ./src/graphics/sfml/
+	make -j4 -C ./src/graphics/ncurses/
+	make -j4 -C ./src/graphics/sdl/
+
+.PHONY: core games graphicals
