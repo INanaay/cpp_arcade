@@ -11,10 +11,11 @@
 
 #include "../../core/IGame.hpp"
 #include "../../core/EntityType.hpp"
+#include "../../games/common/Map.hpp"
 
 struct SnakeEntity : public Entity
 {
-	std::pair<uint, uint>	nextCellPosition;
+	std::pair<std::size_t, std::size_t>	nextCellPosition;
 	Direction	nextDirection;
 };
 
@@ -31,6 +32,8 @@ private:
 	bool eventHandler(std::pair<UserEvent, char>);
 private:
 	std::unique_ptr<IGlib> m_library;
+	Map	m_map;
+	std::map<EntityType, Entity> m_assets;
 	/*
 private:
 	Entity m_apple;
@@ -38,7 +41,6 @@ private:
 	int m_appleIndex;
 	std::vector<Entity> m_map;
 	std::vector<Entity> m_snake;
-	std::map<EntityType, Entity> m_assets;
 
 	void loadMap(const std::string &path);
 	void moveSnake();

@@ -14,7 +14,8 @@ CXXFLAGS	+=	-W -Wextra -Wall -Werror
 
 NAME		=	../../../games/game_arcade_nibbler.so
 
-SRCS		=	./NibblerGame.cpp
+SRCS		=	./NibblerGame.cpp \
+					../common/Map.cpp
 
 OBJS		=	$(SRCS:.cpp=.o)
 
