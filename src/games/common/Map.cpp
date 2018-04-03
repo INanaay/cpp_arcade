@@ -60,6 +60,14 @@ Entity &Map::getEntityAt(std::pair<uint, uint> &position)
 		throw GameException("Out of map limits.");
 	return (m_entities[position]);
 }
+
+std::pair<std::size_t, std::size_t> &Map::getCenteredPosition() const
+{
+	auto pos = std::pair<std::size_t, std::size_t>(m_width / 2,
+						       m_height/ 2);
+	return (pos);
+}
+
 std::map<std::pair<std::size_t, std::size_t>, Entity> &Map::getEntities()
 {
 	return m_entities;
