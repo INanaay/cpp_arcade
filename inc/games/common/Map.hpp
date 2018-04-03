@@ -22,6 +22,7 @@ public:
 
 	//PROPERTIES
 	Entity &getEntityAt(std::pair<uint, uint> &position);
+	std::map<std::pair<std::size_t, std::size_t>, Entity> &getEntities();
 
 	//FUNCTIONS
 	void loadFile(const std::string &path,
@@ -30,7 +31,7 @@ public:
 private:
 	std::size_t m_width;
 	std::size_t m_height;
-	std::map<std::pair<uint, uint>, Entity> m_entities;
+	std::map<std::pair<std::size_t, std::size_t>, Entity> m_entities;
 
 	void checkMap(const std::vector<std::string> &map);
 };
