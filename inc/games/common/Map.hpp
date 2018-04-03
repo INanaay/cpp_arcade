@@ -17,8 +17,8 @@ class Map
 {
 public:
 	//CTOR DTOR
+	Map() = default;
 	~Map() = default;
-	Map(const std::string &path, std::map<EntityType, Entity> &assets);
 
 	//PROPERTIES
 	Entity &getEntityAt(std::pair<uint, uint> &position);
@@ -26,12 +26,13 @@ public:
 	//FUNCTIONS
 	void loadFile(const std::string &path,
 		      std::map<EntityType, Entity> &assets);
-	void checkMap(const std::vector<std::string> &map);
 
 private:
 	std::size_t m_width;
 	std::size_t m_height;
 	std::map<std::pair<uint, uint>, Entity> m_entities;
+
+	void checkMap(const std::vector<std::string> &map);
 };
 
 

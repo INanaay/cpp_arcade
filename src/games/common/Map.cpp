@@ -10,11 +10,6 @@
 #include "../../../inc/games/common/Map.hpp"
 #include "../../../inc/core/GameException.hpp"
 
-Map::Map(const std::string &path, std::map<EntityType, Entity> &assets)
-{
-	loadFile(path, assets);
-}
-
 void Map::loadFile(const std::string &path,
 		   std::map<EntityType, Entity> &assets)
 {
