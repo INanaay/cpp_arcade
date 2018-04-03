@@ -20,34 +20,29 @@ extern "C" NibblerGame *create_game()
 
 NibblerGame::NibblerGame()
 {
-/*	Entity wallEntity;
+	Entity wallEntity;
 	Entity appleEntity;
 	Entity grassEntity;
 
-	wallEntity.setSize(1);
-	wallEntity.setSpeed(0);
-	wallEntity.setAscii('X');
-	wallEntity.setType(EntityType::WALL);
-	wallEntity.setDirection(Direction::TOP);
-	wallEntity.setSprite("ressources/nibbler/wall.png");
+	wallEntity.ascii = 'X';
+	wallEntity.type = EntityType::WALL;
+	wallEntity.direction = Direction::TOP;
+	wallEntity.sprite = "ressources/nibbler/wall.png";
 
-	appleEntity.setSize(1);
-	appleEntity.setSpeed(0);
-	appleEntity.setAscii('A');
-	appleEntity.setType(EntityType::PICKUP);
-	appleEntity.setDirection(Direction::TOP);
-	appleEntity.setSprite("ressources/nibbler/apple.png");
+	appleEntity.ascii = 'A';
+	appleEntity.type = EntityType::PICKUP;
+	appleEntity.direction = Direction::TOP;
+	appleEntity.sprite = "ressources/nibbler/apple.png";
 
-	grassEntity.setSize(1);
-	grassEntity.setSpeed(0);
-	grassEntity.setAscii(' ');
-	grassEntity.setType(EntityType::EMPTY);
-	grassEntity.setDirection(Direction::TOP);
-	grassEntity.setSprite("ressources/nibbler/grass.png");
+	grassEntity.ascii = ' ';
+	grassEntity.type = EntityType::EMPTY;
+	grassEntity.direction = Direction::TOP;
+	grassEntity.sprite = "ressources/nibbler/grass.png";
 
 	m_assets[EntityType::WALL] = wallEntity;
 	m_assets[EntityType::EMPTY] = grassEntity;
-	m_assets[EntityType::PICKUP] = appleEntity;*/
+	m_assets[EntityType::PICKUP] = appleEntity;
+	m_map()
 }
 
 bool NibblerGame::eventHandler(std::pair<UserEvent, char> event)
@@ -106,6 +101,7 @@ void NibblerGame::setLib(std::unique_ptr<IGlib> library)
 void NibblerGame::Init(std::unique_ptr<IGlib> library)
 {
 	setLib(std::move(library));
+	m_map.loadFile("./resources/nibbler/test.map", m_assets);
 /*	Entity head;
 	Entity body;
 	Entity tail;

@@ -13,7 +13,6 @@
 #include <string>
 
 using Score = std::pair<std::string, uint>;
-using Map = std::vector<std::string>;
 
 struct CoreInformations
 {
