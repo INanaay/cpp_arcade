@@ -127,6 +127,7 @@ std::pair<UserEvent, char> SDLWrapper::getLastEvent()
 
 void SDLWrapper::DrawText(std::string text, int posx, int posy)
 {
+	SDL_Rect textRect;
 	SDL_Surface *textSurface = TTF_RenderText_Solid(m_font, text.c_str(), m_color);
 	SDL_Texture *texture = SDL_CreateTextureFromSurface(m_renderer, textSurface);
 	textRect.x = posx;
@@ -150,7 +151,20 @@ void SDLWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
 	DrawText("Name :" + menu.name, 0, 0);
 	DrawText("ACADE", SCR_WIDTH / 3, 0);
 	DrawText("SDL", SCR_WIDTH * 3 / 4, 0);
-	DrawText("Choose game : " + menu.game.first, 0, SCR_HEIGHT / 2);
+	DrawText("Choose game : " + menu.game.first, 0, 40);
+	DrawText("ScoreBoard", SCR_WIDTH / 2 - 90, 140);
+
+	if (!(core.scores.find(menu.game.first) == core.scores.end())) {
+		{
+			auto vector = core.scores[menu.game.first];
+			int y = 160;
+			for (unsigned int i = 0; i < vector.size(); i++) {
+				DrawText(vector[i].first, 0, y);
+				DrawText(std::to_string(vector[i].second), 80, y);
+				y += 30;
+			}
+		}
+	}
 }
 
 void SDLWrapper::DrawEntity(Entity &entity)
@@ -168,8 +182,17 @@ void SDLWrapper::DrawEntity(Entity &entity)
 	}
 	else
 	{
-		SDL_Texture *img = IMG_LoadTexture(m_renderer, entity.getSprite().c_str());
+		SDL_Texture *img;
 		int w, h;
+
+		if (m_cache.find((entity.getSprite())) == m_cache.end())
+		{
+			img = IMG_LoadTexture(m_renderer, entity.getSprite().c_str());
+			m_cache[entity.getSprite()] = img;
+		}
+		else
+			img = m_cache[entity.getSprite()];
+
 		SDL_QueryTexture(img, NULL, NULL, &w, &h);
 		SDL_Rect texr; texr.x = entity.getPosition().first;
 		texr.y = entity.getPosition().second;
@@ -178,6 +201,6 @@ void SDLWrapper::DrawEntity(Entity &entity)
 		SDL_RenderCopy(m_renderer, img, NULL, &texr);
 
 	}
-
 	SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 0);
+	usleep(20);
 }
