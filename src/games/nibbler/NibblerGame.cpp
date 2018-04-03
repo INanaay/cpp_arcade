@@ -27,22 +27,21 @@ NibblerGame::NibblerGame()
 	wallEntity.ascii = 'X';
 	wallEntity.type = EntityType::WALL;
 	wallEntity.direction = Direction::TOP;
-	wallEntity.sprite = "ressources/nibbler/wall.png";
+	wallEntity.sprite = "resources/nibbler/wall.png";
 
 	appleEntity.ascii = 'A';
 	appleEntity.type = EntityType::PICKUP;
 	appleEntity.direction = Direction::TOP;
-	appleEntity.sprite = "ressources/nibbler/apple.png";
+	appleEntity.sprite = "resources/nibbler/apple.png";
 
 	grassEntity.ascii = ' ';
 	grassEntity.type = EntityType::EMPTY;
 	grassEntity.direction = Direction::TOP;
-	grassEntity.sprite = "ressources/nibbler/grass.png";
+	grassEntity.sprite = "resources/nibbler/grass.png";
 
 	m_assets[EntityType::WALL] = wallEntity;
 	m_assets[EntityType::EMPTY] = grassEntity;
 	m_assets[EntityType::PICKUP] = appleEntity;
-	m_map()
 }
 
 bool NibblerGame::eventHandler(std::pair<UserEvent, char> event)
@@ -74,6 +73,9 @@ UserEvent NibblerGame::Run()
 			return event.first;
 		if (eventHandler(event))
 			break ;
+		for (auto i : m_map.getEntities()) {
+			m_library->DrawEntity(i.second);
+		}
 		/*m_library->DrawMap(m_map);
 		moveSnake();
 		for (auto &entity: m_snake)
