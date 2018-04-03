@@ -20,7 +20,7 @@ extern "C" NibblerGame *create_game()
 
 NibblerGame::NibblerGame()
 {
-	Entity wallEntity;
+/*	Entity wallEntity;
 	Entity appleEntity;
 	Entity grassEntity;
 
@@ -47,10 +47,10 @@ NibblerGame::NibblerGame()
 
 	m_assets[EntityType::WALL] = wallEntity;
 	m_assets[EntityType::EMPTY] = grassEntity;
-	m_assets[EntityType::PICKUP] = appleEntity;
+	m_assets[EntityType::PICKUP] = appleEntity;*/
 }
 
-void NibblerGame::eventHandler(std::pair<UserEvent, char> event)
+/*void NibblerGame::eventHandler(std::pair<UserEvent, char> event)
 {
 	auto currentDir = m_snake[0].getDirection();
 
@@ -67,11 +67,11 @@ void NibblerGame::eventHandler(std::pair<UserEvent, char> event)
 		m_snake[0].setNextDirection(Direction::TOP);
 	else if (event.first == UserEvent::DOWN && currentDir != Direction::TOP)
 		m_snake[0].setNextDirection(Direction::BOTTOM);
-}
+}*/
 
 UserEvent NibblerGame::Run()
 {
-	std::pair<UserEvent, char> event;
+/*	std::pair<UserEvent, char> event;
 
 	while (!isGameFinished())
 	{
@@ -86,6 +86,7 @@ UserEvent NibblerGame::Run()
 			m_library->DrawEntity(entity);
 		m_library->Display();
 	}
+	return UserEvent::ESCAPE;*/
 	return UserEvent::ESCAPE;
 }
 
@@ -106,7 +107,7 @@ void NibblerGame::setLib(std::unique_ptr<IGlib> library)
 
 void NibblerGame::Init(std::unique_ptr<IGlib> library)
 {
-	Entity head;
+/*	Entity head;
 	Entity body;
 	Entity tail;
 
@@ -146,10 +147,10 @@ void NibblerGame::Init(std::unique_ptr<IGlib> library)
 
 	setLib(std::move(library));
 	loadMap("ressources/nibbler/test.map");
-	popApple();
+	popApple();*/
 }
 
-void NibblerGame::loadMap(const std::string &path)
+/*void NibblerGame::loadMap(const std::string &path)
 {
 	std::string line;
 	std::ifstream fstream(path);
@@ -208,10 +209,10 @@ void NibblerGame::moveSnake()
 	if (append && m_appleState == 1)
 	{
 		m_appleState = 2;
-/*		Entity empty = m_assets[EntityType::EMPTY];
+		Entity empty = m_assets[EntityType::EMPTY];
 		empty.setCase(m_apple.getCase());
 		empty.setPosition(m_apple.getPosition());
-		m_map[m_appleIndex] = empty;*/
+		m_map[m_appleIndex] = empty;
 	}
 	if (m_appleState == 3)
 	printf("APPLE %d %d\n", m_apple.getCase().first, m_apple.getCase().second);
@@ -272,13 +273,13 @@ for (std::size_t i = 0; i < m_snake.size(); i++)
 		auto pos = entity.getPosition();
 		auto currentCase = entity.getCase();
 
-/*		if (i == m_snake.size() - 1 && append)
+		if (i == m_snake.size() - 1 && append)
 		{
 			auto it = m_snake.begin() + i - 1;
 			m_snake.insert(it, entity);
 			popApple();
 			append = false;
-		}*/
+		}
 
 		if (entity.getDirection() == Direction::TOP)
 			pos.second -= 5;
@@ -335,4 +336,4 @@ void NibblerGame::popApple()
 	m_apple.setPosition(position);
 	m_map[index] = m_apple;
 
-}
+}*/
