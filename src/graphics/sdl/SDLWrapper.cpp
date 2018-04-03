@@ -2,11 +2,13 @@
 // Created by NANAA on 02/04/18.
 //
 
+#include <unistd.h>
 #include <vector>
 #include <memory>
 #include <iostream>
 #include "../../../inc/graphics/SDLWrapper.hpp"
 #include "../../../inc/core/EntityType.hpp"
+#include <SDL2/SDL_image.h>
 #include "../../../inc/core/UserEvent.hpp"
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_video.h>
@@ -52,6 +54,7 @@ void SDLWrapper::InitWindow()
 
 void SDLWrapper::DestroyWindow()
 {
+	SDL_DestroyRenderer(m_renderer);
 	SDL_DestroyWindow(m_window);
 	SDL_Quit();
 }
@@ -77,6 +80,9 @@ std::pair<UserEvent, char> SDLWrapper::getLastEvent()
 			break;
 		case SDL_KEYDOWN:
 			switch (event.key.keysym.sym) {
+				case SDLK_RETURN:
+					lastEvent.first = UserEvent::ENTER;
+					break;
 				case SDLK_ESCAPE:
 					lastEvent.first = UserEvent::ESCAPE;
 					break;
@@ -129,7 +135,12 @@ void SDLWrapper::DrawText(std::string text, int posx, int posy)
 	SDL_RenderCopy(m_renderer, texture, NULL, &textRect);
 }
 
-void SDLWrapper::DrawMap(std::vector<Entity> &map) {map = map;}
+void SDLWrapper::DrawMap(std::vector<Entity> &map)
+{
+	for (auto &entity: map)
+		DrawEntity(entity);
+}
+
 
 void SDLWrapper::drawGames(std::vector<std::pair<std::string, std::string>>, std::pair<std::string, std::string>) {}
 
@@ -142,4 +153,31 @@ void SDLWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
 	DrawText("Choose game : " + menu.game.first, 0, SCR_HEIGHT / 2);
 }
 
-void SDLWrapper::DrawEntity(Entity &entity) {entity = entity;}
+void SDLWrapper::DrawEntity(Entity &entity)
+{
+	SDL_Rect r;
+	r.x = entity.getPosition().first;
+	r.y = entity.getPosition().second;
+	r.w = 30;
+	r.h = 30;
+
+	if (entity.getAscii() == 'O') {
+		SDL_SetRenderDrawColor(m_renderer, 0, 0, 255, 255);
+		SDL_RenderDrawRect(m_renderer, &r);
+		SDL_RenderFillRect(m_renderer, &r);
+	}
+	else
+	{
+		SDL_Texture *img = IMG_LoadTexture(m_renderer, entity.getSprite().c_str());
+		int w, h;
+		SDL_QueryTexture(img, NULL, NULL, &w, &h);
+		SDL_Rect texr; texr.x = entity.getPosition().first;
+		texr.y = entity.getPosition().second;
+		texr.w = w;
+		texr.h = h;
+		SDL_RenderCopy(m_renderer, img, NULL, &texr);
+
+	}
+
+	SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 0);
+}
