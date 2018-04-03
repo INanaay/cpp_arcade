@@ -107,6 +107,7 @@ void NibblerGame::setLib(std::unique_ptr<IGlib> library)
 
 void NibblerGame::Init(std::unique_ptr<IGlib> library)
 {
+	setLib(std::move(library));
 /*	Entity head;
 	Entity body;
 	Entity tail;
@@ -145,7 +146,6 @@ void NibblerGame::Init(std::unique_ptr<IGlib> library)
 	m_snake.push_back(body);
 	m_snake.push_back(tail);
 
-	setLib(std::move(library));
 	loadMap("ressources/nibbler/test.map");
 	popApple();*/
 }
