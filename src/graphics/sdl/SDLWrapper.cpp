@@ -2,11 +2,13 @@
 // Created by NANAA on 02/04/18.
 //
 
+#include <unistd.h>
 #include <vector>
 #include <memory>
 #include <iostream>
 #include "../../../inc/graphics/SDLWrapper.hpp"
 #include "../../../inc/core/EntityType.hpp"
+#include <SDL2/SDL_image.h>
 #include "../../../inc/core/UserEvent.hpp"
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_video.h>
@@ -52,6 +54,7 @@ void SDLWrapper::InitWindow()
 
 void SDLWrapper::DestroyWindow()
 {
+	SDL_DestroyRenderer(m_renderer);
 	SDL_DestroyWindow(m_window);
 	SDL_Quit();
 }
@@ -72,12 +75,50 @@ std::pair<UserEvent, char> SDLWrapper::getLastEvent()
 	std::pair<UserEvent, char> lastEvent = std::make_pair<UserEvent, char>(UserEvent::NONE, 0);
 	SDL_PollEvent(&event);
 	switch (event.type) {
-		case SDLK_ESCAPE:
-			lastEvent.first = UserEvent::ESCAPE;
-			break;
 		case SDL_QUIT:
 			lastEvent.first = UserEvent::ESCAPE;
 			break;
+		case SDL_KEYDOWN:
+			switch (event.key.keysym.sym) {
+				case SDLK_RETURN:
+					lastEvent.first = UserEvent::ENTER;
+					break;
+				case SDLK_ESCAPE:
+					lastEvent.first = UserEvent::ESCAPE;
+					break;
+				case SDLK_BACKSPACE:
+					lastEvent.first = UserEvent::TEXT;
+					lastEvent.second = '\b';
+					break;
+				case SDLK_LEFT:
+					lastEvent.first = UserEvent::LEFT;
+					break;
+				case SDLK_RIGHT:
+					lastEvent.first = UserEvent::RIGHT;
+					break;
+				case SDLK_UP:
+					lastEvent.first = UserEvent::UP;
+					break;
+				case SDLK_DOWN:
+					lastEvent.first = UserEvent::DOWN;
+					break;
+				case SDLK_PAGEUP:
+					lastEvent.first = UserEvent::LIB_NEXT;
+					break;
+				case SDLK_PAGEDOWN:
+					lastEvent.first = UserEvent::LIB_PREV;
+					break;
+				case SDLK_SPACE:
+					lastEvent.first = UserEvent::ACTION1;
+					break;
+				case SDLK_TAB:
+					lastEvent.first = UserEvent::ACTION2;
+					break;
+				default:
+					lastEvent.first = UserEvent::TEXT;
+					lastEvent.second = static_cast<char>(event.key.keysym.sym);
+					break;
+			}
 		default:
 			break;
 	}
@@ -94,14 +135,49 @@ void SDLWrapper::DrawText(std::string text, int posx, int posy)
 	SDL_RenderCopy(m_renderer, texture, NULL, &textRect);
 }
 
-void SDLWrapper::DrawMap(std::vector<Entity> &map) {map = map;}
+void SDLWrapper::DrawMap(std::vector<Entity> &map)
+{
+	for (auto &entity: map)
+		DrawEntity(entity);
+}
+
 
 void SDLWrapper::drawGames(std::vector<std::pair<std::string, std::string>>, std::pair<std::string, std::string>) {}
 
-void SDLWrapper::DrawMenu(MenuInformations, CoreInformations)
+void SDLWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
 {
-	DrawText("Lol", 0, 0);
-	DrawText("PD", 100, 100);
+	core = core;
+	DrawText("Name :" + menu.name, 0, 0);
+	DrawText("ACADE", SCR_WIDTH / 3, 0);
+	DrawText("SDL", SCR_WIDTH * 3 / 4, 0);
+	DrawText("Choose game : " + menu.game.first, 0, SCR_HEIGHT / 2);
 }
 
-void SDLWrapper::DrawEntity(Entity &entity) {entity = entity;}
+void SDLWrapper::DrawEntity(Entity &entity)
+{
+	SDL_Rect r;
+	r.x = entity.getPosition().first;
+	r.y = entity.getPosition().second;
+	r.w = 30;
+	r.h = 30;
+
+	if (entity.getAscii() == 'O') {
+		SDL_SetRenderDrawColor(m_renderer, 0, 0, 255, 255);
+		SDL_RenderDrawRect(m_renderer, &r);
+		SDL_RenderFillRect(m_renderer, &r);
+	}
+	else
+	{
+		SDL_Texture *img = IMG_LoadTexture(m_renderer, entity.getSprite().c_str());
+		int w, h;
+		SDL_QueryTexture(img, NULL, NULL, &w, &h);
+		SDL_Rect texr; texr.x = entity.getPosition().first;
+		texr.y = entity.getPosition().second;
+		texr.w = w;
+		texr.h = h;
+		SDL_RenderCopy(m_renderer, img, NULL, &texr);
+
+	}
+
+	SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 0);
+}
