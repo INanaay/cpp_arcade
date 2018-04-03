@@ -5,8 +5,7 @@ CXXFLAGS	+=	-std=c++17 -fPIC
 CXXFLAGS	+=	-W -Wextra -Wall -Werror
 
 NAME		=	../../../lib/lib_arcade_ncurses.so
-SRCS		=	NcursesWrapper.cpp	\
-			../../core/Entity.cpp
+SRCS		=	NcursesWrapper.cpp
 OBJS		=	$(SRCS:.cpp=.o)
 
 LDFLAGS		+=	-lncurses

@@ -13,8 +13,7 @@ CXXFLAGS	+=	-W -Wextra -Wall -Werror
 
 NAME		=	../../../lib/lib_arcade_SDL.so
 
-SRCS		=	./SDLWrapper.cpp	\
-			../../core/Entity.cpp
+SRCS		=	./SDLWrapper.cpp
 
 OBJS		=	$(SRCS:.cpp=.o)
 

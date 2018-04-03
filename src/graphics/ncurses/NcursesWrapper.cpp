@@ -108,12 +108,12 @@ void NcursesWrapper::DrawEntity(Entity &entity)
 	char toDraw;
 		std::ofstream fileStream("Debug", std::ios::in);
 
-	x = entity.getPosition().first;
-	y = entity.getPosition().second;
+	x = entity.cellPosition.first;
+	y = entity.cellPosition.second;
 
 	x /= 30;
 	y /= 30;
-	toDraw = entity.getAscii();
+	toDraw = entity.ascii;
 	mvwaddch(stdscr, y, x, toDraw);
 	usleep(10);
 }

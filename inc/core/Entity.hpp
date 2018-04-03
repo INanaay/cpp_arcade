@@ -19,8 +19,8 @@ struct Entity
 	EntityType type;
 	std::string sprite;
 	Direction direction;
-	std::pair<uint, uint> cellPosition;
-	std::pair<uint, uint> screenPosition;
+	std::pair<std::size_t, std::size_t> cellPosition;
+	std::pair<std::size_t, std::size_t> screenPosition;
 };
 
 

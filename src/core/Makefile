@@ -16,7 +16,7 @@ LDFLAGS		+=	-ldl -lstdc++fs
 
 SRCS		+=	main.cpp
 SRCS		+=	Core.cpp
-SRCS		+=	Entity.cpp
+
 OBJS		+=	$(SRCS:.cpp=.o)
 
 all: 			$(NAME)

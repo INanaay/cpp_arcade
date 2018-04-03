@@ -12,6 +12,7 @@
 #include "../../../inc/core/UserEvent.hpp"
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_video.h>
+#include <algorithm>
 
 extern "C" SDLWrapper *create_lib()
 {
@@ -29,7 +30,7 @@ SDLWrapper::SDLWrapper()
 		std::cout << "Cant init TTF" << std::endl;
 		throw new std::exception;
 	}
-	m_font = TTF_OpenFont("ressources/fonts/Consolas.ttf", 30);
+	m_font = TTF_OpenFont("resources/fonts/Consolas.ttf", 30);
 	if (!m_font) {
 		std::cout << "Cant open font\n";
 		throw std::exception();
@@ -157,6 +158,7 @@ void SDLWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
 	if (!(core.scores.find(menu.game.first) == core.scores.end())) {
 		{
 			auto vector = core.scores[menu.game.first];
+			//std::sort(vector.begin(), vector.end(), test);
 			int y = 160;
 			for (unsigned int i = 0; i < vector.size(); i++) {
 				DrawText(vector[i].first, 0, y);
@@ -170,12 +172,12 @@ void SDLWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
 void SDLWrapper::DrawEntity(Entity &entity)
 {
 	SDL_Rect r;
-	r.x = entity.getPosition().first;
-	r.y = entity.getPosition().second;
+	r.x = entity.cellPosition.first;
+	r.y = entity.cellPosition.second;
 	r.w = 30;
 	r.h = 30;
 
-	if (entity.getAscii() == 'O') {
+	if (entity.ascii == 'O') {
 		SDL_SetRenderDrawColor(m_renderer, 0, 0, 255, 255);
 		SDL_RenderDrawRect(m_renderer, &r);
 		SDL_RenderFillRect(m_renderer, &r);
@@ -185,17 +187,17 @@ void SDLWrapper::DrawEntity(Entity &entity)
 		SDL_Texture *img;
 		int w, h;
 
-		if (m_cache.find((entity.getSprite())) == m_cache.end())
+		if (m_cache.find((entity.sprite)) == m_cache.end())
 		{
-			img = IMG_LoadTexture(m_renderer, entity.getSprite().c_str());
-			m_cache[entity.getSprite()] = img;
+			img = IMG_LoadTexture(m_renderer, entity.sprite.c_str());
+			m_cache[entity.sprite] = img;
 		}
 		else
-			img = m_cache[entity.getSprite()];
+			img = m_cache[entity.sprite];
 
 		SDL_QueryTexture(img, NULL, NULL, &w, &h);
-		SDL_Rect texr; texr.x = entity.getPosition().first;
-		texr.y = entity.getPosition().second;
+		SDL_Rect texr; texr.x = entity.cellPosition.first;
+		texr.y = entity.cellPosition.second;
 		texr.w = w;
 		texr.h = h;
 		SDL_RenderCopy(m_renderer, img, NULL, &texr);
