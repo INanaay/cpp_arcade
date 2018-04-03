@@ -203,13 +203,67 @@ void NibblerGame::chooseNextDir(Entity &entity, std::size_t i)
 
 void NibblerGame::moveSnake()
 {
+	int check = 0;
 	bool append = m_snake[0].getCase() == m_apple.getCase();
-	if (append)
+	if (append && m_appleState == 1)
 	{
+		m_appleState = 2;
+/*		Entity empty = m_assets[EntityType::EMPTY];
+		empty.setCase(m_apple.getCase());
+		empty.setPosition(m_apple.getPosition());
+		m_map[m_appleIndex] = empty;*/
+	}
+	if (m_appleState == 3)
+	printf("APPLE %d %d\n", m_apple.getCase().first, m_apple.getCase().second);
+for (std::size_t i = 0; i < m_snake.size(); i++)
+{
+	if (m_appleState == 3) {
+	printf("snake n*%d\n", (int)i);
+	printf("%d %d\n", m_snake[i].getCase().first, m_snake[i].getCase().second);
+	}
+	if (m_snake[i].getCase() == m_apple.getCase())
+			check = 1;
+}
+
+	if (check == 0 && m_appleState == 3)
+	{
+		printf("POP\n");
+		m_appleState = 1;
+		auto block = m_snake[1];
+		auto popCase = m_apple.getCase();
+		block.setCase(m_apple.getCase());
+		block.setPosition(m_apple.getPosition());
+		auto tail = m_snake[m_snake.size() - 1];
+		if (tail.getCase().first == block.getCase().first)
+		{
+			if (tail.getCase().second > block.getCase().second) {
+				block.setDirection(Direction::BOTTOM);
+				popCase.second += 1;
+			}
+			else {
+				block.setDirection(Direction::TOP);
+				popCase.second -= 1;
+			}
+		} else {
+			if (tail.getCase().first > block.getCase().first) {
+				block.setDirection(Direction::RIGHT);
+			}
+			else {
+				block.setDirection(Direction::LEFT);
+			}
+		}
+		block.setCase(popCase);
+		m_snake.push_back(block);
 		Entity empty = m_assets[EntityType::EMPTY];
 		empty.setCase(m_apple.getCase());
 		empty.setPosition(m_apple.getPosition());
 		m_map[m_appleIndex] = empty;
+		popApple();
+		printf("new : %d %d\n", block.getCase().first, block.getCase().second);
+		for (auto &entity: m_snake)
+			m_library->DrawEntity(entity);
+		m_library->Display();
+		sleep(2);
 	}
 
 	for (std::size_t i = 0; i < m_snake.size(); i++)
@@ -218,13 +272,13 @@ void NibblerGame::moveSnake()
 		auto pos = entity.getPosition();
 		auto currentCase = entity.getCase();
 
-		if (i == m_snake.size() - 1 && append)
+/*		if (i == m_snake.size() - 1 && append)
 		{
-			auto it = m_snake.begin() + i;
+			auto it = m_snake.begin() + i - 1;
 			m_snake.insert(it, entity);
 			popApple();
 			append = false;
-		}
+		}*/
 
 		if (entity.getDirection() == Direction::TOP)
 			pos.second -= 5;
@@ -237,6 +291,10 @@ void NibblerGame::moveSnake()
 		entity.setPosition(pos);
 		if ((int)(pos.first) % 30 == 0 && (int)(pos.second) % 30 == 0)
 		{
+			if (check == 0 && m_appleState == 2)
+			{
+				m_appleState = 3;
+			}
 			chooseNextDir(entity, i);
 			if (entity.getDirection() == Direction::TOP)
 				currentCase.second -= 1;
@@ -256,6 +314,7 @@ void NibblerGame::popApple()
 	m_apple.setSize(1);
 	m_apple.setSpeed(0);
 	m_apple.setAscii('A');
+	m_appleState = 1;
 	m_apple.setType(EntityType::PICKUP);
 	m_apple.setDirection(Direction::TOP);
 	m_apple.setSprite("ressources/nibbler/apple.png");

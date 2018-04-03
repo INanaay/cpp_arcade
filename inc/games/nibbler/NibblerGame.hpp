@@ -23,6 +23,7 @@ public:
 	void setLib(std::unique_ptr<IGlib>);
 private:
 	Entity m_apple;
+	int m_appleState;
 	int m_appleIndex;
 	std::vector<Entity> m_map;
 	std::vector<Entity> m_snake;
