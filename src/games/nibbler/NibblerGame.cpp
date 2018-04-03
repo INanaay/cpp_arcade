@@ -50,43 +50,41 @@ NibblerGame::NibblerGame()
 	m_assets[EntityType::PICKUP] = appleEntity;*/
 }
 
-/*void NibblerGame::eventHandler(std::pair<UserEvent, char> event)
+bool NibblerGame::eventHandler(std::pair<UserEvent, char> event)
 {
-	auto currentDir = m_snake[0].getDirection();
+//	auto currentDir = m_snake[0].getDirection();
 
 	if (event.first == UserEvent::ESCAPE)
-	{
-		m_library->DestroyWindow();
-		std::exit(0);
-	}
-	if (event.first == UserEvent::RIGHT && currentDir != Direction::LEFT)
+		return true;
+/*	if (event.first == UserEvent::RIGHT && currentDir != Direction::LEFT)
 		m_snake[0].setNextDirection(Direction::RIGHT);
 	else if (event.first == UserEvent::LEFT && currentDir != Direction::RIGHT)
 		m_snake[0].setNextDirection(Direction::LEFT);
 	else if (event.first == UserEvent::UP && currentDir != Direction::BOTTOM)
 		m_snake[0].setNextDirection(Direction::TOP);
 	else if (event.first == UserEvent::DOWN && currentDir != Direction::TOP)
-		m_snake[0].setNextDirection(Direction::BOTTOM);
-}*/
+		m_snake[0].setNextDirection(Direction::BOTTOM);*/
+	return false;
+}
 
 UserEvent NibblerGame::Run()
 {
-/*	std::pair<UserEvent, char> event;
+	std::pair<UserEvent, char> event;
 
-	while (!isGameFinished())
+	while (1)
 	{
 		m_library->Clear();
 		event = m_library->getLastEvent();
 		if (event.first == UserEvent::LIB_NEXT || event.first == UserEvent::LIB_PREV)
 			return event.first;
-		eventHandler(event);
-		m_library->DrawMap(m_map);
+		if (eventHandler(event))
+			break ;
+		/*m_library->DrawMap(m_map);
 		moveSnake();
 		for (auto &entity: m_snake)
-			m_library->DrawEntity(entity);
+			m_library->DrawEntity(entity);*/
 		m_library->Display();
 	}
-	return UserEvent::ESCAPE;*/
 	return UserEvent::ESCAPE;
 }
 

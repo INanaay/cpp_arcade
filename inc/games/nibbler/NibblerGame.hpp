@@ -28,6 +28,8 @@ public:
 	std::unique_ptr<IGlib> getLib();
 	void setLib(std::unique_ptr<IGlib>);
 private:
+	bool eventHandler(std::pair<UserEvent, char>);
+private:
 	std::unique_ptr<IGlib> m_library;
 	/*
 private:
@@ -40,7 +42,6 @@ private:
 
 	void loadMap(const std::string &path);
 	void moveSnake();
-	void eventHandler(std::pair<UserEvent, char>);
 	bool isGameFinished();
 	void chooseNextDir(Entity &, std::size_t);
 	void popApple();*/
