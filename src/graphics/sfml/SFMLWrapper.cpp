@@ -26,6 +26,8 @@ SFMLWrapper::SFMLWrapper()
 	if (!font.loadFromFile("resources/fonts/Consolas.ttf"))
 		throw (std::exception());
 	m_font = new sf::Font(font);
+	if (m_music.openFromFile("resources/Audio/wii.wav"))
+		m_music.play();
 }
 
 void SFMLWrapper::InitWindow()

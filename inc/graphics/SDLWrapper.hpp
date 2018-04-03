@@ -21,6 +21,12 @@
 
 class SDLWrapper : public IGlib
 {
+	struct SDLAudio
+	{
+		SDL_AudioSpec wavSpec;
+		Uint32 wavLength;
+		Uint8 *wavBuffer;
+	};
 public:
 	SDLWrapper();
 	~SDLWrapper() = default;
@@ -39,6 +45,8 @@ private:
 	SDL_Renderer *m_renderer;
 	TTF_Font *m_font;
 	SDL_Color m_color;
+	SDLAudio m_audio;
+
 	void DrawText(std::string text, int posx, int posy);
 	std::map<std::string, SDL_Texture *> m_cache;
 

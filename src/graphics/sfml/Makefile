@@ -17,7 +17,7 @@ SRCS		=	./SFMLWrapper.cpp
 
 OBJS		=	$(SRCS:.cpp=.o)
 
-LDFLAGS		+=	-lsfml-graphics -lsfml-window -lsfml-system
+LDFLAGS		+=	-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
 all:		$(NAME)
 

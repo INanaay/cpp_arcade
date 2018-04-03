@@ -13,6 +13,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_video.h>
 #include <algorithm>
+#include <SDL2/SDL.h>
 
 extern "C" SDLWrapper *create_lib()
 {
@@ -30,6 +31,7 @@ SDLWrapper::SDLWrapper()
 		std::cout << "Cant init TTF" << std::endl;
 		throw new std::exception;
 	}
+	SDL_Init(SDL_INIT_AUDIO);
 	m_font = TTF_OpenFont("resources/fonts/Consolas.ttf", 30);
 	if (!m_font) {
 		std::cout << "Cant open font\n";
@@ -45,10 +47,13 @@ void SDLWrapper::InitWindow()
 				    SCR_WIDTH, SCR_HEIGHT,
 				    0);
 	m_renderer = SDL_CreateRenderer(m_window, -1, 0);
+	m_color = {255, 255, 255, 255};
 
-	m_color = {0, 0, 255, 255};
-
-	 m_color = {255, 255, 255, 255};
+	SDL_LoadWAV("resources/Audio/wii.wav", &m_audio.wavSpec, &m_audio.wavBuffer, &m_audio.wavLength);
+	SDL_AudioDeviceID deviceId = SDL_OpenAudioDevice(NULL, 0, &m_audio.wavSpec, NULL, 0);
+	int success = SDL_QueueAudio(deviceId, m_audio.wavBuffer, m_audio.wavLength);
+	if (success == 0)
+		SDL_PauseAudioDevice(deviceId, 0);
 
 
 }

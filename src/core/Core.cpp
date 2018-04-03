@@ -152,7 +152,8 @@ void Core::loopGame()
 			m_game->setLib(std::move(m_lib));
 		}
 		if (gameEvent == UserEvent::ESCAPE) {
-			printf("fin\n");
+			m_lib = std::move(m_game->getLib());
+			m_lib->DestroyWindow();
 			std::exit(0);
 		}
 	}
@@ -162,6 +163,7 @@ void	Core::eventHandler(std::pair<UserEvent, char> event, MenuInformations &menu
 		CoreInformations &core)
 {
 	if (event.first == UserEvent::ESCAPE) {
+		std::cout << "Destroy\n";
 		m_lib->DestroyWindow();
 		std::exit(0);
 	}

@@ -9,6 +9,7 @@
 # define CPP_ARCADE_SFMLWRAPPER_HPP
 
 # include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "../core/EntityType.hpp"
 #include "../core/IGlib.hpp"
 
@@ -35,6 +36,8 @@ private:
 	std::unique_ptr<sf::RenderWindow> m_win;
 	std::map<EntityType, sf::Sprite> m_assets;
 	std::map<std::string, sf::Texture> m_cache;
+	sf::Music m_music;
+
 };
 
 #endif //CPP_ARCADE_SFMLWRAPPER_HPP
