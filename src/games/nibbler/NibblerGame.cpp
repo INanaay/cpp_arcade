@@ -145,6 +145,7 @@ void NibblerGame::Init(std::unique_ptr<IGlib> library)
 
 	setLib(std::move(library));
 	loadMap("ressources/nibbler/test.map");
+	popApple();
 }
 
 void NibblerGame::loadMap(const std::string &path)
@@ -179,10 +180,16 @@ bool NibblerGame::isGameFinished()
 	for (auto &entity: m_map)
 		if (entity.getType() == EntityType::WALL &&
 		    entity.getCase() == headCase)
+		{
+			printf("wall touched\n");
 			return (true);
+		}
 		else if (entity.getType() == EntityType::PLAYER &&
 			 entity.getCase() == headCase)
+		{
+			printf("snake touched\n");
 			return (true);
+		}
 	return (false);
 }
 
@@ -195,11 +202,28 @@ void NibblerGame::chooseNextDir(Entity &entity, std::size_t i)
 
 void NibblerGame::moveSnake()
 {
+	bool append = m_snake[0].getCase() == m_apple.getCase();
+	if (append)
+	{
+		Entity empty = m_assets[EntityType::EMPTY];
+		empty.setCase(m_apple.getCase());
+		empty.setPosition(m_apple.getPosition());
+		m_map[m_appleIndex] = empty;
+	}
+
 	for (std::size_t i = 0; i < m_snake.size(); i++)
 	{
 		auto &entity = m_snake[i];
 		auto pos = entity.getPosition();
 		auto currentCase = entity.getCase();
+
+		if (i == m_snake.size() - 1 && append)
+		{
+			auto it = m_snake.begin() + i;
+			m_snake.insert(it, entity);
+			popApple();
+			append = false;
+		}
 
 		if (entity.getDirection() == Direction::TOP)
 			pos.second -= 5;
@@ -224,4 +248,31 @@ void NibblerGame::moveSnake()
 			entity.setCase(currentCase);
 		}
 	}
+}
+
+void NibblerGame::popApple()
+{
+	m_apple.setSize(1);
+	m_apple.setSpeed(0);
+	m_apple.setAscii('A');
+	m_apple.setType(EntityType::PICKUP);
+	m_apple.setDirection(Direction::TOP);
+	m_apple.setSprite("ressources/nibbler/apple.png");
+
+	int index;
+	Entity entity;
+	do
+	{
+		index = rand() % m_map.size();
+		entity = m_map[index];
+	} while (entity.getType() != EntityType::EMPTY);
+
+	auto cases = entity.getCase();
+	auto position = std::pair<float, float>(cases.first * 30,
+						cases.second * 30);
+	m_appleIndex = index;
+	m_apple.setCase(cases);
+	m_apple.setPosition(position);
+	m_map[index] = m_apple;
+
 }

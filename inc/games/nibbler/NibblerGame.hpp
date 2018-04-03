@@ -22,9 +22,10 @@ public:
 	std::unique_ptr<IGlib> getLib();
 	void setLib(std::unique_ptr<IGlib>);
 private:
+	Entity m_apple;
+	int m_appleIndex;
 	std::vector<Entity> m_map;
 	std::vector<Entity> m_snake;
-	std::vector<Entity> m_apples;
 	std::unique_ptr<IGlib> m_library;
 	std::map<EntityType, Entity> m_assets;
 
@@ -33,6 +34,7 @@ private:
 	void eventHandler(std::pair<UserEvent, char>);
 	bool isGameFinished();
 	void chooseNextDir(Entity &, std::size_t);
+	void popApple();
 };
 
 
