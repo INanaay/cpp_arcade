@@ -23,7 +23,7 @@ public:
 	void Display();
 	std::pair<UserEvent, char> getLastEvent();
 	void DrawMap(std::vector<Entity> &entities);
-	void DrawEntity(Entity &);
+	void DrawEntity(const Entity &);
 private:
     	std::string getPlayerName();
     	WINDOW *scoresWindow;

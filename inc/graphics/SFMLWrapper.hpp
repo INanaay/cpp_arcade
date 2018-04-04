@@ -28,7 +28,7 @@ public:
 	void Display();
 	std::pair<UserEvent, char> getLastEvent();
 	void DrawMap(std::vector<Entity> &map);
-	void DrawEntity(Entity &entity);
+	void DrawEntity(const Entity &entity);
 private:
 	void drawGames(std::vector<std::pair<std::string, std::string>>,
 		       std::pair<std::string, std::string>);

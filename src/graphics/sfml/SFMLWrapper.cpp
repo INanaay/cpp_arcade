@@ -143,7 +143,7 @@ void SFMLWrapper::DrawMap(std::vector<Entity> &map)
 		DrawEntity(entity);
 }
 
-void SFMLWrapper::DrawEntity(Entity &entity)
+void SFMLWrapper::DrawEntity(const Entity &entity)
 {
 	sf::Sprite sprite;
 	sf::Texture texture;

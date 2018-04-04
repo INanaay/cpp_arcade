@@ -21,7 +21,7 @@ public:
 	virtual void Display() = 0;
 	virtual void InitWindow() = 0;
 	virtual void DestroyWindow() = 0;
-	virtual void DrawEntity(Entity &entity) = 0;
+	virtual void DrawEntity(const Entity &entity) = 0;
 	virtual void DrawMap(std::vector<Entity> &map) = 0;
 	virtual void DrawMenu(MenuInformations, CoreInformations) = 0;
 

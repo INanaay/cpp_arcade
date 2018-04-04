@@ -102,7 +102,7 @@ void NcursesWrapper::DrawMap(std::vector<Entity> &map)
 		DrawEntity(entity);
 }
 
-void NcursesWrapper::DrawEntity(Entity &entity)
+void NcursesWrapper::DrawEntity(const Entity &entity)
 {
 	int x, y;
 	char toDraw;

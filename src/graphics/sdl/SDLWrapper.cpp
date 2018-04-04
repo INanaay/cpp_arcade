@@ -174,7 +174,7 @@ void SDLWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
 	}
 }
 
-void SDLWrapper::DrawEntity(Entity &entity)
+void SDLWrapper::DrawEntity(const Entity &entity)
 {
 	SDL_Rect r;
 	r.x = entity.cellPosition.first;
