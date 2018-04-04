@@ -14,10 +14,11 @@
 #include "../../core/Entity.hpp"
 #include "../../core/Direction.hpp"
 
-class Pacman : BasePacmanEntity
+class Pacman : public BasePacmanEntity
 {
 public:
 	//CTOR DTOR
+	Pacman() = default;
 	Pacman(std::pair<std::size_t, std::size_t> &position);
 
 	//FUNC

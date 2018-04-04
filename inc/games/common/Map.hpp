@@ -11,6 +11,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <random>
 #include "../../core/Entity.hpp"
 
 class Map
@@ -28,10 +29,14 @@ public:
 	//FUNCTIONS
 	void loadFile(const std::string &path,
 		      std::map<EntityType, Entity> &assets);
+	std::pair<std::size_t, std::size_t> getFreePosition();
 
 private:
 	std::size_t m_width;
 	std::size_t m_height;
+	std::default_random_engine m_randomEngine;
+	std::uniform_int_distribution<std::size_t> m_widthRandomRange;
+	std::uniform_int_distribution<std::size_t> m_heightRandomRange;
 	std::map<std::pair<std::size_t, std::size_t>, Entity> m_entities;
 
 	void checkMap(const std::vector<std::string> &map);

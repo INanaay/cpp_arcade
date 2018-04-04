@@ -38,3 +38,4 @@ void Pacman::changeSkin()
 		m_entity.sprite = "resources/pacman/close.png";
 	}
 }
+

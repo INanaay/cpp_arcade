@@ -15,7 +15,7 @@ class Ghost : BasePacmanEntity
 {
 public:
 	//CTOR DTOR
-	Ghost(std::pair<std::size_t, std::size_t> &position);
+	explicit Ghost(std::pair<std::size_t, std::size_t> &position);
 };
 
 #endif //CPP_ARCADE_GHOST_HPP

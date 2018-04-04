@@ -16,8 +16,11 @@
 class PacmanGame : public IGame
 {
 public:
+	//CTOR
+	PacmanGame() = default;
 
 	//FUNCS
+	void initEntities();
 	void Init(std::unique_ptr<IGlib> library) override;
 	UserEvent Run() override;
 	void Stop() override;

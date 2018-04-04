@@ -15,6 +15,7 @@ class BasePacmanEntity
 {
 public:
 	//CTOR DTOR
+	BasePacmanEntity() = default;
 	BasePacmanEntity(std::pair<std::size_t, std::size_t> &position);
 	~BasePacmanEntity() = default;
 

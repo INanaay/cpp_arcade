@@ -7,12 +7,23 @@
 
 #include "../../../inc/games/pacman/PacmanGame.hpp"
 
+extern "C" PacmanGame *create_game()
+{
+	return new PacmanGame();
+}
+
 UserEvent PacmanGame::Run()
 {
 	auto &mapEntities = m_map.getEntities();
-	for (const auto &entry: mapEntities)
-		m_library->DrawEntity(entry.second);
 
+	while (true)
+	{
+		m_library->Clear();
+		for (const auto &entry: mapEntities)
+			m_library->DrawEntity(entry.second);
+		m_library->DrawEntity(m_player.getEntity());
+		m_library->Display();
+	}
 	return UserEvent ::NONE;
 }
 
@@ -24,7 +35,9 @@ void PacmanGame::Stop()
 void PacmanGame::Init(std::unique_ptr<IGlib> library)
 {
 	setLib(std::move(library));
-	m_map.loadFile("resources/pacman/map.test", m_assets);
+	initAssets();
+	m_map.loadFile("resources/pacman/test.map", m_assets);
+	initEntities();
 }
 
 std::unique_ptr<IGlib> PacmanGame::getLib()
@@ -44,4 +57,25 @@ void PacmanGame::initAssets()
 	wallEntity.ascii = 'X';
 	wallEntity.sprite = "resources/pacman/wall.png";
 	wallEntity.direction = Direction ::TOP;
+
+	Entity groundEntity;
+	groundEntity.type = EntityType ::EMPTY;
+	groundEntity.ascii = ' ';
+	groundEntity.sprite = "resources/pacman/empty.png";
+	groundEntity.direction = Direction ::TOP;
+
+	m_assets[wallEntity.type] = wallEntity;
+	m_assets[groundEntity.type] = groundEntity;
+}
+
+void PacmanGame::initEntities()
+{
+	auto playerPosition = m_map.getFreePosition();
+	m_player = Pacman(playerPosition);
+
+	for (int i = 0; i < 4; i++)
+	{
+		auto position = m_map.getCenteredPosition();
+		m_ghosts.push_back(Ghost(position));
+	}
 }

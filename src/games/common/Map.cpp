@@ -6,7 +6,9 @@
 */
 
 #include <map>
+#include <random>
 #include <fstream>
+#include <iostream>
 #include "../../../inc/games/common/Map.hpp"
 #include "../../../inc/core/GameException.hpp"
 
@@ -29,7 +31,7 @@ void Map::loadFile(const std::string &path,
 		{
 			auto type = (EntityType) (line[x] - '0');
 			if (assets.find(type) == assets.end())
-				throw GameException("Malformated map.");
+				throw GameException("Undefined char in map.");
 			auto entity = assets[type];
 			entity.cellPosition.first = x;
 			entity.cellPosition.second = y;
@@ -40,6 +42,8 @@ void Map::loadFile(const std::string &path,
 	}
 	m_width = line.size();
 	m_height = buffer.size();
+	m_widthRandomRange = std::uniform_int_distribution<std::size_t>(0, m_width);
+	m_heightRandomRange = std::uniform_int_distribution<std::size_t>(0, m_height);
 }
 
 void Map::checkMap(const std::vector<std::string> &map)
@@ -72,3 +76,18 @@ std::map<std::pair<std::size_t, std::size_t>, Entity> &Map::getEntities()
 {
 	return m_entities;
 }
+
+std::pair<std::size_t, std::size_t> Map::getFreePosition()
+{
+	std::pair<std::size_t, std::size_t> result;
+
+	do
+	{
+		result.first = m_widthRandomRange(m_randomEngine);
+		result.second = m_heightRandomRange(m_randomEngine);
+	}
+	while (getEntityAt(result).type != EntityType::EMPTY);
+
+	return (result);
+}
+
