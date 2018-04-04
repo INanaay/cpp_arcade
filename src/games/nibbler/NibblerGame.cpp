@@ -109,7 +109,7 @@ void NibblerGame::Init(std::unique_ptr<IGlib> library)
 	SnakeEntity snake;
 	snake.cellPosition = posInit;
 	snake.screenPosition = std::pair<std::size_t, std::size_t>(posInit.first * 30,
-			posInit.second * 30 + 5);
+			posInit.second * 30);
 	snake.ascii = 'O';
 	snake.sprite = "resources/nibbler/grass.png";
 	snake.direction = Direction::TOP;
@@ -120,7 +120,7 @@ void NibblerGame::Init(std::unique_ptr<IGlib> library)
 		posInit.second += 1;
 		snake.cellPosition = posInit;
 		snake.screenPosition = std::pair<std::size_t, std::size_t>(posInit.first * 30,
-				posInit.second * 30 + 5);
+				posInit.second * 30);
 		snake.ascii = 'O';
 		snake.sprite = "resources/nibbler/grass.png";
 		snake.direction = Direction::TOP;
@@ -154,86 +154,38 @@ void	NibblerGame::checkCol()
 		printf("wall\n");
 		std::exit(0);
 	}
-}
-
-void	NibblerGame::popSnake(std::pair<std::size_t, std::size_t> posInit)
-{
-	SnakeEntity snake;
-	auto tail = m_snake[m_snake.size() - 1];
-
-	snake.cellPosition = posInit;
-	snake.screenPosition = std::pair<std::size_t, std::size_t>(posInit.first * 30,
-			posInit.second * 30 + 30);
-	snake.ascii = 'O';
-	snake.sprite = "resources/nibbler/grass.png";
-	snake.direction = tail.direction;
-	m_snake.push_back(snake);
+	for (auto i : m_snake)
+	{
+		if (nextCase == i.cellPosition) {
+			m_library->DestroyWindow();
+		printf("Snake\n");
+		std::exit(0);
+		}
+	}
 }
 
 void	NibblerGame::checkApple()
 {
 	if (m_map.getEntityAt(m_snake[0].cellPosition).type == EntityType::PICKUP)
 	{
-		printf("Apple\n");
-		m_library->Clear();
-		for (auto i : m_map.getEntities()) {
-			m_library->DrawEntity(i.second);
-		}
-		for (auto i : m_snake) {
-			m_library->DrawEntity(i);
-		}
-		m_library->Display();
-		sleep(2);
-		auto cellTail = m_snake[m_snake.size() - 1].cellPosition;
-		auto cellPreTail = m_snake[m_snake.size() - 2].cellPosition;
-		if (m_map.getEntityAt(std::make_pair(cellTail.first + 1, cellTail.second)).type == EntityType::EMPTY &&
-				std::make_pair(cellTail.first + 1, cellTail.second) != cellPreTail)
-			popSnake(std::make_pair(cellTail.first + 1, cellTail.second));
-		else if (m_map.getEntityAt(std::make_pair(cellTail.first + 1, cellTail.second)).type == EntityType::EMPTY &&
-				std::make_pair(cellTail.first - 1, cellTail.second) != cellPreTail)
-			popSnake(std::make_pair(cellTail.first - 1, cellTail.second));
-		else if (m_map.getEntityAt(std::make_pair(cellTail.first + 1, cellTail.second)).type == EntityType::EMPTY &&
-				std::make_pair(cellTail.first, cellTail.second + 1) != cellPreTail)
-			popSnake(std::make_pair(cellTail.first, cellTail.second + 1));
-		else if (m_map.getEntityAt(std::make_pair(cellTail.first + 1, cellTail.second)).type == EntityType::EMPTY &&
-				std::make_pair(cellTail.first, cellTail.second - 1) != cellPreTail)
-			popSnake(std::make_pair(cellTail.first, cellTail.second - 1));
-		else
-			std::exit(84);
-		m_library->Clear();
-		for (auto i : m_map.getEntities()) {
-			m_library->DrawEntity(i.second);
-		}
-		for (auto i : m_snake) {
-			m_library->DrawEntity(i);
-		}
-		m_library->Display();
-		for (auto i : m_snake)
-			printf("%ld %ld\n", i.cellPosition.first, i.cellPosition.second);
-		sleep(2);
+		m_snake.push_back(m_prevSnake);
 	}
 }
 
 void	NibblerGame::moveSnake()
 {
 	Direction prev;
-	int ok = 0;
 
 	for (int i = 0; i < (int)m_snake.size(); i++) {
-		if (m_snake[i].direction == Direction::TOP)
-			m_snake[i].screenPosition.second -= 5;
-		else if (m_snake[i].direction == Direction::BOTTOM)
-			m_snake[i].screenPosition.second += 5;
-		else if (m_snake[i].direction == Direction::LEFT)
-			m_snake[i].screenPosition.first -= 5;
-		else if (m_snake[i].direction == Direction::RIGHT)
-			m_snake[i].screenPosition.first += 5;
 		if (m_snake[i].screenPosition.first % 30 == 0 &&
 				m_snake[i].screenPosition.second % 30 == 0)
 		{
 			m_snake[i].direction = m_snake[i].nextDirection;
-			if (i == 0)
+			if (i == 0) {
 				checkCol();
+				checkApple();
+				m_prevSnake = m_snake[m_snake.size() - 1];
+			}
 			else
 					m_snake[i].nextDirection = prev;
 			if (m_snake[i].direction == Direction::TOP)
@@ -245,12 +197,16 @@ void	NibblerGame::moveSnake()
 			else if (m_snake[i].direction == Direction::RIGHT)
 				m_snake[i].cellPosition.first += 1;
 			prev = m_snake[i].direction;
-			if (i == 0)
-				ok = 1;
 		}
+		if (m_snake[i].direction == Direction::TOP)
+			m_snake[i].screenPosition.second -= 5;
+		else if (m_snake[i].direction == Direction::BOTTOM)
+			m_snake[i].screenPosition.second += 5;
+		else if (m_snake[i].direction == Direction::LEFT)
+			m_snake[i].screenPosition.first -= 5;
+		else if (m_snake[i].direction == Direction::RIGHT)
+			m_snake[i].screenPosition.first += 5;
 	}
-	if (ok == 1)
-		checkApple();
 }
 
 void NibblerGame::popApple()
@@ -264,163 +220,4 @@ void NibblerGame::popApple()
 	m_apple.screenPosition = std::pair<std::size_t, std::size_t>(12 * 30, 12 * 30);
 	Entity &entity = m_map.getEntityAt(m_apple.cellPosition);
 	entity = m_apple;
-/*	int index;
-	Entity entity;
-	do
-	{
-		index = rand() % m_map.size();
-		entity = m_map[index];
-	} while (entity.getType() != EntityType::EMPTY);
-
-	auto cases = entity.getCase();
-	auto position = std::pair<float, float>(cases.first * 30,
-						cases.second * 30);
-	m_appleIndex = index;
-	m_apple.setPosition(position);
-	m_map[index] = m_apple;*/
 }
-
-
-/*
-void NibblerGame::chooseNextDir(Entity &entity, std::size_t i)
-{
-	if (i < m_snake.size() - 1)
-		m_snake[i + 1].setNextDirection(entity.getDirection());
-	entity.setDirection(entity.getNextDirection());
-}
-
-void NibblerGame::moveSnake()
-{
-	int check = 0;
-	bool append = m_snake[0].getCase() == m_apple.getCase();
-	if (append && m_appleState == 1)
-	{
-		m_appleState = 2;
-		Entity empty = m_assets[EntityType::EMPTY];
-		empty.setCase(m_apple.getCase());
-		empty.setPosition(m_apple.getPosition());
-		m_map[m_appleIndex] = empty;
-	}
-	if (m_appleState == 3)
-	printf("APPLE %d %d\n", m_apple.getCase().first, m_apple.getCase().second);
-for (std::size_t i = 0; i < m_snake.size(); i++)
-{
-	if (m_appleState == 3) {
-	printf("snake n*%d\n", (int)i);
-	printf("%d %d\n", m_snake[i].getCase().first, m_snake[i].getCase().second);
-	}
-	if (m_snake[i].getCase() == m_apple.getCase())
-			check = 1;
-}
-
-	if (check == 0 && m_appleState == 3)
-	{
-		printf("POP\n");
-		m_appleState = 1;
-		auto block = m_snake[1];
-		auto popCase = m_apple.getCase();
-		block.setCase(m_apple.getCase());
-		block.setPosition(m_apple.getPosition());
-		auto tail = m_snake[m_snake.size() - 1];
-		if (tail.getCase().first == block.getCase().first)
-		{
-			if (tail.getCase().second > block.getCase().second) {
-				block.setDirection(Direction::BOTTOM);
-				popCase.second += 1;
-			}
-			else {
-				block.setDirection(Direction::TOP);
-				popCase.second -= 1;
-			}
-		} else {
-			if (tail.getCase().first > block.getCase().first) {
-				block.setDirection(Direction::RIGHT);
-			}
-			else {
-				block.setDirection(Direction::LEFT);
-			}
-		}
-		block.setCase(popCase);
-		m_snake.push_back(block);
-		Entity empty = m_assets[EntityType::EMPTY];
-		empty.setCase(m_apple.getCase());
-		empty.setPosition(m_apple.getPosition());
-		m_map[m_appleIndex] = empty;
-		popApple();
-		printf("new : %d %d\n", block.getCase().first, block.getCase().second);
-		for (auto &entity: m_snake)
-			m_library->DrawEntity(entity);
-		m_library->Display();
-		sleep(2);
-	}
-
-	for (std::size_t i = 0; i < m_snake.size(); i++)
-	{
-		auto &entity = m_snake[i];
-		auto pos = entity.getPosition();
-		auto currentCase = entity.getCase();
-
-		if (i == m_snake.size() - 1 && append)
-		{
-			auto it = m_snake.begin() + i - 1;
-			m_snake.insert(it, entity);
-			popApple();
-			append = false;
-		}
-
-		if (entity.getDirection() == Direction::TOP)
-			pos.second -= 5;
-		else if (entity.getDirection() == Direction::RIGHT)
-			pos.first += 5;
-		else if (entity.getDirection() == Direction::BOTTOM)
-			pos.second += 5;
-		else
-			pos.first -= 5;
-		entity.setPosition(pos);
-		if ((int)(pos.first) % 30 == 0 && (int)(pos.second) % 30 == 0)
-		{
-			if (check == 0 && m_appleState == 2)
-			{
-				m_appleState = 3;
-			}
-			chooseNextDir(entity, i);
-			if (entity.getDirection() == Direction::TOP)
-				currentCase.second -= 1;
-			else if (entity.getDirection() == Direction::RIGHT)
-				currentCase.first += 1;
-			else if (entity.getDirection() == Direction::BOTTOM)
-				currentCase.second += 1;
-			else
-				currentCase.first -= 1;
-			entity.setCase(currentCase);
-		}
-	}
-}
-
-void NibblerGame::popApple()
-{
-	m_apple.setSize(1);
-	m_apple.setSpeed(0);
-	m_apple.setAscii('A');
-	m_appleState = 1;
-	m_apple.setType(EntityType::PICKUP);
-	m_apple.setDirection(Direction::TOP);
-	m_apple.setSprite("ressources/nibbler/apple.png");
-
-	int index;
-	Entity entity;
-	do
-	{
-		index = rand() % m_map.size();
-		entity = m_map[index];
-	} while (entity.getType() != EntityType::EMPTY);
-
-	auto cases = entity.getCase();
-	auto position = std::pair<float, float>(cases.first * 30,
-						cases.second * 30);
-	m_appleIndex = index;
-	m_apple.setCase(cases);
-	m_apple.setPosition(position);
-	m_map[index] = m_apple;
-
-}*/
