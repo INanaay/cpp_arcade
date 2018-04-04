@@ -21,8 +21,8 @@ public:
 	~Map() = default;
 
 	//PROPERTIES
-	Entity &getEntityAt(std::pair<uint, uint> &position);
-	std::pair<std::size_t, std::size_t> &Map::getCenteredPosition() const;
+	Entity &getEntityAt(std::pair<std::size_t, std::size_t> position);
+	std::pair<std::size_t, std::size_t> getCenteredPosition() const;
 	std::map<std::pair<std::size_t, std::size_t>, Entity> &getEntities();
 
 	//FUNCTIONS

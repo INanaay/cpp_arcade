@@ -54,16 +54,16 @@ void Map::checkMap(const std::vector<std::string> &map)
 			throw GameException("Map must have the same row size");
 }
 
-Entity &Map::getEntityAt(std::pair<uint, uint> &position)
+Entity &Map::getEntityAt(std::pair<std::size_t, std::size_t> position)
 {
 	if (m_entities.find(position) == m_entities.end())
 		throw GameException("Out of map limits.");
 	return (m_entities[position]);
 }
 
-std::pair<std::size_t, std::size_t> &Map::getCenteredPosition() const
+std::pair<std::size_t, std::size_t> Map::getCenteredPosition() const
 {
-	auto pos = std::pair<std::size_t, std::size_t>(m_width / 2,
+	std::pair<std::size_t, std::size_t> pos = std::pair<std::size_t, std::size_t>(m_width / 2,
 						       m_height/ 2);
 	return (pos);
 }

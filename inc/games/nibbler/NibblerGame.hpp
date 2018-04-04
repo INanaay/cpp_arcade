@@ -15,7 +15,6 @@
 
 struct SnakeEntity : public Entity
 {
-	std::pair<std::size_t, std::size_t>	nextCellPosition;
 	Direction	nextDirection;
 };
 
@@ -30,23 +29,28 @@ public:
 	void setLib(std::unique_ptr<IGlib>);
 private:
 	bool eventHandler(std::pair<UserEvent, char>);
+	void moveSnake();
+	void popApple();
+	void checkCol();
+	void checkApple();
+	void popSnake(std::pair<std::size_t, std::size_t>);
 private:
 	std::unique_ptr<IGlib> m_library;
 	Map	m_map;
 	std::map<EntityType, Entity> m_assets;
+	std::vector<SnakeEntity> m_snake;
+	Entity m_apple;
 	/*
 private:
-	Entity m_apple;
 	int m_appleState;
 	int m_appleIndex;
 	std::vector<Entity> m_map;
 	std::vector<Entity> m_snake;
 
 	void loadMap(const std::string &path);
-	void moveSnake();
 	bool isGameFinished();
 	void chooseNextDir(Entity &, std::size_t);
-	void popApple();*/
+	*/
 };
 
 
