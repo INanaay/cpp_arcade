@@ -24,6 +24,7 @@ public:
 	Entity &getEntityAt(std::pair<std::size_t, std::size_t> position);
 	std::pair<std::size_t, std::size_t> getCenteredPosition() const;
 	std::map<std::pair<std::size_t, std::size_t>, Entity> &getEntities();
+	std::pair<std::size_t, std::size_t> getDimensions() const;
 
 	//FUNCTIONS
 	void loadFile(const std::string &path,

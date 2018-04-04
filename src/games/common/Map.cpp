@@ -10,6 +10,11 @@
 #include "../../../inc/games/common/Map.hpp"
 #include "../../../inc/core/GameException.hpp"
 
+std::pair<std::size_t, std::size_t> Map::getDimensions() const
+{
+	return std::make_pair(m_width, m_height);
+}
+
 void Map::loadFile(const std::string &path,
 		   std::map<EntityType, Entity> &assets)
 {
