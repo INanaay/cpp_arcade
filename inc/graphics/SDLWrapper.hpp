@@ -47,7 +47,7 @@ private:
 	SDL_Color m_color;
 	SDLAudio m_audio;
 
-	void DrawText(std::string text, int posx, int posy);
+	void DrawText(std::string text, int posx, int posy) const;
 	std::map<std::string, SDL_Texture *> m_cache;
 
 };

@@ -36,7 +36,7 @@ private:
 	std::unique_ptr<sf::RenderWindow> m_win;
 	std::map<EntityType, sf::Sprite> m_assets;
 	std::map<std::string, sf::Texture> m_cache;
-	sf::Music m_music;
+	std::unique_ptr<sf::Music> m_music;
 
 };
 

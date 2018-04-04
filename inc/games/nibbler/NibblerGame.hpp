@@ -33,24 +33,13 @@ private:
 	void popApple();
 	void checkCol();
 	void checkApple();
-	void popSnake(std::pair<std::size_t, std::size_t>);
 private:
 	std::unique_ptr<IGlib> m_library;
 	Map	m_map;
 	std::map<EntityType, Entity> m_assets;
 	std::vector<SnakeEntity> m_snake;
 	Entity m_apple;
-	/*
-private:
-	int m_appleState;
-	int m_appleIndex;
-	std::vector<Entity> m_map;
-	std::vector<Entity> m_snake;
-
-	void loadMap(const std::string &path);
-	bool isGameFinished();
-	void chooseNextDir(Entity &, std::size_t);
-	*/
+	SnakeEntity m_prevSnake;
 };
 
 
