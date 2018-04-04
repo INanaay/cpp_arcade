@@ -49,7 +49,7 @@ void SDLWrapper::InitWindow()
 	m_renderer = SDL_CreateRenderer(m_window, -1, 0);
 	m_color = {255, 255, 255, 255};
 
-	SDL_LoadWAV("resources/Audio/wii.wav", &m_audio.wavSpec, &m_audio.wavBuffer, &m_audio.wavLength);
+	SDL_LoadWAV("resources/Audio/roller.wav", &m_audio.wavSpec, &m_audio.wavBuffer, &m_audio.wavLength);
 	SDL_AudioDeviceID deviceId = SDL_OpenAudioDevice(NULL, 0, &m_audio.wavSpec, NULL, 0);
 	int success = SDL_QueueAudio(deviceId, m_audio.wavBuffer, m_audio.wavLength);
 	if (success == 0)
@@ -131,7 +131,7 @@ std::pair<UserEvent, char> SDLWrapper::getLastEvent()
 	return lastEvent;
 };
 
-void SDLWrapper::DrawText(std::string text, int posx, int posy)
+void SDLWrapper::DrawText(std::string text, int posx, int posy) const
 {
 	SDL_Rect textRect;
 	SDL_Surface *textSurface = TTF_RenderText_Solid(m_font, text.c_str(), m_color);
@@ -177,8 +177,8 @@ void SDLWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
 void SDLWrapper::DrawEntity(Entity &entity)
 {
 	SDL_Rect r;
-	r.x = entity.cellPosition.first;
-	r.y = entity.cellPosition.second;
+	r.x = (int) entity.screenPosition.first;
+	r.y = (int) entity.screenPosition.second;
 	r.w = 30;
 	r.h = 30;
 
@@ -201,13 +201,12 @@ void SDLWrapper::DrawEntity(Entity &entity)
 			img = m_cache[entity.sprite];
 
 		SDL_QueryTexture(img, NULL, NULL, &w, &h);
-		SDL_Rect texr; texr.x = entity.cellPosition.first;
-		texr.y = entity.cellPosition.second;
-		texr.w = w;
-		texr.h = h;
-		SDL_RenderCopy(m_renderer, img, NULL, &texr);
+
+
+		r.w = w;
+		r.h = h;
+		SDL_RenderCopy(m_renderer, img, NULL, &r);
 
 	}
 	SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 0);
-	usleep(20);
 }

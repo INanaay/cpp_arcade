@@ -111,8 +111,7 @@ void NcursesWrapper::DrawEntity(Entity &entity)
 	x = entity.cellPosition.first;
 	y = entity.cellPosition.second;
 
-	x /= 30;
-	y /= 30;
+	
 	toDraw = entity.ascii;
 	mvwaddch(stdscr, y, x, toDraw);
 	usleep(10);
