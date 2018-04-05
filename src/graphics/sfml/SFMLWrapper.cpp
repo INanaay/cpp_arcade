@@ -176,8 +176,8 @@ void SFMLWrapper::drawEntity(const Entity &entity)
 	else
 		texture = m_cache[entity.sprite];
 	sprite = sf::Sprite(texture);
-	sprite.setPosition(entity.screenPosition.first,
-			entity.screenPosition.second);
+	sprite.setPosition(entity.screenPosition.first + 15,
+			entity.screenPosition.second + 15);
 	sprite.setOrigin(15, 15);
 	sprite.setRotation(90 * (int) entity.direction);
 	m_win->draw(sprite);
