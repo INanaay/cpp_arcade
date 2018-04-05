@@ -40,7 +40,7 @@ SDLWrapper::SDLWrapper()
 }
 
 
-void SDLWrapper::InitWindow()
+void SDLWrapper::initWindow()
 {
 	m_window = SDL_CreateWindow("SDL_RenderClear",
 				    SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
@@ -58,20 +58,20 @@ void SDLWrapper::InitWindow()
 
 }
 
-void SDLWrapper::DestroyWindow()
+void SDLWrapper::destroyWindow()
 {
 	SDL_DestroyRenderer(m_renderer);
 	SDL_DestroyWindow(m_window);
 	SDL_Quit();
 }
 
-void SDLWrapper::Clear()
+void SDLWrapper::clear()
 {
 	SDL_RenderClear(m_renderer);
 
 }
 
-void SDLWrapper::Display() {
+void SDLWrapper::display() {
 	SDL_RenderPresent(m_renderer);
 }
 
@@ -131,7 +131,7 @@ std::pair<UserEvent, char> SDLWrapper::getLastEvent()
 	return lastEvent;
 };
 
-void SDLWrapper::DrawText(std::string text, int posx, int posy) const
+void SDLWrapper::drawText(std::string text, int posx, int posy) const
 {
 	SDL_Rect textRect;
 	SDL_Surface *textSurface = TTF_RenderText_Solid(m_font, text.c_str(), m_color);
@@ -142,23 +142,23 @@ void SDLWrapper::DrawText(std::string text, int posx, int posy) const
 	SDL_RenderCopy(m_renderer, texture, NULL, &textRect);
 }
 
-void SDLWrapper::DrawMap(std::vector<Entity> &map)
+void SDLWrapper::drawMap(std::vector<Entity> &map)
 {
 	for (auto &entity: map)
-		DrawEntity(entity);
+		drawEntity(entity);
 }
 
 
 void SDLWrapper::drawGames(std::vector<std::pair<std::string, std::string>>, std::pair<std::string, std::string>) {}
 
-void SDLWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
+void SDLWrapper::drawMenu(MenuInformations menu, CoreInformations core)
 {
 	core = core;
-	DrawText("Name :" + menu.name, 0, 0);
-	DrawText("ACADE", SCR_WIDTH / 3, 0);
-	DrawText("SDL", SCR_WIDTH * 3 / 4, 0);
-	DrawText("Choose game : " + menu.game.first, 0, 40);
-	DrawText("ScoreBoard", SCR_WIDTH / 2 - 90, 140);
+	drawText("Name :" + menu.name, 0, 0);
+	drawText("ACADE", SCR_WIDTH / 3, 0);
+	drawText("SDL", SCR_WIDTH * 3 / 4, 0);
+	drawText("Choose game : " + menu.game.first, 0, 40);
+	drawText("ScoreBoard", SCR_WIDTH / 2 - 90, 140);
 
 	if (!(core.scores.find(menu.game.first) == core.scores.end())) {
 		{
@@ -166,15 +166,15 @@ void SDLWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
 			//std::sort(vector.begin(), vector.end(), test);
 			int y = 160;
 			for (unsigned int i = 0; i < vector.size(); i++) {
-				DrawText(vector[i].first, 0, y);
-				DrawText(std::to_string(vector[i].second), 80, y);
+				drawText(vector[i].first, 0, y);
+				drawText(std::to_string(vector[i].second), 80, y);
 				y += 30;
 			}
 		}
 	}
 }
 
-void SDLWrapper::DrawEntity(const Entity &entity)
+void SDLWrapper::drawEntity(const Entity &entity)
 {
 	SDL_Rect r;
 	r.x = (int) entity.screenPosition.first;

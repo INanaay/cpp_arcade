@@ -22,9 +22,9 @@ class NibblerGame : public IGame
 {
 public:
 	NibblerGame();
-	UserEvent Run();
-	void Stop();
-	void Init(std::unique_ptr<IGlib> library);
+	UserEvent run();
+	void stop();
+	void init(std::unique_ptr<IGlib> library);
 	std::unique_ptr<IGlib> getLib();
 	void setLib(std::unique_ptr<IGlib>);
 private:

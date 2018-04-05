@@ -31,21 +31,21 @@ SFMLWrapper::SFMLWrapper()
 		m_music->play();
 }
 
-void SFMLWrapper::InitWindow()
+void SFMLWrapper::initWindow()
 {
 }
 
-void SFMLWrapper::DestroyWindow()
+void SFMLWrapper::destroyWindow()
 {
 	m_win->close();
 }
 
-void SFMLWrapper::Clear()
+void SFMLWrapper::clear()
 {
 	m_win->clear();
 }
 
-void SFMLWrapper::Display()
+void SFMLWrapper::display()
 {
 	m_win->display();
 }
@@ -116,7 +116,7 @@ void SFMLWrapper::drawGames(std::vector<std::pair<std::string, std::string>>
 	}
 }
 
-void SFMLWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
+void SFMLWrapper::drawMenu(MenuInformations menu, CoreInformations core)
 {
 	sf::Text name("name : " + menu.name, *m_font, 30);
 	sf::Text title("ARCADE", *m_font, 60);
@@ -138,13 +138,13 @@ void SFMLWrapper::DrawMenu(MenuInformations menu, CoreInformations core)
 	m_win->draw(title);
 }
 
-void SFMLWrapper::DrawMap(std::vector<Entity> &map)
+void SFMLWrapper::drawMap(std::vector<Entity> &map)
 {
 	for (auto &entity: map)
-		DrawEntity(entity);
+		drawEntity(entity);
 }
 
-void SFMLWrapper::DrawEntity(const Entity &entity)
+void SFMLWrapper::drawEntity(const Entity &entity)
 {
 	sf::Sprite sprite;
 	sf::Texture texture;

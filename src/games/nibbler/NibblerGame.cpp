@@ -61,13 +61,13 @@ bool NibblerGame::eventHandler(std::pair<UserEvent, char> event)
 	return false;
 }
 
-UserEvent NibblerGame::Run()
+UserEvent NibblerGame::run()
 {
 	std::pair<UserEvent, char> event;
 
 	while (1)
 	{
-		m_library->Clear();
+		m_library->clear();
 		event = m_library->getLastEvent();
 		if (event.first == UserEvent::LIB_NEXT || event.first == UserEvent::LIB_PREV)
 			return event.first;
@@ -75,17 +75,17 @@ UserEvent NibblerGame::Run()
 			break ;
 		moveSnake();
 		for (auto i : m_map.getEntities()) {
-			m_library->DrawEntity(i.second);
+			m_library->drawEntity(i.second);
 		}
 		for (auto i : m_snake) {
-			m_library->DrawEntity(i);
+			m_library->drawEntity(i);
 		}
-		m_library->Display();
+		m_library->display();
 	}
 	return UserEvent::ESCAPE;
 }
 
-void NibblerGame::Stop()
+void NibblerGame::stop()
 {
 
 }
@@ -100,16 +100,16 @@ void NibblerGame::setLib(std::unique_ptr<IGlib> library)
 	m_library = std::move(library);
 }
 
-void NibblerGame::Init(std::unique_ptr<IGlib> library)
+void NibblerGame::init(std::unique_ptr<IGlib> library)
 {
 	setLib(std::move(library));
 	m_map.loadFile("./resources/nibbler/test.map", m_assets);
 
-	auto posInit = m_map.getCenteredPosition();
+	auto posinit = m_map.getCenteredPosition();
 	SnakeEntity snake;
-	snake.cellPosition = posInit;
-	snake.screenPosition = std::pair<std::size_t, std::size_t>(posInit.first * 30,
-			posInit.second * 30);
+	snake.cellPosition = posinit;
+	snake.screenPosition = std::pair<std::size_t, std::size_t>(posinit.first * 30,
+			posinit.second * 30);
 	snake.ascii = 'O';
 	snake.sprite = "resources/nibbler/grass.png";
 	snake.direction = Direction::TOP;
@@ -117,10 +117,10 @@ void NibblerGame::Init(std::unique_ptr<IGlib> library)
 	m_snake.push_back(snake);
 	for (int i = 0; i < 3; i++)
 	{
-		posInit.second += 1;
-		snake.cellPosition = posInit;
-		snake.screenPosition = std::pair<std::size_t, std::size_t>(posInit.first * 30,
-				posInit.second * 30);
+		posinit.second += 1;
+		snake.cellPosition = posinit;
+		snake.screenPosition = std::pair<std::size_t, std::size_t>(posinit.first * 30,
+				posinit.second * 30);
 		snake.ascii = 'O';
 		snake.sprite = "resources/nibbler/grass.png";
 		snake.direction = Direction::TOP;
@@ -150,14 +150,14 @@ void	NibblerGame::checkCol()
 			break;
 	}
 	if (m_map.getEntityAt(nextCase).type == EntityType::WALL) {
-		m_library->DestroyWindow();
+		m_library->destroyWindow();
 		printf("wall\n");
 		std::exit(0);
 	}
 	for (auto i : m_snake)
 	{
 		if (nextCase == i.cellPosition) {
-			m_library->DestroyWindow();
+			m_library->destroyWindow();
 		printf("Snake\n");
 		std::exit(0);
 		}

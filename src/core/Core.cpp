@@ -32,7 +32,7 @@ Core::Core(const std::string &libname)
 
 void	Core::Start()
 {
-	m_lib->InitWindow();
+	m_lib->initWindow();
 	showMenu();
 }
 
@@ -68,7 +68,7 @@ static std::pair<std::string, std::string>	decLibs(CoreInformations core, std::p
 
 void	Core::loadNextLib()
 {
-	m_lib->DestroyWindow();
+	m_lib->destroyWindow();
 	system("reset");
 	auto it = std::find(m_libraries.begin(), m_libraries.end(), m_pathLib);
 		if (it == m_libraries.end())
@@ -87,12 +87,12 @@ void	Core::loadNextLib()
 			loadGraphicLibrary((m_libraries[m_libraries.size() - 1]).second.c_str());
 			m_pathLib = m_libraries[m_libraries.size() - 1];
 		}
-		m_lib->InitWindow();
+		m_lib->initWindow();
 }
 
 void	Core::loadPrevLib()
 {
-	m_lib->DestroyWindow();
+	m_lib->destroyWindow();
 	system("reset");
 	auto it = std::find(m_libraries.begin(), m_libraries.end(), m_pathLib);
 		if (it == m_libraries.end())
@@ -111,7 +111,7 @@ void	Core::loadPrevLib()
 			loadGraphicLibrary((m_libraries[0]).second.c_str());
 			m_pathLib = m_libraries[0];
 		}
-		m_lib->InitWindow();
+		m_lib->initWindow();
 }
 
 void	Core::runGame(MenuInformations menu)
@@ -139,9 +139,9 @@ void	Core::runGame(MenuInformations menu)
 void Core::loopGame()
 {
 	UserEvent gameEvent;
-	m_game->Init(std::move(m_lib));
+	m_game->init(std::move(m_lib));
 	while (1) {
-		gameEvent = m_game->Run();
+		gameEvent = m_game->run();
 		if (gameEvent == UserEvent::LIB_NEXT) {
 			m_lib = std::move(m_game->getLib());
 			loadNextLib();
@@ -153,7 +153,7 @@ void Core::loopGame()
 		}
 		if (gameEvent == UserEvent::ESCAPE) {
 			m_lib = std::move(m_game->getLib());
-			m_lib->DestroyWindow();
+			m_lib->destroyWindow();
 			std::exit(0);
 		}
 	}
@@ -163,8 +163,8 @@ void	Core::eventHandler(std::pair<UserEvent, char> event, MenuInformations &menu
 		CoreInformations &core)
 {
 	if (event.first == UserEvent::ESCAPE) {
-		std::cout << "Destroy\n";
-		m_lib->DestroyWindow();
+		std::cout << "destroy\n";
+		m_lib->destroyWindow();
 		std::exit(0);
 	}
 	else if (event.first == UserEvent::ENTER)
@@ -197,11 +197,11 @@ void	Core::showMenu()
 
 	while (1)
 	{
-		m_lib->Clear();
+		m_lib->clear();
 		event = m_lib->getLastEvent();
 		eventHandler(event, menu, core);
-		m_lib->DrawMenu(menu, core);
-		m_lib->Display();
+		m_lib->drawMenu(menu, core);
+		m_lib->display();
 	}
 }
 

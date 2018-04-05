@@ -17,13 +17,13 @@ class IGlib {
 public:
 	virtual ~IGlib() = default;
 
-	virtual void Clear() = 0;
-	virtual void Display() = 0;
-	virtual void InitWindow() = 0;
-	virtual void DestroyWindow() = 0;
-	virtual void DrawEntity(const Entity &entity) = 0;
-	virtual void DrawMap(std::vector<Entity> &map) = 0;
-	virtual void DrawMenu(MenuInformations, CoreInformations) = 0;
+	virtual void clear() = 0;
+	virtual void display() = 0;
+	virtual void initWindow() = 0;
+	virtual void destroyWindow() = 0;
+	virtual void drawEntity(const Entity &entity) = 0;
+	virtual void drawMap(std::vector<Entity> &map) = 0;
+	virtual void drawMenu(MenuInformations, CoreInformations) = 0;
 
 	virtual std::pair<UserEvent, char> getLastEvent() = 0;
 };

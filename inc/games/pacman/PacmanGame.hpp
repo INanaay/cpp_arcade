@@ -21,9 +21,9 @@ public:
 
 	//FUNCS
 	void initEntities();
-	void Init(std::unique_ptr<IGlib> library) override;
-	UserEvent Run() override;
-	void Stop() override;
+	void init(std::unique_ptr<IGlib> library) override;
+	UserEvent run() override;
+	void stop() override;
 
 	//PROPERTIES
 	void setLib(std::unique_ptr<IGlib> ptr) override;

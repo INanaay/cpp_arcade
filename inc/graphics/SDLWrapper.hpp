@@ -30,14 +30,14 @@ class SDLWrapper : public IGlib
 public:
 	SDLWrapper();
 	~SDLWrapper() = default;
-	void DrawMenu(MenuInformations, CoreInformations);
-	void InitWindow();
-	void DestroyWindow();
-	void Clear();
-	void Display();
+	void drawMenu(MenuInformations, CoreInformations);
+	void initWindow();
+	void destroyWindow();
+	void clear();
+	void display();
 	std::pair<UserEvent, char> getLastEvent();
-	void DrawMap(std::vector<Entity> &map);
-	void DrawEntity(const Entity &entity);
+	void drawMap(std::vector<Entity> &map);
+	void drawEntity(const Entity &entity);
 private:
 	void drawGames(std::vector<std::pair<std::string, std::string>>,
 		       std::pair<std::string, std::string>);
@@ -47,7 +47,7 @@ private:
 	SDL_Color m_color;
 	SDLAudio m_audio;
 
-	void DrawText(std::string text, int posx, int posy) const;
+	void drawText(std::string text, int posx, int posy) const;
 	std::map<std::string, SDL_Texture *> m_cache;
 
 };

@@ -12,27 +12,27 @@ extern "C" PacmanGame *create_game()
 	return new PacmanGame();
 }
 
-UserEvent PacmanGame::Run()
+UserEvent PacmanGame::run()
 {
 	auto &mapEntities = m_map.getEntities();
 
 	while (true)
 	{
-		m_library->Clear();
+		m_library->clear();
 		for (const auto &entry: mapEntities)
-			m_library->DrawEntity(entry.second);
-		m_library->DrawEntity(m_player.getEntity());
-		m_library->Display();
+			m_library->drawEntity(entry.second);
+		m_library->drawEntity(m_player.getEntity());
+		m_library->display();
 	}
 	return UserEvent ::NONE;
 }
 
-void PacmanGame::Stop()
+void PacmanGame::stop()
 {
 
 }
 
-void PacmanGame::Init(std::unique_ptr<IGlib> library)
+void PacmanGame::init(std::unique_ptr<IGlib> library)
 {
 	setLib(std::move(library));
 	initAssets();

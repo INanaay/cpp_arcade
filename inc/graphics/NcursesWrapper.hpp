@@ -16,18 +16,18 @@ class NcursesWrapper : public IGlib
 public:
 	NcursesWrapper() = default;
 	~NcursesWrapper() = default;
-	void DrawMenu(MenuInformations, CoreInformations);
-	void InitWindow();
-  void DestroyWindow();
-	void Clear();
-	void Display();
+	void drawMenu(MenuInformations, CoreInformations);
+	void initWindow();
+  void destroyWindow();
+	void clear();
+	void display();
 	std::pair<UserEvent, char> getLastEvent();
-	void DrawMap(std::vector<Entity> &entities);
-	void DrawEntity(const Entity &);
+	void drawMap(std::vector<Entity> &entities);
+	void drawEntity(const Entity &);
 private:
     	std::string getPlayerName();
     	WINDOW *scoresWindow;
-	void DrawScores(std::map<std::string, std::vector<Score>>, std::string);
+	void drawScores(std::map<std::string, std::vector<Score>>, std::string);
 
 };
 
