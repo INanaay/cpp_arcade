@@ -136,8 +136,8 @@ void	Core::runGame(MenuInformations menu)
 	loopGame();
 	m_scores[menu.game.first].push_back({menu.name, m_game->getScore()});
 	serializeScores(menu.game.first, m_scores[menu.game.first]);
-	m_lib->destroyWindow();
-	std::exit(0);
+	//m_lib->destroyWindow();
+	//std::exit(0);
 }
 
 void Core::loopGame()
@@ -157,7 +157,6 @@ void Core::loopGame()
 		}
 		if (gameEvent == UserEvent::ESCAPE) {
 			m_lib = std::move(m_game->getLib());
-			m_lib->destroyWindow();
 			return;
 		}
 	}
@@ -166,15 +165,13 @@ void Core::loopGame()
 void	Core::eventHandler(std::pair<UserEvent, char> event, MenuInformations &menu,
 		CoreInformations &core)
 {
-	if (event.first == UserEvent::ESCAPE) {
-		std::cout << "destroy\n";
-		m_lib->destroyWindow();
-		std::exit(0);
-	}
-	else if (event.first == UserEvent::ENTER)
+
+	 if (event.first == UserEvent::ENTER)
 	{
-		if (menu.name != "")
+		if (menu.name != "") {
 			runGame(menu);
+			core.scores = m_scores;
+		}
 	}
 	else if (event.first == UserEvent::TEXT)
 	{
@@ -199,10 +196,15 @@ void	Core::showMenu()
 	MenuInformations menu = {"", m_games[0], m_pathLib};
 	CoreInformations core = {m_games, m_libraries, m_scores};
 
+
 	while (1)
 	{
 		m_lib->clearWindow();
 		event = m_lib->getLastEvent();
+		if (event.first == UserEvent::ESCAPE) {
+			m_lib->destroyWindow();
+			return;
+		}
 		eventHandler(event, menu, core);
 		m_lib->drawMenu(menu, core);
 		m_lib->display();
@@ -307,8 +309,6 @@ void Core::loadScoreBoard()
 		if (n_idx == std::string::npos)
 			continue;
 		std::string game = path.substr(n_idx + prefix.size());
-		std::cout << "game = " << game << std::endl;
-		std::cout << "path = " << path << std::endl;
 		if (path[path.size() - 1] != '~')
 			deserializeScores(game, path);
 	}
