@@ -244,9 +244,9 @@ void NibblerGame::popApple()
 			ok = true;
 			if (i.cellPosition == randPos)
 				ok = false;
-			if (m_map.getEntityAt(randPos).type != EntityType::EMPTY)
-				ok = false;
 		}
+		if (m_map.getEntityAt(randPos).type != EntityType::EMPTY)
+			ok = false;
 	}
 	m_apple.cellPosition = randPos;
 	m_apple.screenPosition = std::pair<std::size_t, std::size_t>(randPos.first * 30,
