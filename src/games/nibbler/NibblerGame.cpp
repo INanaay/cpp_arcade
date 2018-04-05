@@ -122,7 +122,7 @@ void NibblerGame::init(std::unique_ptr<IGlib> library)
 	snake.screenPosition = std::pair<std::size_t, std::size_t>(posInit.first * 30,
 			posInit.second * 30);
 	snake.ascii = 'O';
-	snake.sprite = "resources/nibbler/snake.png";
+	snake.sprite = "resources/nibbler/head.png";
 	snake.direction = Direction::TOP;
 	snake.nextDirection = Direction::TOP;
 	m_snake.push_back(snake);
@@ -133,7 +133,7 @@ void NibblerGame::init(std::unique_ptr<IGlib> library)
 		snake.screenPosition = std::pair<std::size_t, std::size_t>(posInit.first * 30,
 				posInit.second * 30);
 		snake.ascii = 'O';
-		snake.sprite = "resources/nibbler/snake.png";
+		snake.sprite = "resources/nibbler/body.png";
 		snake.direction = Direction::TOP;
 		snake.nextDirection = Direction::TOP;
 		m_snake.push_back(snake);

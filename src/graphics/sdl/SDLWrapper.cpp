@@ -206,9 +206,10 @@ void SDLWrapper::drawEntity(const Entity &entity)
 
 	SDL_QueryTexture(img, NULL, NULL, &w, &h);
 
+	SDL_RendererFlip flip = SDL_FLIP_NONE; // the flip of the texture.
 
 	r.w = w;
 	r.h = h;
-	SDL_RenderCopy(m_renderer, img, NULL, &r);
-	usleep(1);
+	SDL_RenderCopyEx(m_renderer, img, NULL, &r, 90 * (int) entity.direction, NULL, flip);
+	for (int i = 0; i < 10000; i++);
 }
