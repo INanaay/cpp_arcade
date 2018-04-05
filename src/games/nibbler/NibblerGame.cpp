@@ -178,6 +178,7 @@ void	NibblerGame::checkApple()
 	{
 		m_snake.push_back(m_prevSnake);
 		m_map.getEntityAt(m_apple.cellPosition).type = EntityType::EMPTY;
+		m_map.getEntityAt(m_apple.cellPosition).ascii = ' ';
 		m_map.getEntityAt(m_apple.cellPosition).sprite = "resources/nibbler/grass.png";
 		popApple();
 	}
