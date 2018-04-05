@@ -33,7 +33,7 @@ void NcursesWrapper::destroyWindow()
 	endwin();
 }
 
-void NcursesWrapper::clear()
+void NcursesWrapper::clearWindow()
 {
 }
 
@@ -62,14 +62,11 @@ std::pair<UserEvent, char> NcursesWrapper::getLastEvent()
 		lastEvent.first = UserEvent::RIGHT;
 	else if (ch == KEY_DOWN)
 		lastEvent.first = UserEvent::DOWN;
-	else if (ch == '\n') {
+	else if (ch == '\n')
 		lastEvent.first = UserEvent::ENTER;
-		clear();
-	}
 	else if (ch == 127 ||  ch == KEY_DC|| ch == KEY_BACKSPACE) {
 		lastEvent.first = UserEvent::TEXT;
 		lastEvent.second = '\b';
-		clear();
 	}
 	else if (isalnum(ch)) {
 		lastEvent.first = UserEvent::TEXT;
@@ -77,6 +74,8 @@ std::pair<UserEvent, char> NcursesWrapper::getLastEvent()
 	}
 	else
 		lastEvent.first = UserEvent::NONE;
+	if (lastEvent.first != UserEvent::NONE)
+		clear();
 	return lastEvent;
 }
 

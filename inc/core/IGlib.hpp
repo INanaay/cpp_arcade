@@ -17,7 +17,7 @@ class IGlib {
 public:
 	virtual ~IGlib() = default;
 
-	virtual void clear() = 0;
+	virtual void clearWindow() = 0;
 	virtual void display() = 0;
 	virtual void initWindow() = 0;
 	virtual void destroyWindow() = 0;

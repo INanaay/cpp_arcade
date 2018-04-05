@@ -13,8 +13,8 @@
 #include "../core/EntityType.hpp"
 #include "../core/IGlib.hpp"
 
-# define SCR_WIDTH 720
-# define SCR_HEIGHT 640
+# define SCR_WIDTH 1000
+# define SCR_HEIGHT 1000
 
 class SFMLWrapper : public IGlib
 {
@@ -24,7 +24,7 @@ public:
 	void drawMenu(MenuInformations, CoreInformations);
   void initWindow();
 	void destroyWindow();
-	void clear();
+	void clearWindow();
 	void display();
 	std::pair<UserEvent, char> getLastEvent();
 	void drawMap(std::vector<Entity> &map);

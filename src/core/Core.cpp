@@ -197,7 +197,7 @@ void	Core::showMenu()
 
 	while (1)
 	{
-		m_lib->clear();
+		m_lib->clearWindow();
 		event = m_lib->getLastEvent();
 		eventHandler(event, menu, core);
 		m_lib->drawMenu(menu, core);
@@ -292,7 +292,7 @@ void Core::loadLibrairies()
 void Core::loadScoreBoard()
 {
 	const std::string dir = "scores";
-	const std::string suffix = ".sco";
+	const std::string suffix = ".so";
 	const std::string prefix = "/arcade_score_";
 	fs::directory_iterator iterator(dir);
 
@@ -302,9 +302,11 @@ void Core::loadScoreBoard()
 		std::size_t n_idx = path.find(prefix);
 		if (n_idx == std::string::npos)
 			continue;
-
 		std::string game = path.substr(n_idx + prefix.size());
-		deserializeScores(game, path);
+		std::cout << "game = " << game << std::endl;
+		std::cout << "path = " << path << std::endl;
+		if (path[path.size() - 1] != '~')
+			deserializeScores(game, path);
 	}
 }
 
@@ -330,37 +332,20 @@ void Core::deserializeScores(const std::string &game, const std::string &path)
 	fileStream.close();
 }
 
+
 void Core::serializeScores(const std::string &game, std::vector<Score> &scores)
 {
 	const std::string dir = "scores/";
 	const std::string filename = "arcade_score_" + game;
-	std::ofstream fileStream(dir + filename);
+	std::ofstream fileStream(dir + filename, std::ios::out | std::ios::trunc);
 
+	std::sort(scores.begin(), scores.end(), [](std::pair<std::string, uint> i, std::pair<std::string, uint> j) {
+		return i.second > j.second;
+	});
 	if (!fileStream)
 		throw std::exception();
 	for (unsigned int i = 0; i < scores.size(); i++) {
 		fileStream << scores[i].second << ":" << scores[i].first << "\n";
 	}
 	fileStream.close();
-	/*
-	std::vector<Score> list;
-	if (m_scores.find(game) != m_scores.end())
-		list = m_scores[game];
-
-	scores = scores;
-	for (int i = 0; i < scores.size(); i++) {
-
-	}
-	while (!fileStream.eof())
-	{
-		std::size_t score;
-		char player[nameLength + 1];
-
-		fileStream.write(player, nameLength);
-		player[nameLength] = 0;
-		if (fileStream.eof())
-			throw std::exception(); //corrupted
-		fileStream.write((char *)&score, sizeof(std::size_t));
-	}
-	 */
 }
