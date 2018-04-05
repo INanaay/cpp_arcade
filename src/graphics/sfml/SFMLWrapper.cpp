@@ -40,7 +40,7 @@ void SFMLWrapper::destroyWindow()
 	m_win->close();
 }
 
-void SFMLWrapper::clear()
+void SFMLWrapper::clearWindow()
 {
 	m_win->clear();
 }

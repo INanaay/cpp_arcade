@@ -69,14 +69,13 @@ UserEvent NibblerGame::run()
 
 	while (1)
 	{
-		m_library->clear();
 		event = m_library->getLastEvent();
 		if (event.first == UserEvent::LIB_NEXT || event.first == UserEvent::LIB_PREV)
 			return event.first;
 		if (eventHandler(event))
 			break ;
 		moveSnake();
-		m_library->clear();
+		m_library->clearWindow();
 		for (auto i : m_map.getEntities()) {
 			m_library->drawEntity(i.second);
 		}

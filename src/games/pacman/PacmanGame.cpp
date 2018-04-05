@@ -18,7 +18,7 @@ UserEvent PacmanGame::run()
 
 	while (true)
 	{
-		m_library->clear();
+		m_library->clearWindow();
 		for (const auto &entry: mapEntities)
 			m_library->drawEntity(entry.second);
 		m_library->drawEntity(m_player.getEntity());
