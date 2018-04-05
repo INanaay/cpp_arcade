@@ -38,6 +38,7 @@ public:
 	std::pair<UserEvent, char> getLastEvent();
 	void drawMap(std::vector<Entity> &map);
 	void drawEntity(const Entity &entity);
+	virtual void drawScore(size_t, int posx, int posy);
 private:
 	void drawGames(std::vector<std::pair<std::string, std::string>>,
 		       std::pair<std::string, std::string>);

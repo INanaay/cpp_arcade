@@ -180,3 +180,8 @@ void SFMLWrapper::drawEntity(const Entity &entity)
 			entity.screenPosition.second);
 	m_win->draw(sprite);
 }
+
+void SFMLWrapper::drawScore(size_t score, int posx, int posy)
+{
+	drawText("score : " + std::to_string(score), posx * 30, posy * 30);
+}

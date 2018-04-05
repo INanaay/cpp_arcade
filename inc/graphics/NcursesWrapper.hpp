@@ -24,6 +24,7 @@ public:
 	std::pair<UserEvent, char> getLastEvent();
 	void drawMap(std::vector<Entity> &entities);
 	void drawEntity(const Entity &);
+	void drawScore(size_t, int posx, int posy);
 private:
     	std::string getPlayerName();
     	WINDOW *scoresWindow;

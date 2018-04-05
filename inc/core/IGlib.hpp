@@ -24,6 +24,7 @@ public:
 	virtual void drawEntity(const Entity &entity) = 0;
 	virtual void drawMap(std::vector<Entity> &map) = 0;
 	virtual void drawMenu(MenuInformations, CoreInformations) = 0;
+	virtual void drawScore(size_t, int posx, int posy) = 0;
 
 	virtual std::pair<UserEvent, char> getLastEvent() = 0;
 };

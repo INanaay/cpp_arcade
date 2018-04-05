@@ -20,6 +20,7 @@ public:
 	virtual void init(std::unique_ptr<IGlib> library) = 0;
 	virtual std::unique_ptr<IGlib> getLib() = 0;
 	virtual void setLib(std::unique_ptr<IGlib>) = 0;
+	virtual size_t getScore() = 0;
 };
 
 #endif //CPP_ARCADE_IGAME_HPP

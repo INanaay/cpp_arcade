@@ -134,6 +134,10 @@ void	Core::runGame(MenuInformations menu)
 	}
 	m_game = std::unique_ptr<IGame>(create());
 	loopGame();
+	m_scores[menu.game.first].push_back({menu.name, m_game->getScore()});
+	serializeScores(menu.game.first, m_scores[menu.game.first]);
+	m_lib->destroyWindow();
+	std::exit(0);
 }
 
 void Core::loopGame()
@@ -154,7 +158,7 @@ void Core::loopGame()
 		if (gameEvent == UserEvent::ESCAPE) {
 			m_lib = std::move(m_game->getLib());
 			m_lib->destroyWindow();
-			std::exit(0);
+			return;
 		}
 	}
 }
@@ -344,8 +348,10 @@ void Core::serializeScores(const std::string &game, std::vector<Score> &scores)
 	});
 	if (!fileStream)
 		throw std::exception();
-	for (unsigned int i = 0; i < scores.size(); i++) {
+	unsigned int i = 0;
+	while (i < scores.size() && i < 9) {
 		fileStream << scores[i].second << ":" << scores[i].first << "\n";
+		i++;
 	}
 	fileStream.close();
 }
