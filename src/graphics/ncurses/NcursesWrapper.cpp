@@ -113,7 +113,6 @@ void NcursesWrapper::drawEntity(const Entity &entity)
 	
 	todraw = entity.ascii;
 	mvwaddch(stdscr, y, x, todraw);
-	usleep(10);
 }
 
 /* This function is temporary */

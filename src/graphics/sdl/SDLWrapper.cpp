@@ -165,7 +165,6 @@ void SDLWrapper::drawMenu(MenuInformations menu, CoreInformations core)
 	if (!(core.scores.find(menu.game.first) == core.scores.end())) {
 		{
 			auto vector = core.scores[menu.game.first];
-			//std::sort(vector.begin(), vector.end(), test);
 			int y = 160;
 			for (unsigned int i = 0; i < vector.size(); i++) {
 				drawText(vector[i].first, 0, y);
