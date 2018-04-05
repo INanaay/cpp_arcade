@@ -19,7 +19,7 @@ public:
 	void drawMenu(MenuInformations, CoreInformations);
 	void initWindow();
   void destroyWindow();
-	void clear();
+	void clearWindow();
 	void display();
 	std::pair<UserEvent, char> getLastEvent();
 	void drawMap(std::vector<Entity> &entities);

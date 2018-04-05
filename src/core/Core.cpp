@@ -197,7 +197,7 @@ void	Core::showMenu()
 
 	while (1)
 	{
-		m_lib->clear();
+		m_lib->clearWindow();
 		event = m_lib->getLastEvent();
 		eventHandler(event, menu, core);
 		m_lib->drawMenu(menu, core);

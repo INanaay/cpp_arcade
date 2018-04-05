@@ -67,7 +67,7 @@ void SDLWrapper::destroyWindow()
 	SDL_Quit();
 }
 
-void SDLWrapper::clear()
+void SDLWrapper::clearWindow()
 {
 	SDL_RenderClear(m_renderer);
 
