@@ -49,11 +49,13 @@ void SDLWrapper::initWindow()
 	m_renderer = SDL_CreateRenderer(m_window, -1, 0);
 	m_color = {255, 255, 255, 255};
 
+	/*
 	SDL_LoadWAV("resources/Audio/roller.wav", &m_audio.wavSpec, &m_audio.wavBuffer, &m_audio.wavLength);
 	SDL_AudioDeviceID deviceId = SDL_OpenAudioDevice(NULL, 0, &m_audio.wavSpec, NULL, 0);
 	int success = SDL_QueueAudio(deviceId, m_audio.wavBuffer, m_audio.wavLength);
 	if (success == 0)
 		SDL_PauseAudioDevice(deviceId, 0);
+	 */
 
 
 }
@@ -182,31 +184,23 @@ void SDLWrapper::drawEntity(const Entity &entity)
 	r.w = 30;
 	r.h = 30;
 
-	if (entity.ascii == 'O') {
-		SDL_SetRenderDrawColor(m_renderer, 0, 0, 255, 255);
-		SDL_RenderDrawRect(m_renderer, &r);
-		SDL_RenderFillRect(m_renderer, &r);
+
+	SDL_Texture *img;
+	int w, h;
+
+	if (m_cache.find((entity.sprite)) == m_cache.end())
+	{
+		img = IMG_LoadTexture(m_renderer, entity.sprite.c_str());
+		m_cache[entity.sprite] = img;
 	}
 	else
-	{
-		SDL_Texture *img;
-		int w, h;
+		img = m_cache[entity.sprite];
 
-		if (m_cache.find((entity.sprite)) == m_cache.end())
-		{
-			img = IMG_LoadTexture(m_renderer, entity.sprite.c_str());
-			m_cache[entity.sprite] = img;
-		}
-		else
-			img = m_cache[entity.sprite];
-
-		SDL_QueryTexture(img, NULL, NULL, &w, &h);
+	SDL_QueryTexture(img, NULL, NULL, &w, &h);
 
 
-		r.w = w;
-		r.h = h;
-		SDL_RenderCopy(m_renderer, img, NULL, &r);
-
-	}
-	SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 0);
+	r.w = w;
+	r.h = h;
+	SDL_RenderCopy(m_renderer, img, NULL, &r);
+	usleep(1);
 }
