@@ -12,11 +12,14 @@
 #include "BasePacmanEntity.hpp"
 #include "../common/Map.hpp"
 
-class Ghost : BasePacmanEntity
+class Ghost : public BasePacmanEntity
 {
 public:
 	//CTOR DTOR
 	explicit Ghost(std::pair<std::size_t, std::size_t> &position);
+
+	bool tryMove(Map &map, Direction direction) final;
+	bool checkDir(Direction direction);
 };
 
 #endif //CPP_ARCADE_GHOST_HPP

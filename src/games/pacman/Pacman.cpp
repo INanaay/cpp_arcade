@@ -12,7 +12,7 @@
 Pacman::Pacman(std::pair<std::size_t, std::size_t> &position)
 : BasePacmanEntity(position)
 {
-	m_speed = 15;
+	m_speed = 3;
 	m_mouthOpen = true;
 	m_entity.type = EntityType::PLAYER;
 	m_entity.ascii = 'C';

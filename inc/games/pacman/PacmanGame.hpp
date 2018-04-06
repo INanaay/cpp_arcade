@@ -22,7 +22,7 @@ public:
 	//FUNCS
 	void init(std::unique_ptr<IGlib> library) override;
 	UserEvent run() override;
-	void moveEntities();
+	UserEvent moveEntities();
 	void stop() override;
 
 	//PROPERTIES
@@ -44,6 +44,7 @@ private:
 	void initCoins();
 	void initAssets();
 	void initEntities();
+	bool checkEndGame();
 };
 
 

@@ -16,6 +16,7 @@ extern "C" PacmanGame *create_game()
 UserEvent PacmanGame::run()
 {
 	auto &mapEntities = m_map.getEntities();
+	UserEvent event;
 
 	while (true)
 	{
@@ -25,16 +26,22 @@ UserEvent PacmanGame::run()
 		m_library->drawEntity(m_player.getEntity());
 		for (const auto &entry: m_coins)
 			m_library->drawEntity(entry.second);
+		for (const auto &entry : m_ghosts)
+			m_library->drawEntity(entry.getEntity());
 		m_library->drawScore(m_score, 25, 0);
-		moveEntities();
+		if ((event = moveEntities()) != UserEvent::NONE)
+			return (event);
+		if (checkEndGame())
+			return UserEvent::ESCAPE;
 		m_library->display();
 	}
 	return UserEvent ::NONE;
 }
-void PacmanGame::moveEntities()
+UserEvent PacmanGame::moveEntities()
 {
 	auto userInput = m_library->getLastEvent();
 	Direction direction = m_player.getEntity().direction;
+	int randPos;
 
 	switch (userInput.first)
 	{
@@ -50,6 +57,12 @@ void PacmanGame::moveEntities()
 		case UserEvent::RIGHT:
 			m_player.nextDirection = Direction::RIGHT;
 			break;
+		case UserEvent::ESCAPE:
+			return UserEvent::ESCAPE;
+		case UserEvent::LIB_NEXT:
+			return UserEvent::LIB_NEXT;
+		case UserEvent::LIB_PREV:
+			return UserEvent::LIB_PREV;
 		default:
 			break;
 	}
@@ -62,6 +75,11 @@ void PacmanGame::moveEntities()
 		m_score += 10;
 		m_coins.erase(it);
 	}
+	for (auto &entry : m_ghosts) {
+		randPos = std::rand()% 4;
+		entry.tryMove(m_map, (Direction) randPos);
+	}
+	return UserEvent::NONE;
 }
 
 void PacmanGame::stop()
@@ -76,6 +94,7 @@ void PacmanGame::init(std::unique_ptr<IGlib> library)
 	m_map.loadFile("resources/pacman/test.map", m_assets);
 	initCoins();
 	initEntities();
+	srand(time(NULL));
 }
 
 std::unique_ptr<IGlib> PacmanGame::getLib()
@@ -159,4 +178,15 @@ void PacmanGame::initCoins()
 
 size_t PacmanGame::getScore() {
 	return m_score;
+}
+
+bool PacmanGame::checkEndGame()
+{
+	if (m_coins.empty())
+		return true;
+	for (auto &entry : m_ghosts) {
+		if (entry.getEntity().cellPosition == m_player.getEntity().cellPosition)
+			return true;
+	}
+	return false;
 }
