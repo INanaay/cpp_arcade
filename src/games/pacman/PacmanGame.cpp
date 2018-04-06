@@ -108,7 +108,7 @@ void PacmanGame::initAssets()
 
 void PacmanGame::initEntities()
 {
-	auto playerPosition = m_map.getFreePosition();
+	auto playerPosition = std::pair<std::size_t, std::size_t>(10, 11);
 	m_player = Pacman(playerPosition);
 
 	for (int i = 0; i < 4; i++)
@@ -118,13 +118,28 @@ void PacmanGame::initEntities()
 	}
 }
 
+static bool isCoin(std::pair<std::size_t, std::size_t> entry)
+{
+	if (entry.second == 9) {
+		if ((entry.first >= 5 && entry.first <= 7) ||
+				(entry.first >= 13 && entry.first <= 15))
+			return true;
+		return false;
+	}
+	if (entry.second == 8 && entry.first == 10)
+		return false;
+	if (entry.second == 11 && entry.first == 10)
+		return false;
+	return true;
+}
+
 void PacmanGame::initCoins()
 {
 	auto &entities = m_map.getEntities();
 	for (auto &entry: entities)
 	{
 		auto &entity = entry.second;
-		if (entity.type == EntityType::EMPTY)
+		if (entity.type == EntityType::EMPTY && isCoin(entry.first) == true)
 		{
 			Entity coinEntity;
 
