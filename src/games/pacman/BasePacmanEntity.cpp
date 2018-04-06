@@ -12,7 +12,7 @@ BasePacmanEntity::BasePacmanEntity
 (std::pair<std::size_t, std::size_t> &position)
 {
 	m_speed = 0;
-	m_nextDirection = Direction ::TOP;
+	nextDirection = Direction ::TOP;
 	m_entity.direction = Direction ::TOP;
 	m_entity.cellPosition.first = position.first;
 	m_entity.cellPosition.second = position.second;
@@ -23,30 +23,43 @@ BasePacmanEntity::BasePacmanEntity
 bool BasePacmanEntity::tryMove(Map &map, Direction direction)
 {
 	(void)direction;
+	auto entityPosition = m_entity.cellPosition;
+	auto screenPosition = m_entity.screenPosition;
+
 
 	switch (m_entity.direction)
 	{
 		case Direction::RIGHT:
-			m_entity.screenPosition.first += m_speed;
+			entityPosition.first += 1;
+			screenPosition.first += m_speed;
 			break;
 		case Direction::LEFT:
-			m_entity.screenPosition.first -= m_speed;
+			entityPosition.first -= 1;
+			screenPosition.first -= m_speed;
 			break;
 		case Direction::TOP:
-			m_entity.screenPosition.second -= m_speed;
+			entityPosition.second -= 1;
+			screenPosition.second -= m_speed;
 			break;
 		case Direction::BOTTOM:
-			m_entity.screenPosition.second += m_speed;
+			entityPosition.second += 1;
+			screenPosition.second += m_speed;
 			break;
 	}
 
-	auto entityAtPosition = map.getEntityAt(m_entity.cellPosition);
+	auto entityAtPosition = map.getEntityAt(entityPosition);
 	if (entityAtPosition.type == EntityType::WALL)
+	{
+		m_entity.direction = nextDirection;
 		return false;
+	}
+
+	m_entity.screenPosition.first = screenPosition.first;
+	m_entity.screenPosition.second = screenPosition.second;
 
 	if (m_entity.screenPosition.first % 30 == 0 && m_entity.screenPosition.second % 30 == 0)
 	{
-		m_entity.direction = m_nextDirection;
+		m_entity.direction = nextDirection;
 		m_entity.cellPosition.first = m_entity.screenPosition.first / 30;
 		m_entity.cellPosition.second = m_entity.screenPosition.second / 30;
 		return (true);
@@ -57,8 +70,4 @@ bool BasePacmanEntity::tryMove(Map &map, Direction direction)
 const Entity &BasePacmanEntity::getEntity() const
 {
 	return (m_entity);
-}
-void BasePacmanEntity::setNextDirection(Direction nextDirection)
-{
-	m_nextDirection = nextDirection;
 }

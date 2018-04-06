@@ -25,13 +25,12 @@ public:
 
 	//PROPERTIES
 	const Entity &getEntity() const;
+
+	Direction nextDirection;
 protected:
 	//FIELDS
 	Entity m_entity;
 	std::size_t m_speed;
-	Direction m_nextDirection;
-public:
-	void setNextDirection(Direction nextDirection);
 };
 
 

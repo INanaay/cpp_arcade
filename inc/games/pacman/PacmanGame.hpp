@@ -20,7 +20,6 @@ public:
 	PacmanGame() = default;
 
 	//FUNCS
-	void initEntities();
 	void init(std::unique_ptr<IGlib> library) override;
 	UserEvent run() override;
 	void moveEntities();
@@ -38,9 +37,12 @@ private:
 	std::vector<Ghost> m_ghosts;
 	std::unique_ptr<IGlib> m_library;
 	std::map<EntityType, Entity> m_assets;
+	std::map<std::pair<std::size_t, std::size_t>, Entity> m_coins;
 
 	//FUNCS
+	void initCoins();
 	void initAssets();
+	void initEntities();
 };
 
 
