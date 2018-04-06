@@ -34,6 +34,7 @@ private:
 	//FIELDS
 	Map m_map;
 	Pacman m_player;
+	std::size_t m_score;
 	std::vector<Ghost> m_ghosts;
 	std::unique_ptr<IGlib> m_library;
 	std::map<EntityType, Entity> m_assets;

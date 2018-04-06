@@ -20,17 +20,13 @@ UserEvent PacmanGame::run()
 	while (true)
 	{
 		m_library->clearWindow();
-		moveEntities();
 		for (const auto &entry: mapEntities)
 			m_library->drawEntity(entry.second);
 		m_library->drawEntity(m_player.getEntity());
 		for (const auto &entry: m_coins)
-		{
-			std::cout << "drawing coin at: " << entry.second
-				.cellPosition.first << ";" << entry.second
-				.cellPosition.second << std::endl;
 			m_library->drawEntity(entry.second);
-		}
+		m_library->drawScore(m_score, 25, 0);
+		moveEntities();
 		m_library->display();
 	}
 	return UserEvent ::NONE;
@@ -59,6 +55,13 @@ void PacmanGame::moveEntities()
 	}
 
 	m_player.tryMove(m_map, direction);
+	auto playerPosition = m_player.getEntity().cellPosition;
+	auto it = m_coins.find(playerPosition);
+	if (it != m_coins.end())
+	{
+		m_score += 10;
+		m_coins.erase(it);
+	}
 }
 
 void PacmanGame::stop()
@@ -123,8 +126,6 @@ void PacmanGame::initCoins()
 		auto &entity = entry.second;
 		if (entity.type == EntityType::EMPTY)
 		{
-			std::cout << entity.cellPosition.first << ";"
-				  << entity.cellPosition.second << std::endl;
 			Entity coinEntity;
 
 			coinEntity.type = EntityType::PICKUP;
@@ -132,13 +133,15 @@ void PacmanGame::initCoins()
 			coinEntity.sprite = "resources/pacman/coin.png";
 			coinEntity.cellPosition.first = entity.cellPosition.first;
 			coinEntity.cellPosition.second = entity.cellPosition.second;
-			coinEntity.screenPosition.first = entity.cellPosition.first * 30;
-			coinEntity.screenPosition.second = entity.screenPosition.second * 30;
+			coinEntity.screenPosition.first = entity
+								  .cellPosition.first * 30;
+			coinEntity.screenPosition.second = entity
+								   .cellPosition.second * 30;
 			m_coins[coinEntity.cellPosition] = coinEntity;
 		}
 	}
 }
 
 size_t PacmanGame::getScore() {
-	return 0;
+	return m_score;
 }
