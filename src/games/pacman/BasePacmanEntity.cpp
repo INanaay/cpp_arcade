@@ -30,11 +30,13 @@ bool BasePacmanEntity::tryMove(Map &map, Direction direction)
 	switch (m_entity.direction)
 	{
 		case Direction::RIGHT:
-			entityPosition.first += 1;
+			if (entityPosition.first < 20)
+				entityPosition.first += 1;
 			screenPosition.first += m_speed;
 			break;
 		case Direction::LEFT:
-			entityPosition.first -= 1;
+			if (entityPosition.first > 0)
+				entityPosition.first -= 1;
 			screenPosition.first -= m_speed;
 			break;
 		case Direction::TOP:
@@ -60,6 +62,12 @@ bool BasePacmanEntity::tryMove(Map &map, Direction direction)
 	if (m_entity.screenPosition.first % 30 == 0 && m_entity.screenPosition.second % 30 == 0)
 	{
 		m_entity.direction = nextDirection;
+		m_entity.cellPosition.first = m_entity.screenPosition.first / 30;
+		m_entity.cellPosition.second = m_entity.screenPosition.second / 30;
+		if (m_entity.cellPosition.first == 0 && m_entity.cellPosition.second == 9)
+			m_entity.screenPosition.first = 20 * 30;
+		if (m_entity.cellPosition.first == 21 && m_entity.cellPosition.second == 9)
+			m_entity.screenPosition.first = 0 * 30;
 		m_entity.cellPosition.first = m_entity.screenPosition.first / 30;
 		m_entity.cellPosition.second = m_entity.screenPosition.second / 30;
 		return (true);
