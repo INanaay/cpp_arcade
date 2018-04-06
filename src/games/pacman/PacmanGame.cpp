@@ -19,12 +19,38 @@ UserEvent PacmanGame::run()
 	while (true)
 	{
 		m_library->clearWindow();
+		moveEntities();
 		for (const auto &entry: mapEntities)
 			m_library->drawEntity(entry.second);
 		m_library->drawEntity(m_player.getEntity());
 		m_library->display();
 	}
 	return UserEvent ::NONE;
+}
+void PacmanGame::moveEntities()
+{
+	auto userInput = m_library->getLastEvent();
+	Direction direction = m_player.getEntity().direction;
+
+	switch (userInput.first)
+	{
+		case UserEvent::DOWN:
+			m_player.setNextDirection(Direction::BOTTOM);
+			break;
+		case UserEvent::UP:
+			m_player.setNextDirection(Direction::TOP);
+			break;
+		case UserEvent::LEFT:
+			m_player.setNextDirection(Direction::LEFT);
+			break;
+		case UserEvent::RIGHT:
+			m_player.setNextDirection(Direction::RIGHT);
+			break;
+		default:
+			break;
+	}
+
+	m_player.tryMove(m_map, direction);
 }
 
 void PacmanGame::stop()

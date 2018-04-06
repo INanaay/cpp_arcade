@@ -72,7 +72,7 @@ Entity &Map::getEntityAt(std::pair<std::size_t, std::size_t> position)
 
 std::pair<std::size_t, std::size_t> Map::getCenteredPosition() const
 {
-	std::pair<std::size_t, std::size_t> pos = std::pair<std::size_t, std::size_t>(m_width / 2,
+	auto pos = std::pair<std::size_t, std::size_t>(m_width / 2,
 						       m_height/ 2);
 	return (pos);
 }

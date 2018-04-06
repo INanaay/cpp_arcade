@@ -10,6 +10,7 @@
 
 #include <utility>
 #include "BasePacmanEntity.hpp"
+#include "../common/Map.hpp"
 
 class Ghost : BasePacmanEntity
 {

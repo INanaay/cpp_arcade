@@ -13,6 +13,7 @@
 #include "BasePacmanEntity.hpp"
 #include "../../core/Entity.hpp"
 #include "../../core/Direction.hpp"
+#include "../common/Map.hpp"
 
 class Pacman : public BasePacmanEntity
 {
@@ -22,7 +23,7 @@ public:
 	Pacman(std::pair<std::size_t, std::size_t> &position);
 
 	//FUNC
-	void move(Direction direction) final;
+	bool tryMove(Map &map, Direction direction) final;
 
 private:
 	//FIELDS

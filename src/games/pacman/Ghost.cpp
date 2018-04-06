@@ -6,6 +6,7 @@
 */
 
 #include "../../../inc/games/pacman/Ghost.hpp"
+#include "../../../inc/games/common/Map.hpp"
 
 Ghost::Ghost(std::pair<std::size_t, std::size_t> &position)
 	: BasePacmanEntity(position)

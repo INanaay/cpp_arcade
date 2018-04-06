@@ -23,6 +23,7 @@ public:
 	void initEntities();
 	void init(std::unique_ptr<IGlib> library) override;
 	UserEvent run() override;
+	void moveEntities();
 	void stop() override;
 
 	//PROPERTIES

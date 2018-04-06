@@ -5,37 +5,42 @@
 **      Made on 2018/04 by lebovin
 */
 
+#include <iostream>
 #include "../../../inc/games/pacman/Pacman.hpp"
 #include "../../../inc/games/pacman/BasePacmanEntity.hpp"
 
 Pacman::Pacman(std::pair<std::size_t, std::size_t> &position)
 : BasePacmanEntity(position)
 {
+	m_speed = 15;
 	m_mouthOpen = true;
 	m_entity.type = EntityType::PLAYER;
 	m_entity.ascii = 'C';
 	m_entity.sprite = "resources/pacman/open.png";
 }
 
-void Pacman::move(Direction direction)
+bool Pacman::tryMove(Map &map, Direction direction)
 {
-	BasePacmanEntity::move(direction);
+	auto moved = BasePacmanEntity::tryMove(map, direction);
 
-	if (tryMoveCell())
+	if (moved)
 		changeSkin();
+	return (moved);
 }
 
 void Pacman::changeSkin()
 {
 	if (m_mouthOpen)
 	{
+		m_mouthOpen = false;
 		m_entity.ascii = 'C';
-		m_entity.sprite = "resources/pacman/open.png";
+		m_entity.sprite = "resources/pacman/close.png";
 	}
 	else
 	{
+		m_mouthOpen = true;
 		m_entity.ascii = 'c';
-		m_entity.sprite = "resources/pacman/close.png";
+		m_entity.sprite = "resources/pacman/open.png";
 	}
 }
 

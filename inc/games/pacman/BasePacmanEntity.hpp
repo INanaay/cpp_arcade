@@ -10,6 +10,7 @@
 
 
 #include "../../core/Entity.hpp"
+#include "../common/Map.hpp"
 
 class BasePacmanEntity
 {
@@ -20,16 +21,17 @@ public:
 	~BasePacmanEntity() = default;
 
 	//FUNC
-	virtual void move(Direction direction);
+	virtual bool tryMove(Map &map, Direction direction);
 
 	//PROPERTIES
 	const Entity &getEntity() const;
 protected:
 	//FIELDS
 	Entity m_entity;
-
-	//FUNC
-	bool tryMoveCell();
+	std::size_t m_speed;
+	Direction m_nextDirection;
+public:
+	void setNextDirection(Direction nextDirection);
 };
 
 
