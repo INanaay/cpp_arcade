@@ -50,7 +50,7 @@ void SDLWrapper::initWindow()
 	m_color = {255, 255, 255, 255};
 
 
-	SDL_LoadWAV("resources/Audio/roller2.wav", &m_audio.wavSpec, &m_audio.wavBuffer, &m_audio.wavLength);
+	SDL_LoadWAV("resources/Audio/roller.wav", &m_audio.wavSpec, &m_audio.wavBuffer, &m_audio.wavLength);
 	SDL_AudioDeviceID deviceId = SDL_OpenAudioDevice(NULL, 0, &m_audio.wavSpec, NULL, 0);
 	int success = SDL_QueueAudio(deviceId, m_audio.wavBuffer, m_audio.wavLength);
 	if (success == 0)
