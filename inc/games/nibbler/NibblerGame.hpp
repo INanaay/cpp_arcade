@@ -27,11 +27,12 @@ public:
 	void init(std::unique_ptr<IGlib> library);
 	std::unique_ptr<IGlib> getLib();
 	void setLib(std::unique_ptr<IGlib>);
+	size_t getScore();
 private:
 	bool eventHandler(std::pair<UserEvent, char>);
-	void moveSnake();
+	bool moveSnake();
 	void popApple();
-	void checkCol();
+	bool checkCol();
 	void checkApple();
 private:
 	std::unique_ptr<IGlib> m_library;
@@ -40,6 +41,7 @@ private:
 	std::vector<SnakeEntity> m_snake;
 	Entity m_apple;
 	SnakeEntity m_prevSnake;
+	size_t m_score;
 };
 
 

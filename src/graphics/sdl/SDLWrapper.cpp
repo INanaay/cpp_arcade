@@ -146,8 +146,10 @@ void SDLWrapper::drawText(std::string text, int posx, int posy) const
 
 void SDLWrapper::drawMap(std::vector<Entity> &map)
 {
-	for (auto &entity: map)
-		drawEntity(entity);
+
+	map = map;
+	std::cout << "Omfg" << std::endl;
+	drawText("ARCADE", SCR_WIDTH / 3, 0);
 }
 
 
@@ -157,7 +159,7 @@ void SDLWrapper::drawMenu(MenuInformations menu, CoreInformations core)
 {
 	core = core;
 	drawText("Name :" + menu.name, 0, 0);
-	drawText("ACADE", SCR_WIDTH / 3, 0);
+	drawText("ARCADE", SCR_WIDTH / 3, 0);
 	drawText("SDL", SCR_WIDTH * 3 / 4, 0);
 	drawText("Choose game : " + menu.game.first, 0, 40);
 	drawText("ScoreBoard", SCR_WIDTH / 2 - 90, 140);
@@ -165,7 +167,6 @@ void SDLWrapper::drawMenu(MenuInformations menu, CoreInformations core)
 	if (!(core.scores.find(menu.game.first) == core.scores.end())) {
 		{
 			auto vector = core.scores[menu.game.first];
-			//std::sort(vector.begin(), vector.end(), test);
 			int y = 160;
 			for (unsigned int i = 0; i < vector.size(); i++) {
 				drawText(vector[i].first, 0, y);
@@ -174,6 +175,13 @@ void SDLWrapper::drawMenu(MenuInformations menu, CoreInformations core)
 			}
 		}
 	}
+}
+
+void SDLWrapper::drawScore(size_t score, int posx, int posy)
+{
+
+	drawText("score : " + std::to_string(score), posx * 30, posy * 30);
+
 }
 
 void SDLWrapper::drawEntity(const Entity &entity)
@@ -198,9 +206,10 @@ void SDLWrapper::drawEntity(const Entity &entity)
 
 	SDL_QueryTexture(img, NULL, NULL, &w, &h);
 
+	SDL_RendererFlip flip = SDL_FLIP_NONE; // the flip of the texture.
 
 	r.w = w;
 	r.h = h;
-	SDL_RenderCopy(m_renderer, img, NULL, &r);
-	usleep(1);
+	SDL_RenderCopyEx(m_renderer, img, NULL, &r, 90 * (int) entity.direction, NULL, flip);
+	for (int i = 0; i < 10000; i++);
 }

@@ -113,7 +113,7 @@ void NcursesWrapper::drawEntity(const Entity &entity)
 	
 	todraw = entity.ascii;
 	mvwaddch(stdscr, y, x, todraw);
-	usleep(10);
+	usleep(1);
 }
 
 /* This function is temporary */
@@ -137,4 +137,14 @@ void NcursesWrapper::drawScores(std::map<std::string, std::vector<Score>> scores
 			}
 		}
 	}
+}
+
+void NcursesWrapper::drawScore(size_t score, int posx, int posy)
+{
+	score = score;
+	posx = posx;
+	posy = posy;
+	std::string toPrint = "score : " + std::to_string(score);
+	mvwprintw(stdscr, posy, posx, toPrint.c_str());
+
 }

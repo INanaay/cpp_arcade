@@ -29,6 +29,7 @@ public:
 	//PROPERTIES
 	void setLib(std::unique_ptr<IGlib> ptr) override;
 	std::unique_ptr<IGlib> getLib() override;
+	size_t getScore();
 
 private:
 	//FIELDS

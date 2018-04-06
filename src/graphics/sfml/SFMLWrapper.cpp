@@ -37,6 +37,7 @@ void SFMLWrapper::initWindow()
 
 void SFMLWrapper::destroyWindow()
 {
+	m_music->stop();
 	m_win->close();
 }
 
@@ -116,8 +117,14 @@ void SFMLWrapper::drawGames(std::vector<std::pair<std::string, std::string>>
 	}
 }
 
-void SFMLWrapper::drawMenu(MenuInformations menu, CoreInformations core)
-{
+void SFMLWrapper::drawText(std::string text, float posx, float posy) {
+	sf::Text toPrint(text, *m_font, 30);
+	toPrint.setPosition(posx, posy);
+	m_win->draw(toPrint);
+}
+
+
+void SFMLWrapper::drawMenu(MenuInformations menu, CoreInformations core) {
 	sf::Text name("name : " + menu.name, *m_font, 30);
 	sf::Text title("ARCADE", *m_font, 60);
 	sf::Text scores("Scoreboard : \n", *m_font, 30);
@@ -136,6 +143,18 @@ void SFMLWrapper::drawMenu(MenuInformations menu, CoreInformations core)
 	m_win->draw(scores);
 	m_win->draw(name);
 	m_win->draw(title);
+
+	if (!(core.scores.find(menu.game.first) == core.scores.end())) {
+		{
+			auto vector = core.scores[menu.game.first];
+			int y = 300;
+			for (unsigned int i = 0; i < vector.size(); i++) {
+				drawText(vector[i].first, 0, y);
+				drawText(std::to_string(vector[i].second), 80, y);
+				y += 30;
+			}
+		}
+	}
 }
 
 void SFMLWrapper::drawMap(std::vector<Entity> &map)
@@ -157,7 +176,14 @@ void SFMLWrapper::drawEntity(const Entity &entity)
 	else
 		texture = m_cache[entity.sprite];
 	sprite = sf::Sprite(texture);
-	sprite.setPosition(entity.screenPosition.first,
-			entity.screenPosition.second);
+	sprite.setPosition(entity.screenPosition.first + 15,
+			entity.screenPosition.second + 15);
+	sprite.setOrigin(15, 15);
+	sprite.setRotation(90 * (int) entity.direction);
 	m_win->draw(sprite);
+}
+
+void SFMLWrapper::drawScore(size_t score, int posx, int posy)
+{
+	drawText("score : " + std::to_string(score), posx * 30, posy * 30);
 }

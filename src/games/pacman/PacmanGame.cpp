@@ -105,3 +105,7 @@ void PacmanGame::initEntities()
 		m_ghosts.push_back(Ghost(position));
 	}
 }
+
+size_t PacmanGame::getScore() {
+	return 0;
+}

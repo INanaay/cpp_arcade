@@ -29,6 +29,7 @@ public:
 	std::pair<UserEvent, char> getLastEvent();
 	void drawMap(std::vector<Entity> &map);
 	void drawEntity(const Entity &entity);
+	void drawScore(size_t, int posx, int posy);
 private:
 	void drawGames(std::vector<std::pair<std::string, std::string>>,
 		       std::pair<std::string, std::string>);
@@ -37,7 +38,8 @@ private:
 	std::map<EntityType, sf::Sprite> m_assets;
 	std::map<std::string, sf::Texture> m_cache;
 	std::unique_ptr<sf::Music> m_music;
-
+	void drawScore() const;
+	void drawText(std::string text, float posx, float posy);
 };
 
 #endif //CPP_ARCADE_SFMLWRAPPER_HPP
