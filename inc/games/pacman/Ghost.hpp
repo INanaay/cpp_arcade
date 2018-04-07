@@ -20,9 +20,11 @@ public:
 
 	bool tryMove(Map &map, Direction dir) final;
 	Direction checkDir(Map);
+	void changeSprite(std::string file);
 private:
 	Direction goNext(std::vector<Direction>);
 	Direction goRandom(std::vector<Direction>);
+
 };
 
 #endif //CPP_ARCADE_GHOST_HPP

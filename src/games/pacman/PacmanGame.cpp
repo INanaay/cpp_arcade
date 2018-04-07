@@ -35,6 +35,13 @@ UserEvent PacmanGame::run()
 			return (event);
 		if (checkEndGame())
 			return UserEvent::ESCAPE;
+
+		if ((std::clock() - timer) / (CLOCKS_PER_SEC) >= 6 && m_canEatGhosts)
+		{
+			m_canEatGhosts = false;
+			changeGhostSrpite();
+		}
+
 		m_library->display();
 	}
 	return UserEvent ::NONE;
@@ -76,10 +83,14 @@ UserEvent PacmanGame::moveEntities()
 		m_score += 10;
 		m_coins.erase(it);
 	}
+
 	for (unsigned int i = 0; i < m_bonus.size(); i ++) {
 		if (playerPosition == m_bonus[i].cellPosition) {
 			m_score += 90;
 			m_bonus.erase(m_bonus.begin() + i);
+			m_canEatGhosts = true;
+			changeGhostSrpite();
+			timer = std::clock();
 			break;
 		}
 	}
@@ -192,9 +203,16 @@ bool PacmanGame::checkEndGame()
 {
 	if (m_coins.empty())
 		return true;
-	for (auto &entry : m_ghosts) {
-		if (entry.getEntity().cellPosition == m_player.getEntity().cellPosition)
-			return true;
+	for (unsigned int i = 0; i < m_ghosts.size(); i++) {
+		if (m_ghosts[i].getEntity().cellPosition == m_player.getEntity().cellPosition && m_canEatGhosts) {
+			m_ghosts.erase(m_ghosts.begin() + i);
+			auto position = m_map.getCenteredPosition();
+			Ghost ghost(position);
+			ghost.changeSprite("resources/pacman/scaredghost.png");
+			m_ghosts.push_back(ghost);
+		}
+		else if (m_ghosts[i].getEntity().cellPosition == m_player.getEntity().cellPosition && !m_canEatGhosts)
+				return true;
 	}
 	return false;
 }
@@ -224,4 +242,22 @@ void PacmanGame::initBonus()
 	bonus.cellPosition.first = 2;
 	bonus.screenPosition.first = 2 * 30;
 	m_bonus.push_back(bonus);
+}
+
+void PacmanGame::changeGhostSrpite()
+{
+	if (m_canEatGhosts) {
+		for (auto &entry : m_ghosts)
+		{
+			entry.changeSprite("resources/pacman/scaredghost.png");
+		}
+
+	}
+	else
+	{
+		for (auto &entry : m_ghosts)
+		{
+			entry.changeSprite("resources/pacman/ghost.png");
+		}
+	}
 }

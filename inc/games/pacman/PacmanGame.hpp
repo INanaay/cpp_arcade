@@ -8,6 +8,7 @@
 #ifndef CPP_ARCADE_PACMANGAME_HPP
 #define CPP_ARCADE_PACMANGAME_HPP
 
+#include <ctime>
 #include "../../core/IGame.hpp"
 #include "Pacman.hpp"
 #include "Ghost.hpp"
@@ -40,6 +41,8 @@ private:
 	std::vector<Entity> m_bonus;
 	std::map<EntityType, Entity> m_assets;
 	std::map<std::pair<std::size_t, std::size_t>, Entity> m_coins;
+	bool m_canEatGhosts;
+	std::clock_t timer;
 
 	//FUNCS
 	void initCoins();
@@ -47,6 +50,7 @@ private:
 	void initEntities();
 	void initBonus();
 	bool checkEndGame();
+	void changeGhostSrpite();
 };
 
 

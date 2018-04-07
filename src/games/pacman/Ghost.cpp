@@ -72,3 +72,8 @@ Direction Ghost::checkDir(Map map)
 	else
 		return goRandom(adjCases);
 }
+
+void Ghost::changeSprite(std::string file)
+{
+	m_entity.sprite = file;
+}
