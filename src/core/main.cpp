@@ -20,8 +20,17 @@ int main(int argc, char **argv)
 
 	if (lib.size() > 1 && lib[0] == '.' && lib[1] == '/')
 		lib = lib.substr(2);
-	Core Core(lib);
 
-	Core.Start();
+	try
+	{
+		Core Core(lib);
+		Core.Start();
+	}
+	catch (std::exception ex)
+	{
+		std::cout << "wow, such an amazing error" << std::endl;
+		std::cout << ex.what() << std::endl;
+		return 84;
+	}
 	return 0;
 }
