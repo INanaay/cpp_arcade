@@ -26,6 +26,8 @@ UserEvent PacmanGame::run()
 		m_library->drawEntity(m_player.getEntity());
 		for (const auto &entry: m_coins)
 			m_library->drawEntity(entry.second);
+		for (const auto &entry : m_bonus)
+			m_library->drawEntity(entry);
 		for (const auto &entry : m_ghosts)
 			m_library->drawEntity(entry.getEntity());
 		m_library->drawScore(m_score, 25, 0);
@@ -75,6 +77,13 @@ UserEvent PacmanGame::moveEntities()
 		m_score += 10;
 		m_coins.erase(it);
 	}
+	for (unsigned int i = 0; i < m_bonus.size(); i ++) {
+		if (playerPosition == m_bonus[i].cellPosition) {
+			m_score += 90;
+			m_bonus.erase(m_bonus.begin() + i);
+			break;
+		}
+	}
 	for (auto &entry : m_ghosts) {
 		randPos = std::rand()% 4;
 		entry.tryMove(m_map, (Direction) randPos);
@@ -93,6 +102,7 @@ void PacmanGame::init(std::unique_ptr<IGlib> library)
 	initAssets();
 	m_map.loadFile("resources/pacman/test.map", m_assets);
 	initCoins();
+	initBonus();
 	initEntities();
 	srand(time(NULL));
 }
@@ -130,7 +140,7 @@ void PacmanGame::initEntities()
 	auto playerPosition = std::pair<std::size_t, std::size_t>(10, 11);
 	m_player = Pacman(playerPosition);
 
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i <= 3; i++)
 	{
 		auto position = m_map.getCenteredPosition();
 		m_ghosts.push_back(Ghost(position));
@@ -189,4 +199,31 @@ bool PacmanGame::checkEndGame()
 			return true;
 	}
 	return false;
+}
+
+void PacmanGame::initBonus()
+{
+	Entity bonus;
+
+	bonus.type = EntityType::PICKUP;
+	bonus.direction = Direction::TOP;
+	bonus.ascii = 'B';
+	bonus.sprite = "resources/pacman/bonus.png";
+	bonus.cellPosition.first = 2;
+	bonus.cellPosition.second = 3;
+	bonus.screenPosition.first = 2 * 30;
+	bonus.screenPosition.second = 3 * 30;
+	m_bonus.push_back(bonus);
+
+	bonus.cellPosition.first = 18;
+	bonus.screenPosition.first = 18 * 30;
+	m_bonus.push_back(bonus);
+
+	bonus.cellPosition.second = 15;
+	bonus.screenPosition.second = 15* 30;
+	m_bonus.push_back(bonus);
+
+	bonus.cellPosition.first = 2;
+	bonus.screenPosition.first = 2 * 30;
+	m_bonus.push_back(bonus);
 }

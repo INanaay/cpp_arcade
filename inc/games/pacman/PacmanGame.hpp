@@ -37,6 +37,7 @@ private:
 	std::size_t m_score;
 	std::vector<Ghost> m_ghosts;
 	std::unique_ptr<IGlib> m_library;
+	std::vector<Entity> m_bonus;
 	std::map<EntityType, Entity> m_assets;
 	std::map<std::pair<std::size_t, std::size_t>, Entity> m_coins;
 
@@ -44,6 +45,7 @@ private:
 	void initCoins();
 	void initAssets();
 	void initEntities();
+	void initBonus();
 	bool checkEndGame();
 };
 
