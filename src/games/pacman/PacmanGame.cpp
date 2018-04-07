@@ -43,7 +43,6 @@ UserEvent PacmanGame::moveEntities()
 {
 	auto userInput = m_library->getLastEvent();
 	Direction direction = m_player.getEntity().direction;
-	int randPos;
 
 	switch (userInput.first)
 	{
@@ -85,8 +84,7 @@ UserEvent PacmanGame::moveEntities()
 		}
 	}
 	for (auto &entry : m_ghosts) {
-		randPos = std::rand()% 4;
-		entry.tryMove(m_map, (Direction) randPos);
+		entry.tryMove(m_map, entry.getEntity().direction);
 	}
 	return UserEvent::NONE;
 }

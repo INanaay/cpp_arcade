@@ -18,8 +18,11 @@ public:
 	//CTOR DTOR
 	explicit Ghost(std::pair<std::size_t, std::size_t> &position);
 
-	bool tryMove(Map &map, Direction direction) final;
-	bool checkDir(Direction direction);
+	bool tryMove(Map &map, Direction dir) final;
+	Direction checkDir(Map);
+private:
+	Direction goNext(std::vector<Direction>);
+	Direction goRandom(std::vector<Direction>);
 };
 
 #endif //CPP_ARCADE_GHOST_HPP
