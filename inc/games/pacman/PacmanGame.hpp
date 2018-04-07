@@ -8,6 +8,7 @@
 #ifndef CPP_ARCADE_PACMANGAME_HPP
 #define CPP_ARCADE_PACMANGAME_HPP
 
+#include <ctime>
 #include "../../core/IGame.hpp"
 #include "Pacman.hpp"
 #include "Ghost.hpp"
@@ -22,7 +23,7 @@ public:
 	//FUNCS
 	void init(std::unique_ptr<IGlib> library) override;
 	UserEvent run() override;
-	void moveEntities();
+	UserEvent moveEntities();
 	void stop() override;
 
 	//PROPERTIES
@@ -37,13 +38,19 @@ private:
 	std::size_t m_score;
 	std::vector<Ghost> m_ghosts;
 	std::unique_ptr<IGlib> m_library;
+	std::vector<Entity> m_bonus;
 	std::map<EntityType, Entity> m_assets;
 	std::map<std::pair<std::size_t, std::size_t>, Entity> m_coins;
+	bool m_canEatGhosts;
+	std::clock_t timer;
 
 	//FUNCS
 	void initCoins();
 	void initAssets();
 	void initEntities();
+	void initBonus();
+	bool checkEndGame();
+	void changeGhostSrpite();
 };
 
 

@@ -12,7 +12,7 @@ CXXFLAGS	+=	-std=c++17 -fPIC
 
 CXXFLAGS	+=	-W -Wextra -Wall -Werror
 
-NAME		=	../../../games/game_arcade_pacman.so
+NAME		=	../../../games/lib_arcade_pacman.so
 
 SRCS		=	./PacmanGame.cpp	\
 			./Pacman.cpp		\
