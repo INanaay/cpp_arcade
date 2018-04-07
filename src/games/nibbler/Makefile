@@ -12,7 +12,7 @@ CXXFLAGS	+=	-std=c++17 -fPIC
 
 CXXFLAGS	+=	-W -Wextra -Wall -Werror
 
-NAME		=	../../../games/game_arcade_nibbler.so
+NAME		=	../../../games/lib_arcade_nibbler.so
 
 SRCS		=	./NibblerGame.cpp \
 					../common/Map.cpp

@@ -243,7 +243,7 @@ void Core::loadGames()
 {
 	const std::string dir = "games";
 	const std::string suffix = ".so";
-	const std::string prefix = "/game_arcade_";
+	const std::string prefix = "/lib_arcade_";
 	fs::directory_iterator iterator(dir);
 
 	for (auto &entry: iterator)
