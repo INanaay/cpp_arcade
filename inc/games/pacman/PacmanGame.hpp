@@ -52,6 +52,7 @@ private:
 	void initBonus();
 	bool checkEndGame();
 	void changeGhostSrpite();
+	void recreateGhosts();
 };
 
 

@@ -36,9 +36,10 @@ UserEvent PacmanGame::run()
 		if (checkEndGame())
 			return UserEvent::ESCAPE;
 
-		if (m_canEatGhosts && ((std::clock() - timer) / (CLOCKS_PER_SEC) >= 6))
+		if (m_canEatGhosts && ((std::clock() - timer) / (CLOCKS_PER_SEC) >= 10))
 		{
 			m_canEatGhosts = false;
+			recreateGhosts();
 			changeGhostSrpite();
 		}
 
@@ -206,15 +207,12 @@ size_t PacmanGame::getScore() {
 
 bool PacmanGame::checkEndGame()
 {
-	auto position = m_map.getCenteredPosition();
 	if (m_coins.empty())
 		return true;
 	for (unsigned int i = 0; i < m_ghosts.size(); i++) {
 		if (m_ghosts[i].getEntity().cellPosition == m_player.getEntity().cellPosition && m_canEatGhosts) {
 			m_ghosts.erase(m_ghosts.begin() + i);
-			Ghost ghost(position);
-			ghost.changeSprite("resources/pacman/scaredghost.png");
-			m_ghosts.push_back(ghost);
+			;
 		}
 		else if (m_ghosts[i].getEntity().cellPosition == m_player.getEntity().cellPosition && !m_canEatGhosts)
 				return true;
@@ -264,5 +262,16 @@ void PacmanGame::changeGhostSrpite()
 		{
 			entry.changeSprite("resources/pacman/ghost.png");
 		}
+	}
+}
+
+void PacmanGame::recreateGhosts() {
+	auto position = m_map.getCenteredPosition();
+
+	while (m_ghosts.size() < 4)
+	{
+		Ghost ghost(position);
+		ghost.changeSprite("resources/pacman/scaredghost.png");
+		m_ghosts.push_back(ghost);
 	}
 }
