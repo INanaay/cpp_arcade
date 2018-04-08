@@ -76,6 +76,8 @@ Direction Ghost::chooseNextDir(Map &map, std::pair<std::size_t, std::size_t> nex
 		possibleWays.push_back(Direction::RIGHT);
 	if (possibleWays.size() == 1)
 		return possibleWays[0];
+	if (nextCell.second == 9 && (nextCell.first < 3 || nextCell.first > 18))
+		return opposite;
 	int i = 0;
 	for (auto way : possibleWays) {
 		if (way == opposite)
