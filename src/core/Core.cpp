@@ -42,7 +42,7 @@ static std::pair<std::string, std::string>incLibs(CoreInformations core, std::pa
 		if (it == core.games.end())
 		{
 			std::cerr << "error in change games" << std::endl;
-			std::exit(84);
+			throw std::exception();
 		}	
 		int index = it - core.games.begin();
 		if (index < (int)core.games.size() - 1)
@@ -57,7 +57,7 @@ static std::pair<std::string, std::string>	decLibs(CoreInformations core, std::p
 		if (it == core.games.end())
 		{
 			std::cerr << "error in change games" << std::endl;
-			std::exit(84);
+			throw std::exception();
 		}	
 		int index = it - core.games.begin();
 		if (index > 0)
@@ -98,7 +98,7 @@ void	Core::loadPrevLib()
 		if (it == m_libraries.end())
 		{
 			std::cerr << "error in change Glib" << std::endl;
-			std::exit(84);
+			throw std::exception();
 		}	
 		int index = it - m_libraries.begin();
 		if (index < (int)m_libraries.size() - 1)
@@ -124,20 +124,18 @@ void	Core::runGame(MenuInformations menu)
 	{
 		std::cerr << "Cannot open game library." << std::endl;
 		std::cerr << dlerror() << std::endl;
-		std::exit(84);
+		throw std::exception();
 	}
 	create = (IGame* (*)())dlsym(handle, "create_game");
 	if (!create)
 	{
 		std::cerr << "Game library is incompatible." << std::endl;
-		std::exit(84);
+		throw std::exception();
 	}
 	m_game = std::unique_ptr<IGame>(create());
 	loopGame();
 	m_scores[menu.game.first].push_back({menu.name, m_game->getScore()});
 	serializeScores(menu.game.first, m_scores[menu.game.first]);
-	//m_lib->destroyWindow();
-	//std::exit(0);
 }
 
 void Core::loopGame()
@@ -220,13 +218,13 @@ void	Core::loadGraphicLibrary(const char *nameLib)
 	{
 		std::cerr << "Cannot open graphic library." << std::endl;
 		std::cerr << dlerror() << std::endl;
-		std::exit(84);
+		throw std::exception();
 	}
 	create = (IGlib* (*)())dlsym(handle, "create_lib");
 	if (!create)
 	{
 		std::cerr << "Graphic library is incompatible." << std::endl;
-		std::exit(84);
+		throw std::exception();
 	}
 	if (m_lib)
 		m_lib.reset(create());
