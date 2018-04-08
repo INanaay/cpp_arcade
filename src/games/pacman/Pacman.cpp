@@ -19,9 +19,9 @@ Pacman::Pacman(std::pair<std::size_t, std::size_t> &position)
 	m_entity.sprite = "resources/pacman/open.png";
 }
 
-bool Pacman::tryMove(Map &map, Direction direction)
+bool Pacman::tryMove(Map &map)
 {
-	auto moved = BasePacmanEntity::tryMove(map, direction);
+	auto moved = BasePacmanEntity::tryMove(map);
 
 	if (moved)
 		changeSkin();

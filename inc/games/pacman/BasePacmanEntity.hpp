@@ -21,7 +21,7 @@ public:
 	~BasePacmanEntity() = default;
 
 	//FUNC
-	virtual bool tryMove(Map &map, Direction direction);
+	virtual bool tryMove(Map &map);
 
 	//PROPERTIES
 	const Entity &getEntity() const;

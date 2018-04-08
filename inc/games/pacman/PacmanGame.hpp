@@ -45,6 +45,7 @@ private:
 	std::clock_t timer;
 
 	//FUNCS
+	UserEvent moveAndInteract();
 	void initCoins();
 	void initAssets();
 	void initEntities();

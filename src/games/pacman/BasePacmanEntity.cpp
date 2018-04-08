@@ -20,9 +20,8 @@ BasePacmanEntity::BasePacmanEntity
 	m_entity.screenPosition.second = position.second * 30;
 }
 
-bool BasePacmanEntity::tryMove(Map &map, Direction direction)
+bool BasePacmanEntity::tryMove(Map &map)
 {
-	(void)direction;
 	auto entityPosition = m_entity.cellPosition;
 	auto screenPosition = m_entity.screenPosition;
 

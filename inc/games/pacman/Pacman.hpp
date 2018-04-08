@@ -23,7 +23,7 @@ public:
 	Pacman(std::pair<std::size_t, std::size_t> &position);
 
 	//FUNC
-	bool tryMove(Map &map, Direction direction) final;
+	bool tryMove(Map &map) final;
 
 private:
 	//FIELDS

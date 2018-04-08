@@ -5,6 +5,7 @@
 **      Made on 2018/04 by lebovin
 */
 
+#include <unistd.h>
 #include "../../../inc/games/pacman/Ghost.hpp"
 #include "../../../inc/games/common/Map.hpp"
 
@@ -14,63 +15,86 @@ Ghost::Ghost(std::pair<std::size_t, std::size_t> &position)
 	m_speed = 3;
 	m_entity.type = EntityType::ENEMY;
 	m_entity.ascii = 'G';
+	nextDirection = Direction::TOP;
 	m_entity.sprite = "resources/pacman/ghost.png";
 }
 
-bool Ghost::tryMove(Map &map, Direction dir)
+std::pair<std::size_t, std::size_t>	Ghost::incPos()
 {
-	auto ndir = checkDir(map);
-	BasePacmanEntity::tryMove(map, dir);
-	nextDirection = ndir;
+	auto nextCell = m_entity.cellPosition;
+
+	switch (m_entity.direction)
+	{
+	case Direction::RIGHT:
+		nextCell.first += 1;
+		m_entity.screenPosition.first += m_speed;
+		break;
+	case Direction::LEFT:
+		nextCell.first -= 1;
+		m_entity.screenPosition.first -= m_speed;
+		break;
+	case Direction::TOP:
+		nextCell.second -= 1;
+		m_entity.screenPosition.second -= m_speed;
+		break;
+	case Direction::BOTTOM:
+		nextCell.second += 1;
+		m_entity.screenPosition.second += m_speed;
+		break;
+	}
+	return (nextCell);
+}
+
+static Direction takeOpposite(Direction dir)
+{
+	if (dir == Direction::TOP)
+		return Direction::BOTTOM;
+	else if (dir == Direction::BOTTOM)
+		return Direction::TOP;
+	else if (dir == Direction::LEFT)
+		return Direction::RIGHT;
+	else
+		return Direction::LEFT;
+}
+
+Direction Ghost::chooseNextDir(Map &map, std::pair<std::size_t, std::size_t> nextCell)
+{
+	Direction opposite = takeOpposite(m_entity.direction);
+	std::vector<Direction> possibleWays;
+
+	std::pair<std::size_t, std::size_t> top(nextCell.first, nextCell.second - 1);
+	if (map.getEntityAt(top).type != EntityType::WALL)
+		possibleWays.push_back(Direction::TOP);
+	std::pair<std::size_t, std::size_t> bot(nextCell.first, nextCell.second + 1);
+	if (map.getEntityAt(bot).type != EntityType::WALL)
+		possibleWays.push_back(Direction::BOTTOM);
+	std::pair<std::size_t, std::size_t> left(nextCell.first - 1, nextCell.second);
+	if (map.getEntityAt(left).type != EntityType::WALL)
+		possibleWays.push_back(Direction::LEFT);
+	std::pair<std::size_t, std::size_t> right(nextCell.first + 1, nextCell.second);
+	if (map.getEntityAt(right).type != EntityType::WALL)
+		possibleWays.push_back(Direction::RIGHT);
+	if (possibleWays.size() == 1)
+		return possibleWays[0];
+	int i = 0;
+	for (auto way : possibleWays) {
+		if (way == opposite)
+			possibleWays.erase(possibleWays.begin() + i);
+		i++;
+	}
+	return possibleWays[std::rand() % (possibleWays.size())];
+}
+
+bool Ghost::tryMove(Map &map)
+{
+	auto nextCell = incPos();
+	(void)nextCell;
+	if (m_entity.screenPosition.first % 30 == 0 && m_entity.screenPosition.second % 30 == 0) {
+		m_entity.cellPosition.first = m_entity.screenPosition.first / 30;
+		m_entity.cellPosition.second = m_entity.screenPosition.second / 30;
+		m_entity.direction = chooseNextDir(map, nextCell);
+	}
 	return true;
-}
-
-Direction Ghost::goNext(std::vector<Direction> adjCases)
-{
-	Direction opposite;
-
-	if (m_entity.direction == Direction::TOP)
-		opposite = Direction::BOTTOM;
-	else if (m_entity.direction == Direction::BOTTOM)
-		opposite = Direction::TOP;
-	else if (m_entity.direction == Direction::LEFT)
-		opposite = Direction::RIGHT;
-	else
-		opposite = Direction::LEFT;
-	if (adjCases[0] != opposite)
-		return adjCases[0];
-	else
-		return adjCases[1];
-}
-
-Direction Ghost::goRandom(std::vector<Direction> adjCases)
-{
-	if (adjCases[0] == Direction::LEFT)
-		return adjCases[0];
-	int rand = std::rand() % adjCases.size();
-	return adjCases[rand];
-}
-
-Direction Ghost::checkDir(Map map)
-{
-	std::vector<Direction> adjCases;
-
-	std::pair<std::size_t, std::size_t> top(m_entity.cellPosition.first, m_entity.cellPosition.second - 1);
-	if (map.getEntityAt(top).type == EntityType::EMPTY)
-		adjCases.push_back(Direction::TOP);
-	std::pair<std::size_t, std::size_t> bot(m_entity.cellPosition.first, m_entity.cellPosition.second + 1);
-	if (map.getEntityAt(bot).type == EntityType::EMPTY)
-		adjCases.push_back(Direction::BOTTOM);
-	std::pair<std::size_t, std::size_t> left(m_entity.cellPosition.first - 1, m_entity.cellPosition.second);
-	if (map.getEntityAt(left).type == EntityType::EMPTY)
-		adjCases.push_back(Direction::LEFT);
-	std::pair<std::size_t, std::size_t> right(m_entity.cellPosition.first + 1, m_entity.cellPosition.second);
-	if (map.getEntityAt(right).type == EntityType::EMPTY)
-		adjCases.push_back(Direction::RIGHT);
-	if (adjCases.size() == 0)
-		return goNext(adjCases);
-	else
-		return goRandom(adjCases);
 }
 
 void Ghost::changeSprite(std::string file)

@@ -36,7 +36,7 @@ UserEvent PacmanGame::run()
 		if (checkEndGame())
 			return UserEvent::ESCAPE;
 
-		if ((std::clock() - timer) / (CLOCKS_PER_SEC) >= 6 && m_canEatGhosts)
+		if (m_canEatGhosts && ((std::clock() - timer) / (CLOCKS_PER_SEC) >= 6))
 		{
 			m_canEatGhosts = false;
 			changeGhostSrpite();
@@ -44,12 +44,12 @@ UserEvent PacmanGame::run()
 
 		m_library->display();
 	}
-	return UserEvent ::NONE;
+	return UserEvent::NONE;
 }
+
 UserEvent PacmanGame::moveEntities()
 {
 	auto userInput = m_library->getLastEvent();
-	Direction direction = m_player.getEntity().direction;
 
 	switch (userInput.first)
 	{
@@ -74,8 +74,12 @@ UserEvent PacmanGame::moveEntities()
 		default:
 			break;
 	}
+	return moveAndInteract();
+}
 
-	m_player.tryMove(m_map, direction);
+UserEvent PacmanGame::moveAndInteract()
+{
+	m_player.tryMove(m_map);
 	auto playerPosition = m_player.getEntity().cellPosition;
 	auto it = m_coins.find(playerPosition);
 	if (it != m_coins.end())
@@ -95,8 +99,9 @@ UserEvent PacmanGame::moveEntities()
 		}
 	}
 	for (auto &entry : m_ghosts) {
-		entry.tryMove(m_map, entry.getEntity().direction);
+		entry.tryMove(m_map);
 	}
+	printf("\n");
 	return UserEvent::NONE;
 }
 
@@ -201,12 +206,12 @@ size_t PacmanGame::getScore() {
 
 bool PacmanGame::checkEndGame()
 {
+	auto position = m_map.getCenteredPosition();
 	if (m_coins.empty())
 		return true;
 	for (unsigned int i = 0; i < m_ghosts.size(); i++) {
 		if (m_ghosts[i].getEntity().cellPosition == m_player.getEntity().cellPosition && m_canEatGhosts) {
 			m_ghosts.erase(m_ghosts.begin() + i);
-			auto position = m_map.getCenteredPosition();
 			Ghost ghost(position);
 			ghost.changeSprite("resources/pacman/scaredghost.png");
 			m_ghosts.push_back(ghost);
